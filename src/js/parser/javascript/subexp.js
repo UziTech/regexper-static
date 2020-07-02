@@ -26,7 +26,9 @@ export default {
   labelMap: {
     '?:': '',
     '?=': 'positive lookahead',
-    '?!': 'negative lookahead'
+    '?!': 'negative lookahead',
+    '?<=': 'positive lookbehind',
+    '?<!': 'negative lookbehind'
   },
 
   // Renders the subexp into the currently set container.
@@ -48,6 +50,10 @@ export default {
   label() {
     if (_.has(this.labelMap, this.properties.capture.textValue)) {
       return this.labelMap[this.properties.capture.textValue];
+    } else if (this.properties.capture !== undefined
+      && this.properties.capture.properties !== undefined
+      && this.properties.capture.properties.groupname) {
+      return `group '${this.properties.capture.properties.groupname.textValue}'`;
     } else {
       return `group #${this.state.groupCounter++}`;
     }
@@ -59,7 +65,7 @@ export default {
     this.regexp = this.properties.regexp;
 
     // If there is no need for a label, then proxy to the nested regexp.
-    if (this.properties.capture.textValue == '?:') {
+    if (this.properties.capture.textValue === '?:') {
       this.proxy = this.regexp;
     }
   }

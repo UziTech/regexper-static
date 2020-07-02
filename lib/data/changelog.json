@@ -1,5 +1,11 @@
 [
   {
+    "label": "June 4, 2018 Release",
+    "changes": [
+      "Moving source to GitLab and updating some links on the site."
+    ]
+  },
+  {
     "label": "May 24, 2018 Release",
     "changes": [
       "Supporting browser \"Do Not Track\" setting. When enabled, this will prevent use of Google Analytics and Sentry error reporting."

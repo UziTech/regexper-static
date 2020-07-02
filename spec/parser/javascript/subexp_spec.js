@@ -1,7 +1,7 @@
 import javascript from '../../../src/js/parser/javascript/parser.js';
 import Node from '../../../src/js/parser/javascript/node.js';
 import _ from 'lodash';
-import Snap from 'snapsvg';
+import Snap from 'snapsvg-cjs';
 
 describe('parser/javascript/subexp.js', function() {
 
@@ -13,10 +13,19 @@ describe('parser/javascript/subexp.js', function() {
     '(test)': {
       regexp: jasmine.objectContaining({ textValue: 'test' })
     },
+    '(?<name>test)': {
+      regexp: jasmine.objectContaining({ textValue: 'test' })
+    },
     '(?=test)': {
       regexp: jasmine.objectContaining({ textValue: 'test' })
     },
     '(?!test)': {
+      regexp: jasmine.objectContaining({ textValue: 'test' })
+    },
+    '(?<=test)': {
+      regexp: jasmine.objectContaining({ textValue: 'test' })
+    },
+    '(?<!test)': {
       regexp: jasmine.objectContaining({ textValue: 'test' })
     },
     '(?:test)': {
@@ -66,7 +75,7 @@ describe('parser/javascript/subexp.js', function() {
       this.node = new javascript.Parser('(test)').__consume__subexp();
       this.node.regexp = jasmine.createSpyObj('regexp', ['render']);
       this.node.container = jasmine.createSpyObj('container', ['addClass', 'group']);
-      spyOn(this.node, 'label').and.returnValue('example label')
+      spyOn(this.node, 'label').and.returnValue('example label');
 
       this.node.regexp.render.and.returnValue(this.renderDeferred.promise);
     });
@@ -95,12 +104,24 @@ describe('parser/javascript/subexp.js', function() {
         label: 'group #1',
         groupCounter: 2
       },
+      '(?<name>test)': {
+        label: 'group \'name\'',
+        groupCounter: 1
+      },
       '(?=test)': {
         label: 'positive lookahead',
         groupCounter: 1
       },
       '(?!test)': {
         label: 'negative lookahead',
+        groupCounter: 1
+      },
+      '(?<=test)': {
+        label: 'positive lookbehind',
+        groupCounter: 1
+      },
+      '(?<!test)': {
+        label: 'negative lookbehind',
         groupCounter: 1
       },
       '(?:test)': {

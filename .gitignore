@@ -3,3 +3,5 @@ node_modules
 build
 docs
 tmp
+.firebase/
+firebase-debug.log

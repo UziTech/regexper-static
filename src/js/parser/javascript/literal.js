@@ -1,8 +1,6 @@
 // Literal nodes are for plain strings in the regular expression. They are
 // rendered as labels with the value of the literal quoted.
 
-import _ from 'lodash';
-
 export default {
   type: 'literal',
 

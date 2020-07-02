@@ -1,4 +1,4 @@
-const gulp = require('gulp-help')(require('gulp')),
+const gulp = require('gulp'),
       _ = require('lodash'),
       notify = require('gulp-notify'),
       folderToc = require('folder-toc'),
@@ -9,39 +9,40 @@ const gulp = require('gulp-help')(require('gulp')),
       rename = require('gulp-rename'),
       config = require('./config'),
       gutil = require('gulp-util'),
-      webpack = require('webpack')
+      webpackRun = require('webpack'),
       webpackConfig = require('./webpack.config'),
       fs = require('fs');
 
-gulp.task('default', 'Auto-rebuild site on changes.', ['server', 'docs'], function() {
-  gulp.watch(config.globs.other, ['static']);
+
+function watch() {
+  gulp.watch(config.globs.other, staticFiles);
   gulp.watch(_.flatten([
     config.globs.templates,
     config.globs.data,
     config.globs.helpers,
     config.globs.partials,
     config.globs.svg_sass
-  ]), ['markup']);
+  ]), markup);
   gulp.watch(_.flatten([
     config.globs.sass,
     config.globs.js
-  ]), ['webpack']);
-  gulp.watch(config.globs.js, ['docs']);
-});
+  ]), webpack);
+  gulp.watch(config.globs.js, docs);
+}
 
-gulp.task('docs', 'Build documentation into ./docs directory.', ['docs:files'], function() {
+function docs() {
   folderToc('./docs', {
     filter: '*.html'
   });
-});
+}
 
-gulp.task('docs:files', false, function() {
+function docsFiles() {
   return gulp.src(config.globs.js)
     .pipe(docco())
     .pipe(gulp.dest('./docs'));
-});
+}
 
-gulp.task('server', 'Start development server.', ['build'], function() {
+function server() {
   gulp.watch(config.buildPath('**/*'), function(file) {
     return gulp.src(file.path).pipe(connect.reload());
   });
@@ -50,16 +51,14 @@ gulp.task('server', 'Start development server.', ['build'], function() {
     root: config.buildRoot,
     livereload: true
   });
-});
+}
 
-gulp.task('build', 'Build site into ./build directory.', ['static', 'webpack', 'markup']);
-
-gulp.task('static', 'Build static files into ./build directory.', function() {
+function staticFiles() {
   return gulp.src(config.globs.other, { base: './src' })
     .pipe(gulp.dest(config.buildRoot));
-});
+}
 
-gulp.task('markup', 'Build markup into ./build directory.', ['webpack'], function() {
+function markup() {
   var hbStream = hb({
     data: config.globs.data,
     helpers: config.globs.helpers,
@@ -88,14 +87,18 @@ gulp.task('markup', 'Build markup into ./build directory.', ['webpack'], functio
     .on('error', notify.onError())
     .pipe(rename({ extname: '.html' }))
     .pipe(gulp.dest(config.buildRoot));
-});
+}
 
-gulp.task('webpack', 'Build JS & CSS into ./build directory.', function(callback) {
-  webpack(webpackConfig, function(err, stats) {
+function webpack(callback) {
+  webpackRun(webpackConfig, function(err, stats) {
     if (err) {
       throw new gutil.PluginError('webpack', err);
     }
     gutil.log('[webpack]', stats.toString());
     callback();
   });
-});
+}
+
+const build = gulp.series(staticFiles, webpack, markup);
+exports.build = build;
+exports.default = gulp.series(build, server, docsFiles, docs, watch);

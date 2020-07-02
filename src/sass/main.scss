@@ -29,7 +29,11 @@ h1 {
 
 ul.inline-list {
   @include adjust-font-size-to(14px, 2/3);
-  @include clearfix;
+  &::after {
+    clear: both;
+    content: "";
+    display: block;
+  }
 
   li {
     list-style-type: none;
@@ -61,7 +65,11 @@ header {
   background: linear-gradient(to bottom, $green 0%, $dark-green 100%);
   padding: rhythm(1);
   @include box-shadow;
-  @include clearfix;
+  &::after {
+    clear: both;
+    content: "";
+    display: block;
+  }
 
   .logo {
     display: inline-block;
@@ -225,7 +233,11 @@ header {
 
   .application {
     position: relative;
-    @include clearfix;
+    &::after {
+      clear: both;
+      content: "";
+      display: block;
+    }
 
     form {
       overflow: hidden;

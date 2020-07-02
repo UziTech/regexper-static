@@ -1,11 +1,9 @@
-var webpack = require('webpack'),
-    bourbon = require('bourbon'),
-    config = require('./config');
+var config = require('./config');
 
 module.exports = {
   devtool: 'source-map',
   entry: {
-    'js/main.js': ['babel-polyfill', './src/js/main.js'],
+    'js/main.js': ['@babel/polyfill', './src/js/main.js'],
     '__discard__/css/main.css.js': './src/sass/main.scss',
     '__discard__/css/svg.css.js': './src/sass/svg.scss'
   },
@@ -13,24 +11,15 @@ module.exports = {
     path: config.buildRoot,
     filename: '[name]'
   },
-  plugins: [
-    new webpack.optimize.UglifyJsPlugin({
-      sourceMap: true,
-      compress: {
-        warnings: false
-      }
-    })
-  ],
+  optimization: {
+    minimize: true,
+  },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
-      },
-      {
-        test: require.resolve('snapsvg'),
-        loader: 'imports-loader?this=>window,fix=>module.exports=0'
       },
       {
         test: /\.peg$/,
@@ -39,11 +28,11 @@ module.exports = {
       {
         test: /\.scss$/,
         exclude: /node_modules/,
-        loaders: [
+        use: [
           'file-loader?name=css/[name].css',
           'extract-loader',
           'css-loader',
-          'sass-loader?includePaths[]=' + bourbon.includePaths
+          'sass-loader',
         ]
       }
     ]

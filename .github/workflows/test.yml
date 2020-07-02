@@ -1,0 +1,76 @@
+name: "tests"
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+
+  Test:
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Install Node
+        uses: dcodeIO/setup-node-nvm@master
+        with:
+          node-version: node
+      - name: Install Dependencies
+        run: yarn
+      - name: Run Tests 👩🏽‍💻
+        run: yarn test
+
+  Lint:
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: yarn
+      - name: Lint ✨
+        run: yarn lint
+
+  # Release:
+  #   needs: [Test, Lint]
+  #   if: github.ref == 'refs/heads/master'
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout Code
+  #       uses: actions/checkout@v2
+  #     - name: Install Dependencies
+  #       run: yarn
+  #     - name: Release 🎉
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+  #       run: npx semantic-release
+
+  Automerge:
+    needs: [Test, Lint]
+    runs-on: ubuntu-latest
+    # timeout-minutes: 60
+    if: |
+      github.actor == 'dependabot[bot]' &&
+      github.event_name == 'pull_request' &&
+      startsWith(github.event.pull_request.title, 'chore(deps-dev):')
+    steps:
+      - name: '@dependabot merge'
+        uses: actions/github-script@v2
+        with:
+          script: |
+            await github.issues.createComment({
+              owner: context.payload.repository.owner.login,
+              repo: context.payload.repository.name,
+              pull_number: context.payload.pull_request.number,
+              body: '@dependabot merge'
+            })
+
+  Skip:
+    if: contains(github.event.head_commit.message, '[skip ci]')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Skip CI 🚫
+        run: echo skip ci

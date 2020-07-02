@@ -4,7 +4,7 @@
 // is contained in the various subclasses of
 // [Node](./javascript/node.html)
 
-import Snap from 'snapsvg';
+import Snap from 'snapsvg-cjs';
 import _ from 'lodash';
 
 import util from '../util.js';

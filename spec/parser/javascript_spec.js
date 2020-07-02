@@ -1,6 +1,6 @@
 import Parser from '../../src/js/parser/javascript.js';
 import regexpParser from '../../src/js/parser/javascript/grammar.peg';
-import Snap from 'snapsvg';
+import Snap from 'snapsvg-cjs';
 
 describe('parser/javascript.js', function() {
 

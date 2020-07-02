@@ -4,7 +4,7 @@
 # TEAM
 
     Creator: Jeff Avallone
-    Site: http://github.com/javallone
+    Site: http://gitlab.com/javallone
     Twitter: @javallone
 
 # THANKS

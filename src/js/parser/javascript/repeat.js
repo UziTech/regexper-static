@@ -1,3 +1,5 @@
+/* globals Snap */
+
 // Repeat nodes are for the various repetition syntaxes (`a*`, `a+`, `a?`, and
 // `a{1,3}`). It is not rendered directly, but contains data used for the
 // rendering of [MatchFragment](./match_fragment.html) nodes.

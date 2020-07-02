@@ -1,6 +1,6 @@
 import javascript from '../../../src/js/parser/javascript/parser.js';
 import _ from 'lodash';
-import Snap from 'snapsvg';
+import Snap from 'snapsvg-cjs';
 
 describe('parser/javascript/escape.js', function() {
 

@@ -2,7 +2,6 @@
 // literal or escape nodes are rendered with a hyphen between them.
 
 import util from '../../util.js';
-import _ from 'lodash';
 
 export default {
   type: 'charset-range',

@@ -1,5 +1,5 @@
 import Node from '../../../src/js/parser/javascript/node.js';
-import Snap from 'snapsvg';
+import Snap from 'snapsvg-cjs';
 
 describe('parser/javascript/node.js', function() {
 

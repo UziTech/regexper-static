@@ -2,7 +2,7 @@ import javascript from '../../../src/js/parser/javascript/parser.js';
 import Node from '../../../src/js/parser/javascript/node.js';
 import util from '../../../src/js/util.js';
 import _ from 'lodash';
-import Snap from 'snapsvg';
+import Snap from 'snapsvg-cjs';
 
 describe('parser/javascript/charset.js', function() {
 
