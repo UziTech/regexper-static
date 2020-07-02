@@ -1,3 +1,5 @@
+/* globals Snap */
+
 // Regexp nodes are the entire regular expression. They consist of a collection
 // of [Match](./match.html) nodes separated by `|`.
 

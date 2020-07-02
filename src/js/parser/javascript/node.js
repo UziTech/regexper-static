@@ -1,3 +1,5 @@
+/* globals Snap */
+
 // Base class for all nodes in the parse tree. An instance of this class is
 // created for each parsed node, and then extended with one of the node-type
 // modules.
@@ -183,4 +185,4 @@ export default class Node {
           .translate(boxWidth / 2 - contentBox.cx, labelBox.height + options.padding));
       });
   }
-};
+}

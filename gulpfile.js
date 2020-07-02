@@ -9,13 +9,13 @@ const gulp = require('gulp'),
       rename = require('gulp-rename'),
       config = require('./config'),
       gutil = require('gulp-util'),
-      webpackRun = require('webpack')
+      webpackRun = require('webpack'),
       webpackConfig = require('./webpack.config'),
       fs = require('fs');
 
 
 function watch() {
-  gulp.watch(config.globs.other, static);
+  gulp.watch(config.globs.other, staticFiles);
   gulp.watch(_.flatten([
     config.globs.templates,
     config.globs.data,
@@ -26,21 +26,21 @@ function watch() {
   gulp.watch(_.flatten([
     config.globs.sass,
     config.globs.js
-  ]), webpackTask);
+  ]), webpack);
   gulp.watch(config.globs.js, docs);
-};
+}
 
 function docs() {
   folderToc('./docs', {
     filter: '*.html'
   });
-};
+}
 
 function docsFiles() {
   return gulp.src(config.globs.js)
     .pipe(docco())
     .pipe(gulp.dest('./docs'));
-};
+}
 
 function server() {
   gulp.watch(config.buildPath('**/*'), function(file) {
@@ -51,12 +51,12 @@ function server() {
     root: config.buildRoot,
     livereload: true
   });
-};
+}
 
-function static() {
+function staticFiles() {
   return gulp.src(config.globs.other, { base: './src' })
     .pipe(gulp.dest(config.buildRoot));
-};
+}
 
 function markup() {
   var hbStream = hb({
@@ -87,7 +87,7 @@ function markup() {
     .on('error', notify.onError())
     .pipe(rename({ extname: '.html' }))
     .pipe(gulp.dest(config.buildRoot));
-};
+}
 
 function webpack(callback) {
   webpackRun(webpackConfig, function(err, stats) {
@@ -97,8 +97,8 @@ function webpack(callback) {
     gutil.log('[webpack]', stats.toString());
     callback();
   });
-};
+}
 
-const build = gulp.series(static, webpack, markup);
+const build = gulp.series(staticFiles, webpack, markup);
 exports.build = build;
 exports.default = gulp.series(build, server, docsFiles, docs, watch);

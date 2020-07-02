@@ -1,4 +1,5 @@
 import util from '../src/js/util.js';
+import Snap from 'snapsvg-cjs';
 
 describe('util.js', function() {
 

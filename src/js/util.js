@@ -1,3 +1,4 @@
+/* globals ga, Snap */
 // Utility functions used elsewhere in the codebase. Most JavaScript files on
 // the site use some functions defined in this file.
 
@@ -97,7 +98,7 @@ function spaceVertically(items, options) {
 //
 // - __delay__ - Time in milliseconds to wait before resolving promise.
 function wait(delay) {
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     setTimeout(resolve, delay);
   });
 }

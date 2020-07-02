@@ -1,5 +1,4 @@
-var webpack = require('webpack'),
-    config = require('./config');
+var config = require('./config');
 
 module.exports = {
   devtool: 'source-map',
