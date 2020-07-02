@@ -1,3 +1,5 @@
+process.env.CHROME_BIN = require('puppeteer').executablePath()
+
 module.exports = function(karma) {
   karma.set({
     frameworks: ['jasmine'],
@@ -8,7 +10,7 @@ module.exports = function(karma) {
     reporters: ['progress', 'notify'],
     colors: true,
     logLevel: karma.LOG_INFO,
-    browsers: ['Chrome'],
+    browsers: ['ChromeHeadless'],
     autoWatch: true,
     singleRun: false,
     webpack: {
