@@ -7,6 +7,9 @@
     Site: https://gitlab.com/javallone
     Twitter: @javallone
 
+    Update By: Tony Brix
+    Site: https://Tony.Brix.ninja
+
 # THANKS
 
     strfriend.com for the idea, whatever happened to you?
