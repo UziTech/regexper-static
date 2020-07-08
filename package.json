@@ -2,7 +2,7 @@
   "name": "regexper",
   "version": "1.0.0",
   "description": "Regular expression visualization tool",
-  "homepage": "http://regexper.com",
+  "homepage": "https://uzitech.github.io/regexper/",
   "author": {
     "name": "Jeffrey Avallone",
     "email": "jeff.avallone@gmail.com"
@@ -13,6 +13,7 @@
     "pretest": "jscs lib/ src/ spec/",
     "test": "karma start --single-run",
     "build": "gulp build",
+    "docs": "gulp docs",
     "lint": "eslint .",
     "start": "gulp"
   },

@@ -307,12 +307,12 @@ describe('regexper.js', function() {
     describe('when blob URLs are supported', function() {
 
       beforeEach(function() {
-        this.regexper.buildBlobURL.and.returnValue('http://example.com/blob');
+        this.regexper.buildBlobURL.and.returnValue('https://example.com/blob');
       });
 
       it('sets the download link href', function() {
         this.regexper.updateLinks();
-        expect(this.regexper.downloadSvg.href).toEqual('http://example.com/blob');
+        expect(this.regexper.downloadSvg.href).toEqual('https://example.com/blob');
       });
 
     });

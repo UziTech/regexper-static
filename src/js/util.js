@@ -125,7 +125,7 @@ function exposeError(error) {
 //
 // - __selector__ - Selector to the SVG icon to render.
 function icon(selector) {
-  return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 8 8"><use xlink:href="${selector}" /></svg>`;
+  return `<svg xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink" viewBox="0 0 8 8"><use xlink:href="${selector}" /></svg>`;
 }
 
 // Send tracking data.

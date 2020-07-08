@@ -5,7 +5,8 @@
       "Update dependencies",
       "Add lookbehinds",
       "Add named groups",
-      "Release on GitHub Pages"
+      "Release on GitHub Pages",
+      "test"
     ]
   },
   {
@@ -136,7 +137,7 @@
   {
     "label": "April 14, 2015 Release",
     "changes": [
-      "Rendering speed improved. Most users will probably not see much improvement since logging data indicates that expressing rendering time is typically less than 1 second. Using the <a href=\"http://www.ex-parrot.com/pdw/Mail-RFC822-Address.html\">RFC822 email regular expression</a> though shows a rendering speed improvement from ~120 seconds down to ~80 seconds.",
+      "Rendering speed improved. Most users will probably not see much improvement since logging data indicates that expressing rendering time is typically less than 1 second. Using the <a href=\"https://www.ex-parrot.com/pdw/Mail-RFC822-Address.html\">RFC822 email regular expression</a> though shows a rendering speed improvement from ~120 seconds down to ~80 seconds.",
       "Fixing a bug that would only occur when attempting to render an expression while another is in the process of rendering"
     ]
   },
@@ -184,7 +185,7 @@
       "Multiline regular expression input field (press Shift-Enter to render)",
       "Added a changelog",
       "Added documentation",
-      "All parsing and rendering happens client-side (using <a href=\"http://canopy.jcoglan.com/\">Canopy</a> and <a href=\"http://snapsvg.io/\">Snap.svg</a>)",
+      "All parsing and rendering happens client-side (using <a href=\"https://canopy.jcoglan.com/\">Canopy</a> and <a href=\"https://snapsvg.io/\">Snap.svg</a>)",
       "Added Download link (not available in older browsers)",
       "Added display of regular expression flags (ignore case, global, multiline)",
       "Added indicator of quantifier greedy-ness",

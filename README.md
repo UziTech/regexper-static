@@ -1,8 +1,8 @@
 # Regexper
 
-**This project has been migrated to https://gitlab.com/javallone/regexper-static**
+**The original project has been migrated to https://gitlab.com/javallone/regexper-static**
 
-Code for the http://regexper.com/ site.
+Code for the https://uzitech.github.io/regexper/ site.
 
 ## Contributing
 
