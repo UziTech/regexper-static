@@ -1,18 +1,18 @@
-const gulp = require('gulp'),
-      _ = require('lodash'),
-      notify = require('gulp-notify'),
-      folderToc = require('folder-toc'),
-      docco = require('gulp-docco'),
-      del = require("del"),
-      connect = require('gulp-connect'),
-      hb = require('gulp-hb'),
-      frontMatter = require('gulp-front-matter'),
-      rename = require('gulp-rename'),
-      config = require('./config'),
-      gutil = require('gulp-util'),
-      webpack = require('webpack'),
-      webpackConfig = require('./webpack.config'),
-      fs = require('fs');
+const gulp = require('gulp');
+const _ = require('lodash');
+const notify = require('gulp-notify');
+const folderToc = require('folder-toc');
+const docco = require('gulp-docco');
+const del = require("del");
+const connect = require('gulp-connect');
+const hb = require('gulp-hb');
+const frontMatter = require('gulp-front-matter');
+const rename = require('gulp-rename');
+const config = require('./config');
+const gutil = require('gulp-util');
+const webpack = require('webpack');
+const webpackConfig = require('./webpack.config');
+const fs = require('fs');
 
 
 function watch() {
@@ -22,18 +22,18 @@ function watch() {
     config.globs.data,
     config.globs.helpers,
     config.globs.partials,
-    config.globs.svg_sass
+    config.globs.svg_sass,
   ]), markup);
   gulp.watch(_.flatten([
     config.globs.sass,
-    config.globs.js
+    config.globs.js,
   ]), bundle);
   // gulp.watch(config.globs.js, docs);
 }
 
 function docsTOC() {
   folderToc('./docs', {
-    filter: '*.html'
+    filter: '*.html',
   });
 }
 
@@ -50,7 +50,7 @@ function server() {
 
   return connect.server({
     root: config.buildRoot,
-    livereload: true
+    livereload: true,
   });
 }
 
@@ -60,26 +60,26 @@ function staticFiles() {
 }
 
 function markup() {
-  var hbStream = hb({
+  const hbStream = hb({
     data: config.globs.data,
     helpers: config.globs.helpers,
     partials: config.globs.partials,
     parsePartialName: function(option, file) {
       return _.last(file.path.split(/\\|\//)).replace('.hbs', '');
     },
-    bustCache: true
+    bustCache: true,
   });
   hbStream.partials({
-    svg_styles: fs.readFileSync(config.buildRoot + '/css/svg.css').toString()
+    svg_styles: fs.readFileSync(config.buildRoot + '/css/svg.css').toString(),
   });
   if (process.env.GA_PROP) {
     hbStream.data({
-      'gaPropertyId': process.env.GA_PROP
+      'gaPropertyId': process.env.GA_PROP,
     });
   }
   if (process.env.SENTRY_KEY) {
     hbStream.data({
-      'sentryKey': process.env.SENTRY_KEY
+      'sentryKey': process.env.SENTRY_KEY,
     });
   }
   return gulp.src(config.globs.templates)

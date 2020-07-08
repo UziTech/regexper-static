@@ -3,9 +3,9 @@ process.env.CHROME_BIN = require('puppeteer').executablePath()
 module.exports = function(karma) {
   karma.set({
     frameworks: ['jasmine'],
-    files: [ 'spec/test_index.js' ],
+    files: ['spec/test_index.js'],
     preprocessors: {
-      'spec/test_index.js': ['webpack', 'sourcemap']
+      'spec/test_index.js': ['webpack', 'sourcemap'],
     },
     reporters: ['progress', 'notify'],
     colors: true,
@@ -20,14 +20,14 @@ module.exports = function(karma) {
           {
             test: /\.js$/,
             exclude: /node_modules/,
-            loader: 'babel-loader'
+            loader: 'babel-loader',
           },
           {
             test: /\.peg$/,
-            loader: require.resolve('./lib/canopy-loader')
-          }
-        ]
-      }
-    }
+            loader: require.resolve('./lib/canopy-loader'),
+          },
+        ],
+      },
+    },
   });
 };

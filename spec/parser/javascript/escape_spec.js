@@ -31,10 +31,10 @@ describe('parser/javascript/escape.js', function() {
     '\\012': { label: 'octal: 12 (0x0A)', ordinal: 10 },
     '\\cx': { label: 'ctrl-X (0x18)', ordinal: 24 },
     '\\xab': { label: '0xAB', ordinal: 0xab },
-    '\\uabcd': { label: 'U+ABCD', ordinal: 0xabcd }
+    '\\uabcd': { label: 'U+ABCD', ordinal: 0xabcd },
   }, (content, str) => {
     it(`parses "${str}" as an Escape`, function() {
-      var parser = new javascript.Parser(str);
+      const parser = new javascript.Parser(str);
       expect(parser.__consume__terminal()).toEqual(jasmine.objectContaining(content));
     });
   });
@@ -42,7 +42,7 @@ describe('parser/javascript/escape.js', function() {
   describe('#_render', function() {
 
     beforeEach(function() {
-      var parser = new javascript.Parser('\\b');
+      const parser = new javascript.Parser('\\b');
       this.node = parser.__consume__terminal();
       this.node.state = {};
 
@@ -61,7 +61,7 @@ describe('parser/javascript/escape.js', function() {
         .then(label => {
           expect(label.select('rect').attr()).toEqual(jasmine.objectContaining({
             rx: '3',
-            ry: '3'
+            ry: '3',
           }));
           done();
         });

@@ -20,10 +20,10 @@ describe('parser/javascript/charset_escape.js', function() {
     '\\012': { label: 'octal: 12 (0x0A)', ordinal: 10 },
     '\\cx': { label: 'ctrl-X (0x18)', ordinal: 24 },
     '\\xab': { label: '0xAB', ordinal: 0xab },
-    '\\uabcd': { label: 'U+ABCD', ordinal: 0xabcd }
+    '\\uabcd': { label: 'U+ABCD', ordinal: 0xabcd },
   }, (content, str) => {
     it(`parses "${str}" as a CharsetEscape`, function() {
-      var parser = new javascript.Parser(str);
+      const parser = new javascript.Parser(str);
       expect(parser.__consume__charset_terminal()).toEqual(jasmine.objectContaining(content));
     });
   });

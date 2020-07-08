@@ -11,16 +11,16 @@ export default {
     // label and outline box.
     _anchor: {
       get: function() {
-        var anchor = this.regexp.getBBox(),
-            matrix = this.transform().localMatrix;
+        const anchor = this.regexp.getBBox();
+        const matrix = this.transform().localMatrix;
 
         return {
           ax: matrix.x(anchor.ax, anchor.ay),
           ax2: matrix.x(anchor.ax2, anchor.ay),
-          ay: matrix.y(anchor.ax, anchor.ay)
+          ay: matrix.y(anchor.ax, anchor.ay),
         };
-      }
-    }
+      },
+    },
   },
 
   labelMap: {
@@ -28,7 +28,7 @@ export default {
     '?=': 'positive lookahead',
     '?!': 'negative lookahead',
     '?<=': 'positive lookbehind',
-    '?<!': 'negative lookbehind'
+    '?<!': 'negative lookbehind',
   },
 
   // Renders the subexp into the currently set container.
@@ -36,13 +36,13 @@ export default {
     // **NOTE:** `this.label()` **MUST** be called here, in _render, and before
     // any child nodes are rendered. This is to keep the group numbers in the
     // correct order.
-    let label = this.label();
+    const label = this.label();
 
     // Render the contained regexp.
     return this.regexp.render(this.container.group())
       // Create the labeled box around the regexp.
       .then(() => this.renderLabeledBox(label, this.regexp, {
-        padding: 10
+        padding: 10,
       }));
   },
 
@@ -68,5 +68,5 @@ export default {
     if (this.properties.capture.textValue === '?:') {
       this.proxy = this.regexp;
     }
-  }
+  },
 };

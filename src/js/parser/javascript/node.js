@@ -118,22 +118,22 @@ export default class Node {
   //
   // - __text__ - String or array of strings to render as a label.
   renderLabel(text) {
-    let group = this.container.group()
-          .addClass('label'),
-        rect = group.rect(),
-        label = group.text(0, 0, _.flatten([text]));
+    const group = this.container.group()
+      .addClass('label');
+    const rect = group.rect();
+    const label = group.text(0, 0, _.flatten([text]));
 
     return this.deferredStep()
       .then(() => {
-        let box = label.getBBox(),
-            margin = 5;
+        const box = label.getBBox();
+        const margin = 5;
 
         label.transform(Snap.matrix()
           .translate(margin, box.height / 2 + 2 * margin));
 
         rect.attr({
           width: box.width + 2 * margin,
-          height: box.height + 2 * margin
+          height: box.height + 2 * margin,
         });
 
         return group;
@@ -147,17 +147,17 @@ export default class Node {
   // - __options.padding__ - Pixels of padding to place between the content and
   //    the box.
   renderLabeledBox(text, content, options) {
-    let label = this.container.text(0, 0, _.flatten([text]))
-          .addClass(`${this.type}-label`),
-        box = this.container.rect()
-          .addClass(`${this.type}-box`)
-          .attr({
-            rx: 3,
-            ry: 3
-          });
+    const label = this.container.text(0, 0, _.flatten([text]))
+      .addClass(`${this.type}-label`);
+    const box = this.container.rect()
+      .addClass(`${this.type}-box`)
+      .attr({
+        rx: 3,
+        ry: 3,
+      });
 
     options = _.defaults(options || {}, {
-      padding: 0
+      padding: 0,
     });
 
     this.container.prepend(label);
@@ -165,10 +165,10 @@ export default class Node {
 
     return this.deferredStep()
       .then(() => {
-        let labelBox = label.getBBox(),
-            contentBox = content.getBBox(),
-            boxWidth = Math.max(contentBox.width + options.padding * 2, labelBox.width),
-            boxHeight = contentBox.height + options.padding * 2;
+        const labelBox = label.getBBox();
+        const contentBox = content.getBBox();
+        const boxWidth = Math.max(contentBox.width + options.padding * 2, labelBox.width);
+        const boxHeight = contentBox.height + options.padding * 2;
 
         label.transform(Snap.matrix()
           .translate(0, labelBox.height));
@@ -178,7 +178,7 @@ export default class Node {
             .translate(0, labelBox.height))
           .attr({
             width: boxWidth,
-            height: boxHeight
+            height: boxHeight,
           });
 
         content.transform(Snap.matrix()

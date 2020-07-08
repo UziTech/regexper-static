@@ -24,5 +24,5 @@ export default {
     if (this.minimum > this.maximum && this.maximum !== -1) {
       throw `Numbers out of order: ${this.textValue}`;
     }
-  }
+  },
 };

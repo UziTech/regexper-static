@@ -6,5 +6,5 @@ export default {
 
   _render() {
     return this.renderLabel('any character');
-  }
+  },
 };

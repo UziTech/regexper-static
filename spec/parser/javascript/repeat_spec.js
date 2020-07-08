@@ -10,151 +10,151 @@ describe('parser/javascript/repeat.js', function() {
       maximum: -1,
       greedy: true,
       hasSkip: true,
-      hasLoop: true
+      hasLoop: true,
     },
     '*?': {
       minimum: 0,
       maximum: -1,
       greedy: false,
       hasSkip: true,
-      hasLoop: true
+      hasLoop: true,
     },
     '+': {
       minimum: 1,
       maximum: -1,
       greedy: true,
       hasSkip: false,
-      hasLoop: true
+      hasLoop: true,
     },
     '+?': {
       minimum: 1,
       maximum: -1,
       greedy: false,
       hasSkip: false,
-      hasLoop: true
+      hasLoop: true,
     },
     '?': {
       minimum: 0,
       maximum: 1,
       greedy: true,
       hasSkip: true,
-      hasLoop: false
+      hasLoop: false,
     },
     '??': {
       minimum: 0,
       maximum: 1,
       greedy: false,
       hasSkip: true,
-      hasLoop: false
+      hasLoop: false,
     },
     '{1}': {
       minimum: 1,
       maximum: 1,
       greedy: true,
       hasSkip: false,
-      hasLoop: false
+      hasLoop: false,
     },
     '{0}': {
       minimum: 0,
       maximum: 0,
       greedy: true,
       hasSkip: true,
-      hasLoop: false
+      hasLoop: false,
     },
     '{1}?': {
       minimum: 1,
       maximum: 1,
       greedy: false,
       hasSkip: false,
-      hasLoop: false
+      hasLoop: false,
     },
     '{2}': {
       minimum: 2,
       maximum: 2,
       greedy: true,
       hasSkip: false,
-      hasLoop: true
+      hasLoop: true,
     },
     '{2}?': {
       minimum: 2,
       maximum: 2,
       greedy: false,
       hasSkip: false,
-      hasLoop: true
+      hasLoop: true,
     },
     '{0,}': {
       minimum: 0,
       maximum: -1,
       greedy: true,
       hasSkip: true,
-      hasLoop: true
+      hasLoop: true,
     },
     '{0,}?': {
       minimum: 0,
       maximum: -1,
       greedy: false,
       hasSkip: true,
-      hasLoop: true
+      hasLoop: true,
     },
     '{1,}': {
       minimum: 1,
       maximum: -1,
       greedy: true,
       hasSkip: false,
-      hasLoop: true
+      hasLoop: true,
     },
     '{1,}?': {
       minimum: 1,
       maximum: -1,
       greedy: false,
       hasSkip: false,
-      hasLoop: true
+      hasLoop: true,
     },
     '{0,1}': {
       minimum: 0,
       maximum: 1,
       greedy: true,
       hasSkip: true,
-      hasLoop: false
+      hasLoop: false,
     },
     '{0,1}?': {
       minimum: 0,
       maximum: 1,
       greedy: false,
       hasSkip: true,
-      hasLoop: false
+      hasLoop: false,
     },
     '{0,2}': {
       minimum: 0,
       maximum: 2,
       greedy: true,
       hasSkip: true,
-      hasLoop: true
+      hasLoop: true,
     },
     '{0,2}?': {
       minimum: 0,
       maximum: 2,
       greedy: false,
       hasSkip: true,
-      hasLoop: true
+      hasLoop: true,
     },
     '{1,2}': {
       minimum: 1,
       maximum: 2,
       greedy: true,
       hasSkip: false,
-      hasLoop: true
+      hasLoop: true,
     },
     '{1,2}?': {
       minimum: 1,
       maximum: 2,
       greedy: false,
       hasSkip: false,
-      hasLoop: true
-    }
+      hasLoop: true,
+    },
   }, (content, str) => {
     it(`parses "${str}" as a Repeat`, function() {
-      var parser = new javascript.Parser(str);
+      const parser = new javascript.Parser(str);
       expect(parser.__consume__repeat()).toEqual(jasmine.objectContaining(content));
     });
   });
@@ -169,23 +169,23 @@ describe('parser/javascript/repeat.js', function() {
       {
         hasLoop: false,
         hasSkip: false,
-        translate: { x: 0, y: 0 }
+        translate: { x: 0, y: 0 },
       },
       {
         hasLoop: true,
         hasSkip: false,
-        translate: { x: 10, y: 0 }
+        translate: { x: 10, y: 0 },
       },
       {
         hasLoop: false,
         hasSkip: true,
-        translate: { x: 15, y: 10 }
+        translate: { x: 15, y: 10 },
       },
       {
         hasLoop: true,
         hasSkip: true,
-        translate: { x: 15, y: 10 }
-      }
+        translate: { x: 15, y: 10 },
+      },
     ], t => {
       it(`translates to [${t.translate.x}, ${t.translate.y}] when hasLoop is ${t.hasLoop} and hasSkip is ${t.hasSkip}`, function() {
         this.node.hasLoop = t.hasLoop;
@@ -207,53 +207,53 @@ describe('parser/javascript/repeat.js', function() {
       {
         minimum: 1,
         maximum: -1,
-        label: undefined
+        label: undefined,
       },
       {
         minimum: 0,
         maximum: 0,
-        label: undefined
+        label: undefined,
       },
       {
         minimum: 2,
         maximum: -1,
-        label: '1+ times'
+        label: '1+ times',
       },
       {
         minimum: 3,
         maximum: -1,
-        label: '2+ times'
+        label: '2+ times',
       },
       {
         minimum: 0,
         maximum: 2,
-        label: 'at most once'
+        label: 'at most once',
       },
       {
         minimum: 0,
         maximum: 3,
-        label: 'at most 2 times'
+        label: 'at most 2 times',
       },
       {
         minimum: 2,
         maximum: 2,
-        label: 'once'
+        label: 'once',
       },
       {
         minimum: 3,
         maximum: 3,
-        label: '2 times'
+        label: '2 times',
       },
       {
         minimum: 2,
         maximum: 3,
-        label: '1\u20262 times'
+        label: '1\u20262 times',
       },
       {
         minimum: 3,
         maximum: 4,
-        label: '2\u20263 times'
-      }
+        label: '2\u20263 times',
+      },
 
     ], t => {
       it(`is "${t.label}" when minimum=${t.minimum} and maximum=${t.maximum}`, function() {
@@ -275,53 +275,53 @@ describe('parser/javascript/repeat.js', function() {
       {
         minimum: 1,
         maximum: -1,
-        tooltip: undefined
+        tooltip: undefined,
       },
       {
         minimum: 0,
         maximum: 0,
-        tooltip: undefined
+        tooltip: undefined,
       },
       {
         minimum: 2,
         maximum: -1,
-        tooltip: 'repeats 2+ times in total'
+        tooltip: 'repeats 2+ times in total',
       },
       {
         minimum: 3,
         maximum: -1,
-        tooltip: 'repeats 3+ times in total'
+        tooltip: 'repeats 3+ times in total',
       },
       {
         minimum: 0,
         maximum: 2,
-        tooltip: 'repeats at most 2 times in total'
+        tooltip: 'repeats at most 2 times in total',
       },
       {
         minimum: 0,
         maximum: 3,
-        tooltip: 'repeats at most 3 times in total'
+        tooltip: 'repeats at most 3 times in total',
       },
       {
         minimum: 2,
         maximum: 2,
-        tooltip: 'repeats 2 times in total'
+        tooltip: 'repeats 2 times in total',
       },
       {
         minimum: 3,
         maximum: 3,
-        tooltip: 'repeats 3 times in total'
+        tooltip: 'repeats 3 times in total',
       },
       {
         minimum: 2,
         maximum: 3,
-        tooltip: 'repeats 2\u20263 times in total'
+        tooltip: 'repeats 2\u20263 times in total',
       },
       {
         minimum: 3,
         maximum: 4,
-        tooltip: 'repeats 3\u20264 times in total'
-      }
+        tooltip: 'repeats 3\u20264 times in total',
+      },
 
     ], t => {
       it(`is "${t.tooltip}" when minimum=${t.minimum} and maximum=${t.maximum}`, function() {
@@ -341,7 +341,7 @@ describe('parser/javascript/repeat.js', function() {
       this.box = {
         y: 11,
         ay: 22,
-        width: 33
+        width: 33,
       };
     });
 
@@ -354,7 +354,7 @@ describe('parser/javascript/repeat.js', function() {
       this.node.hasSkip = true;
       this.node.greedy = true;
       expect(this.node.skipPath(this.box)).toEqual([
-        'M0,22q10,0 10,-10v-1q0,-10 10,-10h23q10,0 10,10v1q0,10 10,10'
+        'M0,22q10,0 10,-10v-1q0,-10 10,-10h23q10,0 10,10v1q0,10 10,10',
       ]);
     });
 
@@ -363,7 +363,7 @@ describe('parser/javascript/repeat.js', function() {
       this.node.greedy = false;
       expect(this.node.skipPath(this.box)).toEqual([
         'M0,22q10,0 10,-10v-1q0,-10 10,-10h23q10,0 10,10v1q0,10 10,10',
-        'M10,7l5,5m-5,-5l-5,5'
+        'M10,7l5,5m-5,-5l-5,5',
       ]);
     });
 
@@ -379,7 +379,7 @@ describe('parser/javascript/repeat.js', function() {
         x2: 22,
         ay: 33,
         y2: 44,
-        width: 55
+        width: 55,
       };
     });
 
@@ -392,7 +392,7 @@ describe('parser/javascript/repeat.js', function() {
       this.node.hasLoop = true;
       this.node.greedy = false;
       expect(this.node.loopPath(this.box)).toEqual([
-        'M11,33q-10,0 -10,10v1q0,10 10,10h55q10,0 10,-10v-1q0,-10 -10,-10'
+        'M11,33q-10,0 -10,10v1q0,10 10,10h55q10,0 10,-10v-1q0,-10 -10,-10',
       ]);
     });
 
@@ -401,7 +401,7 @@ describe('parser/javascript/repeat.js', function() {
       this.node.greedy = true;
       expect(this.node.loopPath(this.box)).toEqual([
         'M11,33q-10,0 -10,10v1q0,10 10,10h55q10,0 10,-10v-1q0,-10 -10,-10',
-        'M32,48l5,-5m-5,5l-5,-5'
+        'M32,48l5,-5m-5,5l-5,-5',
       ]);
     });
 

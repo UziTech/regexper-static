@@ -14,24 +14,24 @@ export default {
     // the first element, and the right point to the last element.
     _anchor: {
       get: function() {
-        var start = util.normalizeBBox(this.start.getBBox()),
-            end = util.normalizeBBox(this.end.getBBox()),
-            matrix = this.transform().localMatrix;
+        const start = util.normalizeBBox(this.start.getBBox());
+        const end = util.normalizeBBox(this.end.getBBox());
+        const matrix = this.transform().localMatrix;
 
         return {
           ax: matrix.x(start.ax, start.ay),
           ax2: matrix.x(end.ax2, end.ay),
-          ay: matrix.y(start.ax, start.ay)
+          ay: matrix.y(start.ax, start.ay),
         };
-      }
-    }
+      },
+    },
   },
 
   // Renders the match into the currently set container.
   _render() {
     // Render each of the match fragments.
-    let partPromises = _.map(this.parts, part => part.render(this.container.group())),
-        items = _(partPromises).compact().value();
+    const partPromises = _.map(this.parts, part => part.render(this.container.group()));
+    let items = _(partPromises).compact().value();
 
     // Handle the situation where a regular expression of `()` is rendered.
     // This leads to a Match node with no fragments. Something must be rendered
@@ -50,7 +50,7 @@ export default {
         this.end = _.last(items);
 
         util.spaceHorizontally(items, {
-          padding: 10
+          padding: 10,
         });
 
         // Add lines between each item.
@@ -62,15 +62,14 @@ export default {
   // Returns an array of SVG path strings between each item.
   // - __items__ - Array of SVG elements or nodes.
   connectorPaths(items) {
-    let prev, next;
+    let prev; let  next;
 
     prev = util.normalizeBBox(_.first(items).getBBox());
     return _.map(items.slice(1), item => {
       try {
         next = util.normalizeBBox(item.getBBox());
         return `M${prev.ax2},${prev.ay}H${next.ax}`;
-      }
-      finally {
+      } finally {
         prev = next;
       }
     });
@@ -79,7 +78,7 @@ export default {
   setup() {
     // Merged list of MatchFragments to be rendered.
     this.parts = _.reduce(this.properties.parts.elements, function(result, node) {
-      var last = _.last(result);
+      const last = _.last(result);
 
       if (last && node.canMerge && last.canMerge) {
         // Merged the content of `node` into `last` when possible. This also
@@ -98,5 +97,5 @@ export default {
     if (this.parts.length === 1) {
       this.proxy = this.parts[0];
     }
-  }
+  },
 };

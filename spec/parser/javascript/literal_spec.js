@@ -4,27 +4,27 @@ import Snap from 'snapsvg-cjs';
 describe('parser/javascript/literal.js', function() {
 
   it('parses "x" as a Literal', function() {
-    var parser = new javascript.Parser('x');
+    const parser = new javascript.Parser('x');
     expect(parser.__consume__terminal()).toEqual(jasmine.objectContaining({
       type: 'literal',
       literal: 'x',
-      ordinal: 120
+      ordinal: 120,
     }));
   });
 
   it('parses "\\x" as a Literal', function() {
-    var parser = new javascript.Parser('\\x');
+    const parser = new javascript.Parser('\\x');
     expect(parser.__consume__terminal()).toEqual(jasmine.objectContaining({
       type: 'literal',
       literal: 'x',
-      ordinal: 120
+      ordinal: 120,
     }));
   });
 
   describe('#_render', function() {
 
     beforeEach(function() {
-      var parser = new javascript.Parser('a');
+      const parser = new javascript.Parser('a');
       this.node = parser.__consume__terminal();
       this.node.state = {};
 
@@ -52,7 +52,7 @@ describe('parser/javascript/literal.js', function() {
         .then(label => {
           expect(label.select('rect').attr()).toEqual(jasmine.objectContaining({
             rx: '3',
-            ry: '3'
+            ry: '3',
           }));
           done();
         });
@@ -63,7 +63,7 @@ describe('parser/javascript/literal.js', function() {
   describe('#merge', function() {
 
     beforeEach(function() {
-      var parser = new javascript.Parser('a');
+      const parser = new javascript.Parser('a');
       this.node = parser.__consume__terminal();
     });
 

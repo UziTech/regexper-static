@@ -1,15 +1,15 @@
-var config = require('./config');
+const config = require('./config');
 
 module.exports = {
   devtool: 'source-map',
   entry: {
     'js/main.js': ['@babel/polyfill', './src/js/main.js'],
     '__discard__/css/main.css.js': './src/sass/main.scss',
-    '__discard__/css/svg.css.js': './src/sass/svg.scss'
+    '__discard__/css/svg.css.js': './src/sass/svg.scss',
   },
   output: {
     path: config.buildRoot,
-    filename: '[name]'
+    filename: '[name]',
   },
   optimization: {
     minimize: true,
@@ -19,11 +19,11 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader'
+        loader: 'babel-loader',
       },
       {
         test: /\.peg$/,
-        loader: require.resolve('./lib/canopy-loader')
+        loader: require.resolve('./lib/canopy-loader'),
       },
       {
         test: /\.scss$/,
@@ -33,8 +33,8 @@ module.exports = {
           'extract-loader',
           'css-loader',
           'sass-loader',
-        ]
-      }
-    ]
-  }
+        ],
+      },
+    ],
+  },
 };

@@ -12,14 +12,14 @@ describe('parser/javascript.js', function() {
   describe('container property', function() {
 
     it('sets the content of the element', function() {
-      var element = document.createElement('div');
+      const element = document.createElement('div');
       this.parser.container = element;
 
       expect(element.innerHTML).not.toEqual('');
     });
 
     it('keeps the original content if the keepContent option is set', function() {
-      var element = document.createElement('div');
+      const element = document.createElement('div');
       element.innerHTML = 'example content';
 
       this.parser.options.keepContent = true;
@@ -105,7 +105,7 @@ describe('parser/javascript.js', function() {
           x: 4,
           y: 2,
           width: 42,
-          height: 24
+          height: 24,
         });
 
         this.renderPromise.resolve(this.result);
@@ -123,7 +123,7 @@ describe('parser/javascript.js', function() {
       it('sets the dimensions of the image', function(done) {
         this.parser.render()
           .then(() => {
-            let svg = this.container.querySelector('svg');
+            const svg = this.container.querySelector('svg');
 
             expect(svg.getAttribute('width')).toEqual('62');
             expect(svg.getAttribute('height')).toEqual('44');

@@ -21,7 +21,7 @@ describe('parser/javascript/node.js', function() {
     });
 
     it('calls the module #setup method', function() {
-      var setup = jasmine.createSpy('setup');
+      const setup = jasmine.createSpy('setup');
       this.node.module = { setup };
       expect(setup).toHaveBeenCalled();
     });
@@ -32,9 +32,9 @@ describe('parser/javascript/node.js', function() {
           example: {
             get: function() {
               return 'value';
-            }
-          }
-        }
+            },
+          },
+        },
       };
       expect(this.node.example).toEqual('value');
       expect(this.node.definedProperties).toBeUndefined();
@@ -45,7 +45,7 @@ describe('parser/javascript/node.js', function() {
   describe('container setter', function() {
 
     it('adds a class to the container element', function() {
-      var container = jasmine.createSpyObj('container', ['addClass']);
+      const container = jasmine.createSpyObj('container', ['addClass']);
       this.node.type = 'example type';
       this.node.container = container;
       expect(container.addClass).toHaveBeenCalledWith('example type');
@@ -69,7 +69,7 @@ describe('parser/javascript/node.js', function() {
       it('returns _anchor of the node', function() {
         this.node._anchor = { example: 'value' };
         expect(this.node.anchor).toEqual({
-          example: 'value'
+          example: 'value',
         });
       });
 
@@ -82,15 +82,15 @@ describe('parser/javascript/node.js', function() {
     it('returns the normalized bbox of the container merged with the anchor', function() {
       this.node.proxy = {
         anchor: {
-          anchor: 'example anchor'
-        }
+          anchor: 'example anchor',
+        },
       };
       this.node.container = jasmine.createSpyObj('container', ['addClass', 'getBBox']);
       this.node.container.getBBox.and.returnValue({
         bbox: 'example bbox',
         x: 'left',
         x2: 'right',
-        cy: 'center'
+        cy: 'center',
       });
       expect(this.node.getBBox()).toEqual({
         bbox: 'example bbox',
@@ -100,7 +100,7 @@ describe('parser/javascript/node.js', function() {
         cy: 'center',
         ax: 'left',
         ax2: 'right',
-        ay: 'center'
+        ay: 'center',
       });
     });
 
@@ -120,8 +120,8 @@ describe('parser/javascript/node.js', function() {
   describe('#deferredStep', function() {
 
     it('resolves the returned promise when the render is not canceled', function(done) {
-      var resolve = jasmine.createSpy('resolve'),
-          reject = jasmine.createSpy('reject');
+      const resolve = jasmine.createSpy('resolve');
+      const reject = jasmine.createSpy('reject');
 
       this.node.deferredStep('result')
         .then(resolve, reject)
@@ -133,8 +133,8 @@ describe('parser/javascript/node.js', function() {
     });
 
     it('rejects the returned promise when the render is canceled', function(done) {
-      var resolve = jasmine.createSpy('resolve'),
-          reject = jasmine.createSpy('reject');
+      const resolve = jasmine.createSpy('resolve');
+      const reject = jasmine.createSpy('reject');
 
       this.node.state.cancelRender = true;
       this.node.deferredStep('result', 'value')
@@ -181,7 +181,7 @@ describe('parser/javascript/node.js', function() {
 
         this.text.getBBox.and.returnValue({
           width: 42,
-          height: 24
+          height: 24,
         });
 
         this.group.text.and.returnValue(this.text);
@@ -202,7 +202,7 @@ describe('parser/javascript/node.js', function() {
           .then(() => {
             expect(this.rect.attr).toHaveBeenCalledWith({
               width: 52,
-              height: 34
+              height: 34,
             });
             done();
           });
@@ -298,7 +298,7 @@ describe('parser/javascript/node.js', function() {
   describe('#renderLabeledBox', function() {
 
     beforeEach(function() {
-      var svg = Snap(document.createElement('svg'));
+      const svg = Snap(document.createElement('svg'));
 
       this.text = svg.text();
       this.rect = svg.rect();
@@ -338,7 +338,7 @@ describe('parser/javascript/node.js', function() {
       this.node.renderLabeledBox('example label', this.content, { padding: 5 });
       expect(this.rect.attr).toHaveBeenCalledWith({
         rx: 3,
-        ry: 3
+        ry: 3,
       });
     });
 
@@ -347,12 +347,12 @@ describe('parser/javascript/node.js', function() {
       beforeEach(function() {
         spyOn(this.text, 'getBBox').and.returnValue({
           width: 100,
-          height: 20
+          height: 20,
         });
         spyOn(this.content, 'getBBox').and.returnValue({
           width: 200,
           height: 100,
-          cx: 100
+          cx: 100,
         });
       });
 
@@ -382,7 +382,7 @@ describe('parser/javascript/node.js', function() {
           .then(() => {
             expect(this.rect.attr).toHaveBeenCalledWith({
               width: 210,
-              height: 110
+              height: 110,
             });
             done();
           });
@@ -392,14 +392,14 @@ describe('parser/javascript/node.js', function() {
         this.content.getBBox.and.returnValue({
           width: 50,
           height: 100,
-          cx: 25
+          cx: 25,
         });
         spyOn(this.rect, 'attr').and.callThrough();
         this.node.renderLabeledBox('example label', this.content, { padding: 5 })
           .then(() => {
             expect(this.rect.attr).toHaveBeenCalledWith({
               width: 100,
-              height: 110
+              height: 110,
             });
             done();
           });

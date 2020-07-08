@@ -5,7 +5,7 @@
 import _ from 'lodash';
 
 function hex(value) {
-  var str = value.toString(16).toUpperCase();
+  let str = value.toString(16).toUpperCase();
 
   if (str.length < 2) {
     str = '0' + str;
@@ -23,7 +23,7 @@ export default {
       .then(label => {
         label.select('rect').attr({
           rx: 3,
-          ry: 3
+          ry: 3,
         });
         return label;
       });
@@ -84,5 +84,5 @@ export default {
   },
   u() {
     return [`U+${this.arg.toUpperCase()}`, parseInt(this.arg, 16), false];
-  }
+  },
 };

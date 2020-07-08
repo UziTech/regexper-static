@@ -53,8 +53,7 @@ export default class Regexper {
 
     try {
       this._setHash(this.field.value);
-    }
-    catch(e) {
+    } catch (e) {
       // Failed to set the URL hash (probably because the expression is too
       // long). Turn off display of the permalink and just show the expression.
       this.permalinkEnabled = false;
@@ -64,7 +63,7 @@ export default class Regexper {
 
   // Event handler for URL hash changes. Starts rendering of the expression.
   hashchangeListener() {
-    let expr = this._getHash();
+    const expr = this._getHash();
 
     if (expr instanceof Error) {
       this.state = 'has-error';
@@ -88,10 +87,9 @@ export default class Regexper {
   detectBuggyHash() {
     if (typeof window.URL === 'function') {
       try {
-        let url = new URL('https://regexper.com/#%25');
+        const url = new URL('https://regexper.com/#%25');
         this.buggyHash = (url.hash === '#%');
-      }
-      catch(e) {
+      } catch (e) {
         this.buggyHash = false;
       }
     }
@@ -110,10 +108,9 @@ export default class Regexper {
   // URLs.
   _getHash() {
     try {
-      let hash = location.hash.slice(1)
+      const hash = location.hash.slice(1)
       return this.buggyHash ? hash : decodeURIComponent(hash);
-    }
-    catch(e) {
+    } catch (e) {
       return e;
     }
   }
@@ -155,15 +152,14 @@ export default class Regexper {
 
   // Update the URLs of the 'download' and 'permalink' links.
   updateLinks() {
-    let classes = _.without(this.links.className.split(' '), ['hide-download-svg', 'hide-permalink']);
-    let svg = this.svgContainer.querySelector('.svg');
+    const classes = _.without(this.links.className.split(' '), ['hide-download-svg', 'hide-permalink']);
+    const svg = this.svgContainer.querySelector('.svg');
 
     // Create the SVG 'download' image URL.
     try {
       this.downloadSvg.parentNode.style.display = null;
       this.downloadSvg.href = this.buildBlobURL(svg.innerHTML);
-    }
-    catch(e) {
+    } catch (e) {
       // Blobs or URLs created from a blob URL don't work in the current
       // browser. Giving up on the download link.
       classes.push('hide-download-svg');
@@ -171,9 +167,9 @@ export default class Regexper {
 
     //Create the PNG 'download' image URL.
     try {
-      let canvas = document.createElement('canvas');
-      let context = canvas.getContext('2d');
-      let loader = new Image;
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+      const loader = new Image();
 
       loader.width = canvas.width = Number(svg.querySelector('svg').getAttribute('width'));
       loader.height = canvas.height = Number(svg.querySelector('svg').getAttribute('height'));
@@ -185,20 +181,17 @@ export default class Regexper {
               window.pngBlob = blob;
               this.downloadPng.href = URL.createObjectURL(window.pngBlob);
               this.links.className = this.links.className.replace(/\bhide-download-png\b/, '');
-            }
-            catch(e) {
+            } catch (e) {
               // silent error
             }
           }, 'image/png');
-        }
-        catch(e) {
+        } catch (e) {
           // silent error
         }
       };
       loader.src = 'data:image/svg+xml,' + encodeURIComponent(svg.innerHTML);
       classes.push('hide-download-png');
-    }
-    catch(e) {
+    } catch (e) {
       // silent error
     }
 
@@ -226,8 +219,7 @@ export default class Regexper {
   //
   // - __expression__ - Regular expression to render
   renderRegexp(expression) {
-    let parseError = false,
-        startTime, endTime;
+    let parseError = false;
 
     // When a render is already in progress, cancel it and try rendering again
     // after a short delay (canceling a render is not instantaneous).
@@ -239,7 +231,7 @@ export default class Regexper {
 
     this.state = 'is-loading';
     util.track('send', 'event', 'visualization', 'start');
-    startTime = new Date().getTime();
+    const startTime = new Date().getTime();
 
     this.running = new Parser(this.svgContainer);
 
@@ -268,7 +260,7 @@ export default class Regexper {
         this.displayWarnings(this.running.warnings);
         util.track('send', 'event', 'visualization', 'complete');
 
-        endTime = new Date().getTime();
+        const endTime = new Date().getTime();
         util.track('send', 'timing', 'visualization', 'total time', endTime - startTime);
       })
       // Handle any errors that happened during the rendering pipeline.
@@ -293,7 +285,7 @@ export default class Regexper {
         message => {
           this.running = false;
           throw message;
-        }
+        },
       );
   }
 }

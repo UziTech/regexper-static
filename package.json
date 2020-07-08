@@ -10,7 +10,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "pretest": "jscs lib/ src/ spec/",
+    "pretest": "yarn lint",
     "test": "karma start --single-run",
     "build": "gulp build",
     "docs": "gulp docs",

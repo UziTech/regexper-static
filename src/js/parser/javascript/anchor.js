@@ -9,5 +9,5 @@ export default {
     } else {
       this.label = 'End of line';
     }
-  }
+  },
 };

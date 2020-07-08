@@ -7,39 +7,39 @@ describe('parser/javascript/root.js', function() {
   _.forIn({
     'test': {
       flags: [],
-      regexp: jasmine.objectContaining({ textValue: 'test' })
+      regexp: jasmine.objectContaining({ textValue: 'test' }),
     },
     '/test/': {
       flags: [],
-      regexp: jasmine.objectContaining({ textValue: 'test' })
+      regexp: jasmine.objectContaining({ textValue: 'test' }),
     },
     '/test/i': {
       flags: ['Ignore Case'],
-      regexp: jasmine.objectContaining({ textValue: 'test' })
+      regexp: jasmine.objectContaining({ textValue: 'test' }),
     },
     '/test/g': {
       flags: ['Global'],
-      regexp: jasmine.objectContaining({ textValue: 'test' })
+      regexp: jasmine.objectContaining({ textValue: 'test' }),
     },
     '/test/m': {
       flags: ['Multiline'],
-      regexp: jasmine.objectContaining({ textValue: 'test' })
+      regexp: jasmine.objectContaining({ textValue: 'test' }),
     },
     '/test/y': {
       flags: ['Sticky'],
-      regexp: jasmine.objectContaining({ textValue: 'test' })
+      regexp: jasmine.objectContaining({ textValue: 'test' }),
     },
     '/test/u': {
       flags: ['Unicode'],
-      regexp: jasmine.objectContaining({ textValue: 'test' })
+      regexp: jasmine.objectContaining({ textValue: 'test' }),
     },
     '/test/mgi': {
       flags: ['Global', 'Ignore Case', 'Multiline'],
-      regexp: jasmine.objectContaining({ textValue: 'test' })
-    }
+      regexp: jasmine.objectContaining({ textValue: 'test' }),
+    },
   }, (content, str) => {
     it(`parses "${str}" as a Root`, function() {
-      var parser = new javascript.Parser(str);
+      const parser = new javascript.Parser(str);
       expect(parser.__consume__root()).toEqual(jasmine.objectContaining(content));
     });
   });
@@ -49,7 +49,7 @@ describe('parser/javascript/root.js', function() {
     beforeEach(function() {
       this.textElement = jasmine.createSpyObj('text', ['getBBox']);
       this.textElement.getBBox.and.returnValue({
-        height: 20
+        height: 20,
       });
 
       this.node = new javascript.Parser('test').__consume__root();
@@ -58,7 +58,7 @@ describe('parser/javascript/root.js', function() {
         'text',
         'group',
         'path',
-        'circle'
+        'circle',
       ]);
       this.node.container.text.and.returnValue(this.textElement);
       this.node.container.group.and.returnValue('group element');
@@ -66,7 +66,7 @@ describe('parser/javascript/root.js', function() {
       this.node.regexp = jasmine.createSpyObj('regexp', [
         'render',
         'transform',
-        'getBBox'
+        'getBBox',
       ]);
 
       this.renderDeferred = this.testablePromise();
@@ -113,7 +113,7 @@ describe('parser/javascript/root.js', function() {
           ax: 1,
           ay: 2,
           ax2: 3,
-          x2: 4
+          x2: 4,
         });
       });
 

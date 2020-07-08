@@ -9,29 +9,29 @@ describe('parser/javascript/match.js', function() {
     'example': {
       parts: [
         jasmine.objectContaining({
-          content: jasmine.objectContaining({ literal: 'example' })
-        })
+          content: jasmine.objectContaining({ literal: 'example' }),
+        }),
       ],
       proxy: jasmine.objectContaining({
-        content: jasmine.objectContaining({ literal: 'example' })
-      })
+        content: jasmine.objectContaining({ literal: 'example' }),
+      }),
     },
     'example*': {
       parts: [
         jasmine.objectContaining({
-          content: jasmine.objectContaining({ literal: 'exampl' })
+          content: jasmine.objectContaining({ literal: 'exampl' }),
         }),
         jasmine.objectContaining({
-          content: jasmine.objectContaining({ literal: 'e' })
-        })
-      ]
+          content: jasmine.objectContaining({ literal: 'e' }),
+        }),
+      ],
     },
     '': {
-      parts: []
-    }
+      parts: [],
+    },
   }, (content, str) => {
     it(`parses "${str}" as a Match`, function() {
-      var parser = new javascript.Parser(str);
+      const parser = new javascript.Parser(str);
       expect(parser.__consume__match()).toEqual(jasmine.objectContaining(content));
     });
   });
@@ -45,18 +45,18 @@ describe('parser/javascript/match.js', function() {
       this.node.start.getBBox.and.returnValue({
         x: 1,
         x2: 2,
-        cy: 3
+        cy: 3,
       });
 
       this.node.end = jasmine.createSpyObj('start', ['getBBox']);
       this.node.end.getBBox.and.returnValue({
         x: 4,
         x2: 5,
-        cy: 6
+        cy: 6,
       });
 
       spyOn(this.node, 'transform').and.returnValue({
-        localMatrix: Snap.matrix().translate(10, 20)
+        localMatrix: Snap.matrix().translate(10, 20),
       });
     });
 
@@ -64,7 +64,7 @@ describe('parser/javascript/match.js', function() {
       expect(this.node._anchor).toEqual({
         ax: 11,
         ax2: 15,
-        ay: 23
+        ay: 23,
       });
     });
 
@@ -79,20 +79,20 @@ describe('parser/javascript/match.js', function() {
         'addClass',
         'group',
         'prepend',
-        'path'
+        'path',
       ]);
       this.node.container.group.and.returnValue('example group');
 
       this.node.parts = [
         jasmine.createSpyObj('part 0', ['render']),
         jasmine.createSpyObj('part 1', ['render']),
-        jasmine.createSpyObj('part 2', ['render'])
+        jasmine.createSpyObj('part 2', ['render']),
       ];
 
       this.partDeferreds = [
         this.testablePromise(),
         this.testablePromise(),
-        this.testablePromise()
+        this.testablePromise(),
       ];
 
       this.node.parts[0].render.and.returnValue(this.partDeferreds[0].promise);
@@ -133,7 +133,7 @@ describe('parser/javascript/match.js', function() {
             expect(util.spaceHorizontally).toHaveBeenCalledWith([
               'part 0',
               'part 1',
-              'part 2'
+              'part 2',
             ], { padding: 10 });
             done();
           });
@@ -145,7 +145,7 @@ describe('parser/javascript/match.js', function() {
             expect(this.node.connectorPaths).toHaveBeenCalledWith([
               'part 0',
               'part 1',
-              'part 2'
+              'part 2',
             ]);
             expect(this.node.container.path).toHaveBeenCalledWith('connector paths');
             done();
@@ -164,30 +164,30 @@ describe('parser/javascript/match.js', function() {
       this.items = [
         jasmine.createSpyObj('item 0', ['getBBox']),
         jasmine.createSpyObj('item 1', ['getBBox']),
-        jasmine.createSpyObj('item 2', ['getBBox'])
+        jasmine.createSpyObj('item 2', ['getBBox']),
       ];
 
       this.items[0].getBBox.and.returnValue({
         x: 10,
         x2: 20,
-        cy: 5
+        cy: 5,
       });
       this.items[1].getBBox.and.returnValue({
         x: 30,
         x2: 40,
-        cy: 5
+        cy: 5,
       });
       this.items[2].getBBox.and.returnValue({
         x: 50,
         x2: 60,
-        cy: 5
+        cy: 5,
       });
     });
 
     it('returns the connector paths between fragments', function() {
       expect(this.node.connectorPaths(this.items)).toEqual([
         'M20,5H30',
-        'M40,5H50'
+        'M40,5H50',
       ]);
     });
 

@@ -19,7 +19,7 @@ export default class Parser {
   constructor(container, options) {
     this.options = options || {};
     _.defaults(this.options, {
-      keepContent: false
+      keepContent: false,
     });
 
     this.container = container;
@@ -37,7 +37,7 @@ export default class Parser {
     this._container = cont;
     this._container.innerHTML = [
       document.querySelector('#svg-container-base').innerHTML,
-      this.options.keepContent ? this.container.innerHTML : ''
+      this.options.keepContent ? this.container.innerHTML : '',
     ].join('');
     this._addClass('svg-container');
   }
@@ -78,19 +78,19 @@ export default class Parser {
 
   // Render the parsed expression to an SVG.
   render() {
-    let svg = Snap(this.container.querySelector('svg'));
+    const svg = Snap(this.container.querySelector('svg'));
 
     return this.parsed.render(svg.group())
       // Once rendering is complete, the rendered expression is positioned and
       // the SVG resized to create some padding around the image contents.
       .then(result => {
-        let box = result.getBBox();
+        const box = result.getBBox();
 
         result.transform(Snap.matrix()
           .translate(10 - box.x, 10 - box.y));
         svg.attr({
           width: box.width + 20,
-          height: box.height + 20
+          height: box.height + 20,
         });
       })
       // Stop and remove loading indicator after render is totally complete.

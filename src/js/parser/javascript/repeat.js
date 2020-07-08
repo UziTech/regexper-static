@@ -18,7 +18,7 @@ export default {
     // and skip lines.
     contentPosition: {
       get: function() {
-        var matrix = Snap.matrix();
+        const matrix = Snap.matrix();
 
         if (this.hasSkip) {
           return matrix.translate(15, 10);
@@ -27,7 +27,7 @@ export default {
         } else {
           return matrix.translate(0, 0);
         }
-      }
+      },
     },
 
     // Label to place of loop path to indicate the number of times that path
@@ -48,7 +48,7 @@ export default {
             return `${this.minimum - 1}\u2026${formatTimes(this.maximum - 1)}`;
           }
         }
-      }
+      },
     },
 
     // Tooltip to place of loop path label to provide further details.
@@ -71,18 +71,18 @@ export default {
           }
         }
         return repeatCount ? `repeats ${repeatCount} in total` : repeatCount;
-      }
-    }
+      },
+    },
   },
 
   // Returns the path spec to render the line that skips over the content for
   // fragments that are optionally matched.
   skipPath(box) {
-    let paths = [];
+    const paths = [];
 
     if (this.hasSkip) {
-      let vert = Math.max(0, box.ay - box.y - 10),
-          horiz = box.width - 10;
+      const vert = Math.max(0, box.ay - box.y - 10);
+      const horiz = box.width - 10;
 
       paths.push(`M0,${box.ay}q10,0 10,-10v${-vert}q0,-10 10,-10h${horiz}q10,0 10,10v${vert}q0,10 10,10`);
 
@@ -98,10 +98,10 @@ export default {
   // Returns the path spec to render the line that repeats the content for
   // fragments that are matched more than once.
   loopPath(box) {
-    let paths = [];
+    const paths = [];
 
     if (this.hasLoop) {
-      let vert = box.y2 - box.ay - 10;
+      const vert = box.y2 - box.ay - 10;
 
       paths.push(`M${box.x},${box.ay}q-10,0 -10,10v${vert}q0,10 10,10h${box.width}q10,0 10,-10v${-vert}q0,-10 -10,-10`);
 
@@ -120,5 +120,5 @@ export default {
     this.greedy = (this.properties.greedy.textValue === '');
     this.hasSkip = (this.minimum === 0);
     this.hasLoop = (this.maximum === -1 || this.maximum > 1);
-  }
+  },
 }

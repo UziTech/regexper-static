@@ -13,7 +13,7 @@ export default {
     g: 'Global',
     m: 'Multiline',
     y: 'Sticky',
-    u: 'Unicode'
+    u: 'Unicode',
   },
 
   // Renders the root into the currently set container.
@@ -38,7 +38,7 @@ export default {
             .translate(10, 0));
         }
 
-        let box = this.regexp.getBBox();
+        const box = this.regexp.getBBox();
 
         // Render decorative elements.
         this.container.path(`M${box.ax},${box.ay}H0M${box.ax2},${box.ay}H${box.x2 + 10}`);
@@ -54,5 +54,5 @@ export default {
       .map(flag => this.flagLabels[flag]).value();
 
     this.regexp = this.properties.regexp
-  }
+  },
 };

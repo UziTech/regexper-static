@@ -11,30 +11,30 @@ describe('parser/javascript/subexp.js', function() {
 
   _.forIn({
     '(test)': {
-      regexp: jasmine.objectContaining({ textValue: 'test' })
+      regexp: jasmine.objectContaining({ textValue: 'test' }),
     },
     '(?<name>test)': {
-      regexp: jasmine.objectContaining({ textValue: 'test' })
+      regexp: jasmine.objectContaining({ textValue: 'test' }),
     },
     '(?=test)': {
-      regexp: jasmine.objectContaining({ textValue: 'test' })
+      regexp: jasmine.objectContaining({ textValue: 'test' }),
     },
     '(?!test)': {
-      regexp: jasmine.objectContaining({ textValue: 'test' })
+      regexp: jasmine.objectContaining({ textValue: 'test' }),
     },
     '(?<=test)': {
-      regexp: jasmine.objectContaining({ textValue: 'test' })
+      regexp: jasmine.objectContaining({ textValue: 'test' }),
     },
     '(?<!test)': {
-      regexp: jasmine.objectContaining({ textValue: 'test' })
+      regexp: jasmine.objectContaining({ textValue: 'test' }),
     },
     '(?:test)': {
       regexp: jasmine.objectContaining({ textValue: 'test' }),
-      proxy: jasmine.objectContaining({ textValue: 'test' })
-    }
+      proxy: jasmine.objectContaining({ textValue: 'test' }),
+    },
   }, (content, str) => {
     it(`parses "${str}" as a Subexp`, function() {
-      var parser = new javascript.Parser(str);
+      const parser = new javascript.Parser(str);
       expect(parser.__consume__subexp()).toEqual(jasmine.objectContaining(content));
     });
   });
@@ -42,26 +42,26 @@ describe('parser/javascript/subexp.js', function() {
   describe('_anchor property', function() {
 
     it('applies the local transform matrix to the anchor from the regexp', function() {
-      var node = new javascript.Parser('(test)').__consume__subexp();
+      const node = new javascript.Parser('(test)').__consume__subexp();
 
       node.regexp = {
         getBBox() {
           return {
             ax: 10,
             ax2: 15,
-            ay: 20
+            ay: 20,
           };
-        }
+        },
       };
 
       spyOn(node, 'transform').and.returnValue({
-        localMatrix: Snap.matrix().translate(3, 8)
+        localMatrix: Snap.matrix().translate(3, 8),
       });
 
       expect(node._anchor).toEqual({
         ax: 13,
         ax2: 18,
-        ay: 28
+        ay: 28,
       });
     });
 
@@ -102,35 +102,35 @@ describe('parser/javascript/subexp.js', function() {
     _.forIn({
       '(test)': {
         label: 'group #1',
-        groupCounter: 2
+        groupCounter: 2,
       },
       '(?<name>test)': {
         label: 'group \'name\'',
-        groupCounter: 1
+        groupCounter: 1,
       },
       '(?=test)': {
         label: 'positive lookahead',
-        groupCounter: 1
+        groupCounter: 1,
       },
       '(?!test)': {
         label: 'negative lookahead',
-        groupCounter: 1
+        groupCounter: 1,
       },
       '(?<=test)': {
         label: 'positive lookbehind',
-        groupCounter: 1
+        groupCounter: 1,
       },
       '(?<!test)': {
         label: 'negative lookbehind',
-        groupCounter: 1
+        groupCounter: 1,
       },
       '(?:test)': {
         label: '',
-        groupCounter: 1
-      }
+        groupCounter: 1,
+      },
     }, (data, str) => {
       it(`generates the correct label for "${str}"`, function() {
-        var node = new javascript.Parser(str).__consume__subexp();
+        const node = new javascript.Parser(str).__consume__subexp();
         expect(node.label()).toEqual(data.label);
         expect(node.state.groupCounter).toEqual(data.groupCounter);
       });

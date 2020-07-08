@@ -7,17 +7,17 @@ describe('parser/javascript/regexp.js', function() {
 
   _.forIn({
     'test': {
-      proxy: jasmine.objectContaining({ textValue: 'test' })
+      proxy: jasmine.objectContaining({ textValue: 'test' }),
     },
     'part 1|part 2': {
       matches: [
         jasmine.objectContaining({ textValue: 'part 1' }),
-        jasmine.objectContaining({ textValue: 'part 2' })
-      ]
-    }
+        jasmine.objectContaining({ textValue: 'part 2' }),
+      ],
+    },
   }, (content, str) => {
     it(`parses "${str}" as a Regexp`, function() {
-      var parser = new javascript.Parser(str);
+      const parser = new javascript.Parser(str);
       expect(parser.__consume__regexp()).toEqual(jasmine.objectContaining(content));
     });
   });
@@ -25,7 +25,7 @@ describe('parser/javascript/regexp.js', function() {
   describe('#_render', function() {
 
     beforeEach(function() {
-      var counter = 0;
+      let counter = 0;
 
       this.node = new javascript.Parser('a|b').__consume__regexp();
 
@@ -33,7 +33,7 @@ describe('parser/javascript/regexp.js', function() {
         'addClass',
         'group',
         'prepend',
-        'path'
+        'path',
       ]);
 
       this.group = jasmine.createSpyObj('group', [
@@ -42,7 +42,7 @@ describe('parser/javascript/regexp.js', function() {
         'group',
         'prepend',
         'path',
-        'getBBox'
+        'getBBox',
       ]);
       this.node.container.group.and.returnValue(this.group);
       this.group.addClass.and.returnValue(this.group);
@@ -55,13 +55,13 @@ describe('parser/javascript/regexp.js', function() {
       this.node.matches = [
         jasmine.createSpyObj('match', ['render']),
         jasmine.createSpyObj('match', ['render']),
-        jasmine.createSpyObj('match', ['render'])
+        jasmine.createSpyObj('match', ['render']),
       ];
 
       this.matchDeferred = [
         this.testablePromise(),
         this.testablePromise(),
-        this.testablePromise()
+        this.testablePromise(),
       ];
 
       this.node.matches[0].render.and.returnValue(this.matchDeferred[0].promise);
@@ -142,7 +142,7 @@ describe('parser/javascript/regexp.js', function() {
 
       this.containerBox = {
         cy: 50,
-        width: 30
+        width: 30,
       };
       this.matchBox = {
       };
@@ -162,7 +162,7 @@ describe('parser/javascript/regexp.js', function() {
         it('returns the vertical sideline to the match node', function() {
           expect(this.node.makeSide(this.containerBox, this.match)).toEqual([
             'M0,50q10,0 10,-10V32',
-            'M70,50q-10,0 -10,-10V32'
+            'M70,50q-10,0 -10,-10V32',
           ]);
         });
 
@@ -177,7 +177,7 @@ describe('parser/javascript/regexp.js', function() {
         it('returns the vertical sideline to the match node', function() {
           expect(this.node.makeSide(this.containerBox, this.match)).toEqual([
             'M0,50q10,0 10,10V78',
-            'M70,50q-10,0 -10,10V78'
+            'M70,50q-10,0 -10,10V78',
           ]);
         });
 
@@ -206,7 +206,7 @@ describe('parser/javascript/regexp.js', function() {
 
       this.containerBox = {
         cy: 50,
-        width: 30
+        width: 30,
       };
       this.matchBox = {};
 
@@ -225,7 +225,7 @@ describe('parser/javascript/regexp.js', function() {
         it('returns the curve to the match node', function() {
           expect(this.node.makeCurve(this.containerBox, this.match)).toEqual([
             'M10,32q0,-10 10,-10',
-            'M60,32q0,-10 -10,-10'
+            'M60,32q0,-10 -10,-10',
           ]);
         });
 
@@ -240,7 +240,7 @@ describe('parser/javascript/regexp.js', function() {
         it('returns the curve to the match node', function() {
           expect(this.node.makeCurve(this.containerBox, this.match)).toEqual([
             'M10,78q0,10 10,10',
-            'M60,78q0,10 -10,10'
+            'M60,78q0,10 -10,10',
           ]);
         });
 
@@ -259,7 +259,7 @@ describe('parser/javascript/regexp.js', function() {
         it('returns the curve to the match node', function() {
           expect(this.node.makeCurve(this.containerBox, this.match)).toEqual([
             'M0,50c10,0 10,-6 20,-6',
-            'M70,50c-10,0 -10,-6 -20,-6'
+            'M70,50c-10,0 -10,-6 -20,-6',
           ]);
         });
 
@@ -274,7 +274,7 @@ describe('parser/javascript/regexp.js', function() {
         it('returns the curve to the match node', function() {
           expect(this.node.makeCurve(this.containerBox, this.match)).toEqual([
             'M0,50c10,0 10,5 20,5',
-            'M70,50c-10,0 -10,5 -20,5'
+            'M70,50c-10,0 -10,5 -20,5',
           ]);
         });
 
@@ -290,12 +290,12 @@ describe('parser/javascript/regexp.js', function() {
       this.node = new javascript.Parser('a|b').__consume__regexp();
 
       this.containerBox = {
-        width: 4
+        width: 4,
       };
       this.matchBox = {
         ay: 1,
         ax: 2,
-        ax2: 3
+        ax2: 3,
       };
 
       this.match = jasmine.createSpyObj('match', ['getBBox']);

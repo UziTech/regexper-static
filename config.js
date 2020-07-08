@@ -1,7 +1,7 @@
-var path = require('path'),
-    _ = require('lodash'),
-    buildRoot = process.env.BUILD_PATH || path.join(__dirname, './build'),
-    buildPath = _.bind(path.join, path, buildRoot);
+const path = require('path');
+const _ = require('lodash');
+const buildRoot = process.env.BUILD_PATH || path.join(__dirname, './build');
+const buildPath = _.bind(path.join, path, buildRoot);
 
 module.exports = {
   buildRoot: buildRoot,
@@ -20,12 +20,12 @@ module.exports = {
       './lib/**/*.js',
       './src/**/*.js',
       './spec/**/*.js',
-      './*.js'
-    ]
+      './*.js',
+    ],
   },
   lintRoots: ['lib', 'src', 'spec'],
   browserify: {
     debug: true,
-    fullPaths: false
-  }
+    fullPaths: false,
+  },
 };

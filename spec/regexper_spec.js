@@ -8,16 +8,16 @@ describe('regexper.js', function() {
     this.root = document.createElement('div');
     this.root.innerHTML = [
       '<form id="regexp-form" action="/">',
-        '<input type="text" id="regexp-input">',
-        '<ul class="example">',
-          '<ul><a href="#" data-action="permalink"></a></ul>',
-          '<ul><a href="#" data-action="download-svg"></a></ul>',
-          '<ul><a href="#" data-action="download-png"></a></ul>',
-        '</ul>',
+      '<input type="text" id="regexp-input">',
+      '<ul class="example">',
+      '<li><a href="#" data-action="download-svg"></a></li>',
+      '<li><a href="#" data-action="download-png"></a></li>',
+      '<li><a href="#" data-action="permalink"></a></li>',
+      '</ul>',
       '</form>',
       '<div id="error"></div>',
       '<ul id="warnings"></ul>',
-      '<div id="regexp-render"></div>'
+      '<div id="regexp-render"></div>',
     ].join('');
 
     this.regexper = new Regexper(this.root);
@@ -87,12 +87,10 @@ describe('regexper.js', function() {
       });
 
       it('triggers a submit event', function() {
-        var event;
-
         this.regexper.keypressListener(this.event);
         expect(this.regexper.form.dispatchEvent).toHaveBeenCalled();
 
-        event = this.regexper.form.dispatchEvent.calls.mostRecent().args[0];
+        const event = this.regexper.form.dispatchEvent.calls.mostRecent().args[0];
         expect(event.type).toEqual('submit');
       });
 

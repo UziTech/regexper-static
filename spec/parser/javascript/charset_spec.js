@@ -12,67 +12,65 @@ describe('parser/javascript/charset.js', function() {
       elements: [
         jasmine.objectContaining({ type: 'literal', textValue: 'a' }),
         jasmine.objectContaining({ type: 'literal', textValue: 'b' }),
-        jasmine.objectContaining({ type: 'literal', textValue: 'c' })
-      ]
+        jasmine.objectContaining({ type: 'literal', textValue: 'c' }),
+      ],
     },
     '[^abc]': {
       label: 'None of:',
       elements: [
         jasmine.objectContaining({ type: 'literal', textValue: 'a' }),
         jasmine.objectContaining({ type: 'literal', textValue: 'b' }),
-        jasmine.objectContaining({ type: 'literal', textValue: 'c' })
-      ]
+        jasmine.objectContaining({ type: 'literal', textValue: 'c' }),
+      ],
     },
     '[aaa]': {
       label: 'One of:',
       elements: [
-        jasmine.objectContaining({ type: 'literal', textValue: 'a' })
-      ]
+        jasmine.objectContaining({ type: 'literal', textValue: 'a' }),
+      ],
     },
     '[a-z]': {
       label: 'One of:',
       elements: [
-        jasmine.objectContaining({ type: 'charset-range', textValue: 'a-z' })
-      ]
+        jasmine.objectContaining({ type: 'charset-range', textValue: 'a-z' }),
+      ],
     },
     '[\\b]': {
       label: 'One of:',
       elements: [
-        jasmine.objectContaining({ type: 'charset-escape', textValue: '\\b' })
-      ]
-    }
+        jasmine.objectContaining({ type: 'charset-escape', textValue: '\\b' }),
+      ],
+    },
 
   }, (content, str) => {
     it(`parses "${str}" as a Charset`, function() {
-      var parser = new javascript.Parser(str);
+      const parser = new javascript.Parser(str);
       expect(parser.__consume__charset()).toEqual(jasmine.objectContaining(content));
     });
   });
 
   it('adds a warning for character sets the contain non-standard escapes', function() {
-    var node;
-
     Node.state = { warnings: [] };
-    node = new javascript.Parser('[\\c]').__consume__charset();
+    const node = new javascript.Parser('[\\c]').__consume__charset();
     expect(node.state.warnings).toEqual(['The character set "[\\c]" contains the \\c escape followed by a character other than A-Z. This can lead to different behavior depending on browser. The representation here is the most common interpretation.']);
   });
 
   describe('_anchor property', function() {
 
     it('calculates the anchor based on the partContainer', function() {
-      var node = new javascript.Parser('[a]').__consume__charset();
+      const node = new javascript.Parser('[a]').__consume__charset();
 
       node.partContainer = jasmine.createSpyObj('partContainer', ['getBBox']);
       node.partContainer.getBBox.and.returnValue({
-        cy: 20
+        cy: 20,
       });
 
       spyOn(node, 'transform').and.returnValue({
-        localMatrix: Snap.matrix().translate(3, 8)
+        localMatrix: Snap.matrix().translate(3, 8),
       });
 
       expect(node._anchor).toEqual({
-        ay: 28
+        ay: 28,
       });
     });
 
@@ -81,19 +79,19 @@ describe('parser/javascript/charset.js', function() {
   describe('#_render', function() {
 
     beforeEach(function() {
-      var counter = 0;
+      let counter = 0;
 
       this.node = new javascript.Parser('[a]').__consume__charset();
       this.node.label = 'example label';
       this.node.elements = [
         jasmine.createSpyObj('item', ['render']),
         jasmine.createSpyObj('item', ['render']),
-        jasmine.createSpyObj('item', ['render'])
+        jasmine.createSpyObj('item', ['render']),
       ];
       this.elementDeferred = [
         this.testablePromise(),
         this.testablePromise(),
-        this.testablePromise()
+        this.testablePromise(),
       ];
       this.node.elements[0].render.and.returnValue(this.elementDeferred[0].promise);
       this.node.elements[1].render.and.returnValue(this.elementDeferred[1].promise);

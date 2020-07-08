@@ -10,7 +10,7 @@ import _ from 'lodash';
 // - __detail__ - Event details. The event details are provided to the event
 //    handler.
 function customEvent(name, detail) {
-  var evt = document.createEvent('Event');
+  const evt = document.createEvent('Event');
   evt.initEvent(name, true, true);
   evt.detail = detail;
   return evt;
@@ -26,7 +26,7 @@ function normalizeBBox(box) {
   return _.defaults(box, {
     ax: box.x,
     ax2: box.x2,
-    ay: box.cy
+    ay: box.cy,
   });
 }
 
@@ -37,20 +37,17 @@ function normalizeBBox(box) {
 // - __items__ - Array of items to be positioned
 // - __options.padding__ - Number of pixels to leave between items
 function spaceHorizontally(items, options) {
-  var verticalCenter,
-      values;
-
   options = _.defaults(options || {}, {
-    padding: 0
+    padding: 0,
   });
 
-  values = _.map(items, item => ({
+  const values = _.map(items, item => ({
     box: normalizeBBox(item.getBBox()),
-    item
+    item,
   }));
 
   // Calculate where the axis points should be positioned vertically.
-  verticalCenter = _.reduce(values,
+  const verticalCenter = _.reduce(values,
     (center, { box }) => Math.max(center, box.ay),
     0);
 
@@ -68,20 +65,17 @@ function spaceHorizontally(items, options) {
 // - __items__ - Array of items to be positioned
 // - __options.padding__ - Number of pixels to leave between items
 function spaceVertically(items, options) {
-  var horizontalCenter,
-      values;
-
   options = _.defaults(options || {}, {
-    padding: 0
+    padding: 0,
   });
 
-  values = _.map(items, item => ({
+  const values = _.map(items, item => ({
     box: item.getBBox(),
-    item
+    item,
   }));
 
   // Calculate where the center of each item should be positioned horizontally.
-  horizontalCenter = _.reduce(values,
+  const horizontalCenter = _.reduce(values,
     (center, { box }) =>  Math.max(center, box.cx),
     0);
 
@@ -146,5 +140,5 @@ export default {
   tick,
   exposeError,
   icon,
-  track
+  track,
 };

@@ -6,12 +6,12 @@ describe('util.js', function() {
   describe('customEvent', function() {
 
     it('sets the event type', function() {
-      var event = util.customEvent('example');
+      const event = util.customEvent('example');
       expect(event.type).toEqual('example');
     });
 
     it('sets the event detail', function() {
-      var event = util.customEvent('example', 'detail');
+      const event = util.customEvent('example', 'detail');
       expect(event.detail).toEqual('detail');
     });
 
@@ -24,14 +24,14 @@ describe('util.js', function() {
         x: 'bbox x',
         x2: 'bbox x2',
         cy: 'bbox cy',
-        ay: 'bbox ay'
+        ay: 'bbox ay',
       })).toEqual({
         x: 'bbox x',
         x2: 'bbox x2',
         cy: 'bbox cy',
         ax: 'bbox x',
         ax2: 'bbox x2',
-        ay: 'bbox ay'
+        ay: 'bbox ay',
       });
     });
 
@@ -40,12 +40,12 @@ describe('util.js', function() {
   describe('spaceHorizontally', function() {
 
     it('positions each item', function() {
-      var svg = Snap(document.createElement('svg')),
-          items = [
-            svg.group(),
-            svg.group(),
-            svg.group()
-          ];
+      const svg = Snap(document.createElement('svg'));
+      const items = [
+        svg.group(),
+        svg.group(),
+        svg.group(),
+      ];
 
       spyOn(items[0], 'getBBox').and.returnValue({ ay: 5, width: 10 });
       spyOn(items[1], 'getBBox').and.returnValue({ ay: 15, width: 30 });
@@ -69,12 +69,12 @@ describe('util.js', function() {
   describe('spaceVertically', function() {
 
     it('positions each item', function() {
-      var svg = Snap(document.createElement('svg')),
-          items = [
-            svg.group(),
-            svg.group(),
-            svg.group()
-          ];
+      const svg = Snap(document.createElement('svg'));
+      const items = [
+        svg.group(),
+        svg.group(),
+        svg.group(),
+      ];
 
       spyOn(items[0], 'getBBox').and.returnValue({ cx: 5, height: 10 });
       spyOn(items[1], 'getBBox').and.returnValue({ cx: 15, height: 30 });

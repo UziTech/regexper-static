@@ -11,22 +11,22 @@ export default {
 
   // Renders the regexp into the currently set container.
   _render() {
-    let matchContainer = this.container.group()
+    const matchContainer = this.container.group()
       .addClass('regexp-matches')
       .transform(Snap.matrix()
         .translate(20, 0));
 
     // Renders each match into the match container.
     return Promise.all(_.map(this.matches,
-      match => match.render(matchContainer.group())
+      match => match.render(matchContainer.group()),
     ))
       .then(() => {
-        let containerBox,
-            paths;
+        let containerBox;
+        let paths;
 
         // Space matches vertically in the match container.
         util.spaceVertically(this.matches, {
-          padding: 5
+          padding: 5,
         });
 
         containerBox = this.getBBox();
@@ -58,19 +58,19 @@ export default {
   // - __containerBox__ - Bounding box of the container.
   // - __match__ - Match node that the line will be drawn to.
   makeSide(containerBox, match) {
-    let box = match.getBBox(),
-        distance = Math.abs(box.ay - containerBox.cy);
+    const box = match.getBBox();
+    const distance = Math.abs(box.ay - containerBox.cy);
 
     // Only need to draw side lines if the match is more than 15 pixels from
     // the vertical center of the rendered regexp. Less that 15 pixels will be
     // handled by the curve directly.
     if (distance >= 15) {
-      let shift = (box.ay > containerBox.cy) ? 10 : -10,
-          edge = box.ay - shift;
+      const shift = (box.ay > containerBox.cy) ? 10 : -10;
+      const edge = box.ay - shift;
 
       return [
         `M0,${containerBox.cy}q10,0 10,${shift}V${edge}`,
-        `M${containerBox.width + 40},${containerBox.cy}q-10,0 -10,${shift}V${edge}`
+        `M${containerBox.width + 40},${containerBox.cy}q-10,0 -10,${shift}V${edge}`,
       ];
     }
   },
@@ -81,26 +81,26 @@ export default {
   // - __containerBox__ - Bounding box of the container.
   // - __match__ - Match node that the line will be drawn to.
   makeCurve(containerBox, match) {
-    let box = match.getBBox(),
-        distance = Math.abs(box.ay - containerBox.cy);
+    const box = match.getBBox();
+    const distance = Math.abs(box.ay - containerBox.cy);
 
     if (distance >= 15) {
       // For match nodes more than 15 pixels from the center of the regexp, a
       // quarter-circle curve is used to connect to the sideline.
-      let curve = (box.ay > containerBox.cy) ? 10 : -10;
+      const curve = (box.ay > containerBox.cy) ? 10 : -10;
 
       return [
         `M10,${box.ay - curve}q0,${curve} 10,${curve}`,
-        `M${containerBox.width + 30},${box.ay - curve}q0,${curve} -10,${curve}`
+        `M${containerBox.width + 30},${box.ay - curve}q0,${curve} -10,${curve}`,
       ];
     } else {
       // For match nodes less than 15 pixels from the center of the regexp, a
       // slightly curved line is used to connect to the sideline.
-      let anchor = box.ay - containerBox.cy;
+      const anchor = box.ay - containerBox.cy;
 
       return [
         `M0,${containerBox.cy}c10,0 10,${anchor} 20,${anchor}`,
-        `M${containerBox.width + 40},${containerBox.cy}c-10,0 -10,${anchor} -20,${anchor}`
+        `M${containerBox.width + 40},${containerBox.cy}c-10,0 -10,${anchor} -20,${anchor}`,
       ];
     }
   },
@@ -111,7 +111,7 @@ export default {
   // - __containerBox__ - Bounding box of the container.
   // - __match__ - Match node that the line will be drawn to.
   makeConnector(containerBox, match) {
-    let box = match.getBBox();
+    const box = match.getBBox();
 
     return `M0,${box.ay}h${box.ax}M${box.ax2},${box.ay}H${containerBox.width}`;
   },
@@ -124,8 +124,8 @@ export default {
       // Merge all the match nodes into one array.
       this.matches = [this.properties.match].concat(
         _.map(this.properties.alternates.elements,
-          element => element.properties.match)
+          element => element.properties.match),
       );
     }
-  }
+  },
 };

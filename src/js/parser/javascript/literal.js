@@ -8,7 +8,7 @@ export default {
   _render() {
     return this.renderLabel(['\u201c', this.literal, '\u201d'])
       .then(label => {
-        let spans = label.selectAll('tspan');
+        const spans = label.selectAll('tspan');
 
         // The quote marks get some styling to lighten their color so they are
         // distinct from the actual literal value.
@@ -17,7 +17,7 @@ export default {
 
         label.select('rect').attr({
           rx: 3,
-          ry: 3
+          ry: 3,
         });
 
         return label;
@@ -37,5 +37,5 @@ export default {
     // Ordinal value of the literal for use in
     // [CharsetRange](./charset_range.html).
     this.ordinal = this.literal.charCodeAt(0);
-  }
+  },
 };

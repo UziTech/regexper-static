@@ -14,7 +14,7 @@ import _ from 'lodash';
   // Initialize the main page of the site. Functionality is kept in the
   // [Regexper class](./regexper.html).
   if (document.body.querySelector('#content .application')) {
-    let regexper = new Regexper(document.body);
+    const regexper = new Regexper(document.body);
 
     regexper.detectBuggyHash();
     regexper.bindListeners();

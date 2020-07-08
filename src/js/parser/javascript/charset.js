@@ -14,13 +14,13 @@ export default {
     // middle of the container, which would take the label into account.
     _anchor: {
       get: function() {
-        var matrix = this.transform().localMatrix;
+        const matrix = this.transform().localMatrix;
 
         return {
-          ay: matrix.y(0, this.partContainer.getBBox().cy)
+          ay: matrix.y(0, this.partContainer.getBBox().cy),
         };
-      }
-    }
+      },
+    },
   },
 
   // Renders the charset into the currently set container.
@@ -29,17 +29,17 @@ export default {
 
     // Renders each part of the charset into the part container.
     return Promise.all(_.map(this.elements,
-      part => part.render(this.partContainer.group())
+      part => part.render(this.partContainer.group()),
     ))
       .then(() => {
         // Space the parts of the charset vertically in the part container.
         util.spaceVertically(this.elements, {
-          padding: 5
+          padding: 5,
         });
 
         // Label the part container.
         return this.renderLabeledBox(this.label, this.partContainer, {
-          padding: 5
+          padding: 5,
         });
       });
   },
@@ -65,5 +65,5 @@ export default {
     if (this.textValue.match(/\\c[^a-zA-Z]/)) {
       this.state.warnings.push(`The character set "${this.textValue}" contains the \\c escape followed by a character other than A-Z. This can lead to different behavior depending on browser. The representation here is the most common interpretation.`);
     }
-  }
+  },
 }
