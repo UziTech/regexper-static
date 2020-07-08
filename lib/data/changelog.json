@@ -3,7 +3,7 @@
     "label": "July 8, 2020 Release",
     "changes": [
       "Update dependencies",
-      "Add positive lookbehinds",
+      "Add lookbehinds",
       "Add named groups",
       "Release on GitHub Pages"
     ]
