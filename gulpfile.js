@@ -10,7 +10,7 @@ const gulp = require('gulp'),
       rename = require('gulp-rename'),
       config = require('./config'),
       gutil = require('gulp-util'),
-      webpackRun = require('webpack'),
+      webpack = require('webpack'),
       webpackConfig = require('./webpack.config'),
       fs = require('fs');
 
@@ -27,7 +27,7 @@ function watch() {
   gulp.watch(_.flatten([
     config.globs.sass,
     config.globs.js
-  ]), webpack);
+  ]), bundle);
   // gulp.watch(config.globs.js, docs);
 }
 
@@ -102,8 +102,8 @@ function cleanDocs() {
   return del('docs');
 }
 
-function webpackTask(callback) {
-  webpackRun(webpackConfig, function(err, stats) {
+function buildFiles(callback) {
+  webpack(webpackConfig, function(err, stats) {
     if (err) {
       throw new gutil.PluginError('webpack', err);
     }
@@ -112,9 +112,9 @@ function webpackTask(callback) {
   });
 }
 
-const webpack = gulp.series(webpackTask, discard);
+const bundle = gulp.series(buildFiles, discard);
 const docs = gulp.series(cleanDocs, docsFiles, docsTOC);
-const build = gulp.series(cleanBuild, staticFiles, webpack, markup);
+const build = gulp.series(cleanBuild, staticFiles, bundle, markup);
 const serve = gulp.parallel(watch, server);
 
 exports.clean = gulp.series(cleanDocs, cleanBuild);
