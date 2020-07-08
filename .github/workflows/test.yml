@@ -64,7 +64,7 @@ jobs:
             await github.issues.createComment({
               owner: context.payload.repository.owner.login,
               repo: context.payload.repository.name,
-              pull_number: context.payload.pull_request.number,
+              issue_number: context.payload.pull_request.number,
               body: '@dependabot merge'
             })
 
