@@ -102,7 +102,7 @@ function cleanDocs() {
   return del('docs');
 }
 
-function webpack(callback) {
+function webpackTask(callback) {
   webpackRun(webpackConfig, function(err, stats) {
     if (err) {
       throw new gutil.PluginError('webpack', err);
@@ -112,8 +112,9 @@ function webpack(callback) {
   });
 }
 
+const webpack = gulp.series(webpackTask, discard);
 const docs = gulp.series(cleanDocs, docsFiles, docsTOC);
-const build = gulp.series(cleanBuild, staticFiles, webpack, discard, markup);
+const build = gulp.series(cleanBuild, staticFiles, webpack, markup);
 const serve = gulp.parallel(watch, server);
 
 exports.clean = gulp.series(cleanDocs, cleanBuild);
