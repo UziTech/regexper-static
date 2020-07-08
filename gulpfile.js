@@ -28,10 +28,10 @@ function watch() {
     config.globs.sass,
     config.globs.js
   ]), webpack);
-  gulp.watch(config.globs.js, docs);
+  // gulp.watch(config.globs.js, docs);
 }
 
-function docs() {
+function docsTOC() {
   folderToc('./docs', {
     filter: '*.html'
   });
@@ -94,8 +94,12 @@ function discard() {
   return del('build/__discard__');
 }
 
-function clean() {
+function cleanBuild() {
   return del('build');
+}
+
+function cleanDocs() {
+  return del('docs');
 }
 
 function webpack(callback) {
@@ -108,6 +112,12 @@ function webpack(callback) {
   });
 }
 
-const build = gulp.series(clean, staticFiles, webpack, discard, markup);
+const docs = gulp.series(cleanDocs, docsFiles, docsTOC);
+const build = gulp.series(cleanBuild, staticFiles, webpack, discard, markup);
+const serve = gulp.parallel(watch, server);
+
+exports.clean = gulp.series(cleanDocs, cleanBuild);
+exports.docs = docs;
 exports.build = build;
-exports.default = gulp.series(build, server, docsFiles, docs, watch);
+exports.serve = serve;
+exports.default = gulp.series(build/*, docs*/, serve);
