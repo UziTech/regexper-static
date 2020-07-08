@@ -94,6 +94,10 @@ function discard() {
   return del('build/__discard__');
 }
 
+function clean() {
+  return del('build');
+}
+
 function webpack(callback) {
   webpackRun(webpackConfig, function(err, stats) {
     if (err) {
@@ -104,6 +108,6 @@ function webpack(callback) {
   });
 }
 
-const build = gulp.series(staticFiles, webpack, discard, markup);
+const build = gulp.series(clean, staticFiles, webpack, discard, markup);
 exports.build = build;
 exports.default = gulp.series(build, server, docsFiles, docs, watch);
