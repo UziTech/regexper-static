@@ -3,6 +3,7 @@ const gulp = require('gulp'),
       notify = require('gulp-notify'),
       folderToc = require('folder-toc'),
       docco = require('gulp-docco'),
+      del = require("del"),
       connect = require('gulp-connect'),
       hb = require('gulp-hb'),
       frontMatter = require('gulp-front-matter'),
@@ -89,6 +90,10 @@ function markup() {
     .pipe(gulp.dest(config.buildRoot));
 }
 
+function discard() {
+  return del('build/__discard__');
+}
+
 function webpack(callback) {
   webpackRun(webpackConfig, function(err, stats) {
     if (err) {
@@ -99,6 +104,6 @@ function webpack(callback) {
   });
 }
 
-const build = gulp.series(staticFiles, webpack, markup);
+const build = gulp.series(staticFiles, webpack, discard, markup);
 exports.build = build;
 exports.default = gulp.series(build, server, docsFiles, docs, watch);
