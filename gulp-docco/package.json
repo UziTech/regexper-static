@@ -1,0 +1,49 @@
+{
+  "name": "gulp-docco",
+  "version": "0.0.4",
+  "description": "A docco plugin for Gulp",
+  "keywords": [
+    "gulpplugin",
+    "docco",
+    "documentation",
+    "javascript",
+    "gulp"
+  ],
+  "homepage": "https://github.com/jsBoot/gulp-docco",
+  "bugs": {
+    "url": "https://github.com/jsBoot/gulp-docco/issues",
+    "email": "dev@webitup.fr"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Mangled Deutz",
+    "email": "olivier@webitup.fr",
+    "url": "https://github.com/dmp42"
+  },
+  "contributors": [],
+  "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jsBoot/gulp-docco.git"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "through2": "^4.0.2",
+    "gulp-util": "^3.0.8",
+    "vinyl-fs": "^3.0.3",
+    "docco": "^0.8.0",
+    "underscore": "^1.10.2",
+    "marked": "^1.1.0"
+  },
+  "devDependencies": {
+    "event-stream": "^4.0.1",
+    "jest": "^26.1.0"
+  },
+  "engines": {
+    "node": ">=0.10.0",
+    "npm": ">=1.0.0"
+  },
+  "private": false
+}

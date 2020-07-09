@@ -31,10 +31,11 @@ function watch() {
   // gulp.watch(config.globs.js, docs);
 }
 
-function docsTOC() {
+function docsTOC(cb) {
   folderToc('./docs', {
     filter: '*.html',
   });
+  cb()
 }
 
 function docsFiles() {
