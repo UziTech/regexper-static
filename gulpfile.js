@@ -28,7 +28,7 @@ function watch() {
     config.globs.sass,
     config.globs.js,
   ]), bundle);
-  // gulp.watch(config.globs.js, docs);
+  gulp.watch(config.globs.js, docs);
 }
 
 function docsTOC(cb) {
@@ -122,4 +122,4 @@ exports.clean = gulp.series(cleanDocs, cleanBuild);
 exports.docs = docs;
 exports.build = build;
 exports.serve = serve;
-exports.default = gulp.series(build/*, docs*/, serve);
+exports.default = gulp.series(build, docs, serve);
