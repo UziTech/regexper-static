@@ -42,7 +42,8 @@ grammar JavascriptRegexp
             / escape <Escape>
             / literal <Literal>
   escape <- "\\" esc:(
-         code:[bBdDfnrsStvwW1-9] arg:""?
+         code:[bBdDfnrsStvwW] arg:""?
+       / code:[1-9] arg:numeric*
        / control_escape
        / octal_escape
        / hex_escape

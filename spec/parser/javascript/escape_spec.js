@@ -28,6 +28,7 @@ describe('parser/javascript/escape.js', function() {
     '\\7': { label: 'Back reference (group = 7)', ordinal: -1 },
     '\\8': { label: 'Back reference (group = 8)', ordinal: -1 },
     '\\9': { label: 'Back reference (group = 9)', ordinal: -1 },
+    '\\999': { label: 'Back reference (group = 999)', ordinal: -1 },
     '\\012': { label: 'octal: 12 (0x0A)', ordinal: 10 },
     '\\cx': { label: 'ctrl-X (0x18)', ordinal: 24 },
     '\\xab': { label: '0xAB', ordinal: 0xab },
