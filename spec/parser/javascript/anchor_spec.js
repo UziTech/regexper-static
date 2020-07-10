@@ -1,4 +1,4 @@
-import javascript from '../../../src/js/parser/javascript/parser.js';
+import javascript from '../../../src/js/parser/javascript/grammer.js';
 import _ from 'lodash';
 
 describe('parser/javascript/anchor.js', function() {

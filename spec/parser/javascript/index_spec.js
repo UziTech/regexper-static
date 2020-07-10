@@ -1,4 +1,4 @@
-import Parser from '../../../src/js/parser/javascript/index.js';
+import Parser from '../../../src/js/parser/index.js';
 import regexpParser from '../../../src/js/parser/javascript/grammar.peg';
 import Snap from 'snapsvg-cjs';
 

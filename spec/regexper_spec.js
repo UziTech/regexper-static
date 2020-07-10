@@ -1,6 +1,6 @@
 import util from '../src/js/util.js';
 import Regexper from '../src/js/regexper.js';
-import Parser from '../src/js/parser/javascript/index.js';
+import Parser from '../src/js/parser/index.js';
 
 describe('regexper.js', function() {
 

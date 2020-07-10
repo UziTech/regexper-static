@@ -7,7 +7,7 @@
 
 import util from './util.js';
 import Regexper from './regexper.js';
-import Parser from './parser/javascript/index.js';
+import Parser from './parser/index.js';
 import _ from 'lodash';
 
 (function() {
@@ -28,7 +28,7 @@ import _ from 'lodash';
   // Any element with a `data-expr` attribute will contain a rendering of the
   // provided regular expression.
   _.each(document.querySelectorAll('[data-expr]'), element => {
-    new Parser(element, { keepContent: true })
+    new Parser(element, { keepContent: true, grammer: "javascript" })
       .parse(element.getAttribute('data-expr'))
       .then(parser => {
         parser.render();

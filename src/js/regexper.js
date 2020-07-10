@@ -2,8 +2,7 @@
 // application. This includes event handlers for all user interactions.
 
 import util from './util.js';
-import JavascriptParser from './parser/javascript/index.js';
-import JavascriptES5Parser from './parser/javascriptES5/index.js';
+import Parser from './parser/index.js';
 import _ from 'lodash';
 
 export default class Regexper {
@@ -22,11 +21,6 @@ export default class Regexper {
     this.downloadPng = this.links.querySelector('a[data-action="download-png"]');
 
     this.svgContainer = root.querySelector('#regexp-render');
-
-    this.flavors = {
-      javascript: JavascriptParser,
-      javascriptes5: JavascriptES5Parser,
-    };
   }
 
   // Event handler for key presses in the regular expression form field.
@@ -249,9 +243,7 @@ export default class Regexper {
     util.track('send', 'event', 'visualization', 'start');
     const startTime = new Date().getTime();
 
-    const Flavor = this.flavors[this.flavor.value];
-
-    this.running = new Flavor(this.svgContainer);
+    this.running = new Parser(this.svgContainer, { grammer: this.flavor.value });
 
     return this.running
       // Parse the expression.

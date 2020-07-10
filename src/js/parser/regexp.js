@@ -1,9 +1,8 @@
-/* globals Snap */
-
 // Regexp nodes are the entire regular expression. They consist of a collection
 // of [Match](./match.html) nodes separated by `|`.
 
-import util from '../../util.js';
+import Snap from 'snapsvg-cjs';
+import util from '../util.js';
 import _ from 'lodash';
 
 export default {
