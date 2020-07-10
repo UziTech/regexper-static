@@ -2,7 +2,7 @@ grammar JavascriptRegexp
   root <- ( ( "/" regexp "/" flags:[yigmus]* ) / regexp flags:""? ) <Root>
   regexp <- match:match alternates:( "|" match )* <Regexp>
   match <- (!repeat) parts:match_fragment* <Match>
-  anchor <- ( "^" / "$" ) <Anchor>
+  anchor <- ( "^" / "$" / "\\" [AGZz] ) <Anchor>
   match_fragment <- content:( anchor / subexp / comment / charset / terminal ) repeat:repeat? <MatchFragment>
   repeat <- spec:( repeat_any / repeat_required / repeat_optional / repeat_spec ) greedy:"?"? <Repeat>
   repeat_any <- "*" <RepeatAny>
