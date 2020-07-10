@@ -21,11 +21,11 @@ svg {
   stroke: $black;
 }
 
-.anchor text, .any-character text {
+.anchor text, .any-character text, .comment text {
   fill: $white;
 }
 
-.anchor rect, .any-character rect {
+.anchor rect, .any-character rect, .comment rect {
   fill: $gray;
 }
 

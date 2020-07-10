@@ -29,6 +29,7 @@ export default {
     '?!': 'negative lookahead',
     '?<=': 'positive lookbehind',
     '?<!': 'negative lookbehind',
+    '?>': 'atomic group',
   },
 
   // Renders the subexp into the currently set container.

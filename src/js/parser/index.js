@@ -12,9 +12,11 @@ import ParserState from './parser_state.js';
 
 import javascriptGrammer from './javascript/grammer.js';
 import javascriptes5Grammer from './javascriptES5/grammer.js';
+import phpGrammer from './php/grammer.js';
 const grammers = {
   javascript: javascriptGrammer,
   javascriptes5: javascriptes5Grammer,
+  php: phpGrammer,
 };
 
 export default class Parser {
