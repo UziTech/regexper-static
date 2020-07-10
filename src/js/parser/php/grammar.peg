@@ -4,7 +4,7 @@ grammar JavascriptRegexp
   match <- (!repeat) parts:match_fragment* <Match>
   anchor <- ( "^" / "$" / "\\" [AGZz] ) <Anchor>
   match_fragment <- content:( anchor / subexp / comment / charset / terminal ) repeat:repeat? <MatchFragment>
-  repeat <- spec:( repeat_any / repeat_required / repeat_optional / repeat_spec ) greedy:"?"? <Repeat>
+  repeat <- spec:( repeat_any / repeat_required / repeat_optional / repeat_spec ) modifier:[?+]? <Repeat>
   repeat_any <- "*" <RepeatAny>
   repeat_required <- "+" <RepeatRequired>
   repeat_optional <- "?" <RepeatOptional>
@@ -17,7 +17,8 @@ grammar JavascriptRegexp
   alpha <- [a-zA-Z]
   numeric <- [0-9]
   charset <- "[" invert:"^"? parts:( posix / charset_range / charset_terminal )* "]" <Charset>
-  posix <- "[:" invert:"^"? name:( / "<" / ">" /"alnum" / "alpha" / "ascii" / "blank" / "cntrl" / "digit" / "graph" / "lower" / "print" / "punct" / "space" / "upper" / "word" / "xdigit" ) ":]" <Posix>
+  posix <- "[:" invert:"^"? name:posix_name ":]" <Posix>
+  posix_name <- ( "<" / ">" / "alnum" / "alpha" / "ascii" / "blank" / "cntrl" / "digit" / "graph" / "lower" / "print" / "punct" / "space" / "upper" / "word" / "xdigit" )
   charset_range <- first:charset_range_terminal "-" last:charset_range_terminal <CharsetRange>
   charset_terminal <- charset_escape <CharsetEscape>
                     / charset_literal <Literal>
