@@ -47,13 +47,17 @@ export default {
   },
 
   // Escape code mappings
+  a: ['bell', 0x07, true],
   b: ['word boundary', -1, false],
   B: ['non-word boundary', -1, false],
   d: ['digit', -1, false],
   D: ['non-digit', -1, false],
+  e: ['escape', 0x1b, true],
   f: ['form feed', 0x0c, true],
   n: ['line feed', 0x0a, true],
+  N: ['not line break', -1, false],
   r: ['carriage return', 0x0d, true],
+  R: ['any line break', -1, false],
   s: ['white space', -1, false],
   S: ['non-white space', -1, false],
   t: ['tab', 0x09, true],
