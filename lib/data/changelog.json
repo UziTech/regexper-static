@@ -1,5 +1,11 @@
 [
   {
+    "label": "July 9, 2020 Release",
+    "changes": [
+      "Add `s` flag"
+    ]
+  },
+  {
     "label": "July 8, 2020 Release",
     "changes": [
       "Update dependencies",
