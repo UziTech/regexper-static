@@ -33,6 +33,10 @@ describe('parser/javascript/root.js', function() {
       flags: ['Unicode'],
       regexp: jasmine.objectContaining({ textValue: 'test' }),
     },
+    '/test/s': {
+      flags: ['Dot All'],
+      regexp: jasmine.objectContaining({ textValue: 'test' }),
+    },
     '/test/mgi': {
       flags: ['Global', 'Ignore Case', 'Multiline'],
       regexp: jasmine.objectContaining({ textValue: 'test' }),

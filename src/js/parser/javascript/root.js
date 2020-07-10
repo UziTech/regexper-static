@@ -14,6 +14,7 @@ export default {
     m: 'Multiline',
     y: 'Sticky',
     u: 'Unicode',
+    s: 'Dot All',
   },
 
   // Renders the root into the currently set container.
