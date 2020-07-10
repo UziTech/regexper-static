@@ -2,7 +2,7 @@
 // rendered as a labeled box with each literal, escape, and range rendering
 // handled by the nested node(s).
 
-import util from '../../util.js';
+import util from '../util.js';
 import _ from 'lodash';
 
 export default {
@@ -66,4 +66,4 @@ export default {
       this.state.warnings.push(`The character set "${this.textValue}" contains the \\c escape followed by a character other than A-Z. This can lead to different behavior depending on browser. The representation here is the most common interpretation.`);
     }
   },
-}
+};

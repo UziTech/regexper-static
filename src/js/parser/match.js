@@ -3,7 +3,7 @@
 // nodes. Optional `^` and `$` symbols are also allowed at the beginning and
 // end of the Match.
 
-import util from '../../util.js';
+import util from '../util.js';
 import _ from 'lodash';
 
 export default {

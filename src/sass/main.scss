@@ -269,6 +269,13 @@ header {
       cursor: pointer;
     }
 
+		select {
+      @include adjust-font-size-to($base-font-size);
+			margin: 0 10px;
+      padding: 2px;
+      float: left;
+		}
+
     ul {
       float: right;
       display: none;

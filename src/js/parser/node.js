@@ -1,9 +1,8 @@
-/* globals Snap */
-
 // Base class for all nodes in the parse tree. An instance of this class is
 // created for each parsed node, and then extended with one of the node-type
 // modules.
-import util from '../../util.js';
+import Snap from 'snapsvg-cjs';
+import util from '../util.js';
 import _ from 'lodash';
 
 export default class Node {
@@ -51,7 +50,7 @@ export default class Node {
   // The anchor defined the points on the left and right of the rendered node
   // that the centerline of the rendered expression connects to. For most
   // nodes, this element will be defined by the normalizeBBox method in
-  // [Util](../../util.html).
+  // [Util](../util.html).
   get anchor() {
     if (this.proxy) {
       return this.proxy.anchor;

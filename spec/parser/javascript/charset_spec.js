@@ -1,5 +1,5 @@
-import javascript from '../../../src/js/parser/javascript/parser.js';
-import Node from '../../../src/js/parser/javascript/node.js';
+import javascript from '../../../src/js/parser/javascript/grammer.js';
+import Node from '../../../src/js/parser/node.js';
 import util from '../../../src/js/util.js';
 import _ from 'lodash';
 import Snap from 'snapsvg-cjs';

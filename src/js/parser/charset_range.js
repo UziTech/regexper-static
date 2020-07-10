@@ -1,7 +1,7 @@
 // CharsetRange nodes are used for `[a-z]` regular expression syntax. The two
 // literal or escape nodes are rendered with a hyphen between them.
 
-import util from '../../util.js';
+import util from '../util.js';
 
 export default {
   type: 'charset-range',

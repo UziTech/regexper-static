@@ -22,12 +22,13 @@ function watch() {
     config.globs.data,
     config.globs.helpers,
     config.globs.partials,
-    config.globs.svg_sass,
   ]), markup);
   gulp.watch(_.flatten([
-    config.globs.sass,
     config.globs.js,
   ]), bundle);
+  gulp.watch(_.flatten([
+    config.globs.sass,
+  ]), gulp.series(bundle, markup));
   gulp.watch(config.globs.js, docs);
 }
 
@@ -35,7 +36,7 @@ function docsTOC(cb) {
   folderToc('./docs', {
     filter: '*.html',
   });
-  cb()
+  cb();
 }
 
 function docsFiles() {

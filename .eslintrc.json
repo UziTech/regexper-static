@@ -91,6 +91,7 @@
       }
     ],
     "no-var": "error",
-    "prefer-const": "error"
+    "prefer-const": "error",
+    "semi": "error"
   }
 }

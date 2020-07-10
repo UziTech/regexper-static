@@ -1,30 +1,38 @@
 // Entry point for the JavaScript-flavor regular expression parsing and
 // rendering. Actual parsing code is in
-// [parser.js](./javascript/parser.html) and the grammar file. Rendering code
+// [parser.js](./parser.html) and the grammar file. Rendering code
 // is contained in the various subclasses of
-// [Node](./javascript/node.html)
+// [Node](./node.html)
 
 import Snap from 'snapsvg-cjs';
 import _ from 'lodash';
 
 import util from '../util.js';
-import javascript from './javascript/parser.js';
-import ParserState from './javascript/parser_state.js';
+import ParserState from './parser_state.js';
+
+import javascriptGrammer from './javascript/grammer.js';
+import javascriptes5Grammer from './javascriptES5/grammer.js';
+const grammers = {
+  javascript: javascriptGrammer,
+  javascriptes5: javascriptes5Grammer,
+};
 
 export default class Parser {
   // - __container__ - DOM node that will contain the rendered expression
   // - __options.keepContent__ - Boolean indicating if content of the container
   //    should be preserved after rendering. Defaults to false (don't keep
   //    contents)
-  constructor(container, options) {
-    this.options = options || {};
-    _.defaults(this.options, {
+  constructor(container, options = {}) {
+    this.options = {
       keepContent: false,
-    });
+      grammer: "javascript",
+      ...options,
+    };
 
     this.container = container;
+    this.parser = grammers[this.options.grammer];
 
-    // The [ParserState](./javascript/parser_state.html) instance is used to
+    // The [ParserState](./parser_state.html) instance is used to
     // communicate between the parser and a running render, and to update the
     // progress bar for the running render.
     this.state = new ParserState(this.container.querySelector('.progress div'));
@@ -61,7 +69,7 @@ export default class Parser {
   }
 
   // Parse a regular expression into a tree of
-  // [Nodes](./javascript/node.html) that can then be used to render an SVG.
+  // [Nodes](./node.html) that can then be used to render an SVG.
   // - __expression__ - Regular expression to parse.
   parse(expression) {
     this._addClass('loading');
@@ -69,9 +77,9 @@ export default class Parser {
     // Allow the browser to repaint before parsing so that the loading bar is
     // displayed before the (possibly lengthy) parsing begins.
     return util.tick().then(() => {
-      javascript.Parser.SyntaxNode.state = this.state;
+      this.parser.Parser.SyntaxNode.state = this.state;
 
-      this.parsed = javascript.parse(expression.replace(/\n/g, '\\n'));
+      this.parsed = this.parser.parse(expression.replace(/\n/g, '\\n'));
       return this;
     });
   }

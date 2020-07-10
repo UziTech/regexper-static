@@ -1,8 +1,8 @@
-import Parser from '../../src/js/parser/javascript.js';
-import regexpParser from '../../src/js/parser/javascript/grammar.peg';
+import Parser from '../../../src/js/parser/index.js';
+import regexpParser from '../../../src/js/parser/javascript/grammar.peg';
 import Snap from 'snapsvg-cjs';
 
-describe('parser/javascript.js', function() {
+describe('parser/javascript/index.js', function() {
 
   beforeEach(function() {
     this.container = document.createElement('div');

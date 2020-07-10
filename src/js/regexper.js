@@ -2,7 +2,7 @@
 // application. This includes event handlers for all user interactions.
 
 import util from './util.js';
-import Parser from './parser/javascript.js';
+import Parser from './parser/index.js';
 import _ from 'lodash';
 
 export default class Regexper {
@@ -11,6 +11,7 @@ export default class Regexper {
     this.buggyHash = false;
     this.form = root.querySelector('#regexp-form');
     this.field = root.querySelector('#regexp-input');
+    this.flavor = root.querySelector('#flavor');
     this.error = root.querySelector('#error');
     this.warnings = root.querySelector('#warnings');
 
@@ -52,7 +53,7 @@ export default class Regexper {
     }
 
     try {
-      this._setHash(this.field.value);
+      this._setHash(`|flavor=${this.flavor.value}|${this.field.value}`);
     } catch (e) {
       // Failed to set the URL hash (probably because the expression is too
       // long). Turn off display of the permalink and just show the expression.
@@ -79,6 +80,7 @@ export default class Regexper {
   bindListeners() {
     this.field.addEventListener('keypress', this.keypressListener.bind(this));
     this.form.addEventListener('submit', this.submitListener.bind(this));
+    this.flavor.addEventListener('change', this.submitListener.bind(this));
     this.root.addEventListener('keyup', this.documentKeypressListener.bind(this));
     window.addEventListener('hashchange', this.hashchangeListener.bind(this));
   }
@@ -108,7 +110,7 @@ export default class Regexper {
   // URLs.
   _getHash() {
     try {
-      const hash = location.hash.slice(1)
+      const hash = location.hash.slice(1);
       return this.buggyHash ? hash : decodeURIComponent(hash);
     } catch (e) {
       return e;
@@ -132,7 +134,15 @@ export default class Regexper {
   //
   // - __expression__ - Regular expression to display.
   showExpression(expression) {
+    let flavor = "javascript";
+
+    const match = expression.match(/^\|flavor=(\w+)\|(.*)$/);
+    if (match) {
+      flavor = match[1];
+      expression = match[2];
+    }
     this.field.value = expression;
+    this.flavor.value = flavor;
     this.state = '';
 
     if (expression !== '') {
@@ -233,7 +243,7 @@ export default class Regexper {
     util.track('send', 'event', 'visualization', 'start');
     const startTime = new Date().getTime();
 
-    this.running = new Parser(this.svgContainer);
+    this.running = new Parser(this.svgContainer, { grammer: this.flavor.value });
 
     return this.running
       // Parse the expression.

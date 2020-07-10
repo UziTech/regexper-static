@@ -1,9 +1,8 @@
-/* globals Snap */
-
 // MatchFragment nodes are part of a [Match](./match.html) followed by an
 // optional [Repeat](./repeat.html) node. If no repeat is applied, then
 // rendering is proxied to the content node.
 
+import Snap from 'snapsvg-cjs';
 import _ from 'lodash';
 
 export default {

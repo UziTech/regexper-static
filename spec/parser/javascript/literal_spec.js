@@ -1,4 +1,4 @@
-import javascript from '../../../src/js/parser/javascript/parser.js';
+import javascript from '../../../src/js/parser/javascript/grammer.js';
 import Snap from 'snapsvg-cjs';
 
 describe('parser/javascript/literal.js', function() {

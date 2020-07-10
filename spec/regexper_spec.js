@@ -1,6 +1,6 @@
 import util from '../src/js/util.js';
 import Regexper from '../src/js/regexper.js';
-import Parser from '../src/js/parser/javascript.js';
+import Parser from '../src/js/parser/index.js';
 
 describe('regexper.js', function() {
 
@@ -9,6 +9,10 @@ describe('regexper.js', function() {
     this.root.innerHTML = [
       '<form id="regexp-form" action="/">',
       '<input type="text" id="regexp-input">',
+      '<select id="flavor">',
+      '<option value="javascript">Javascript</option>',
+      '<option value="javascriptes5">Javascript ES5</option>',
+      '</select>',
       '<ul class="example">',
       '<li><a href="#" data-action="download-svg"></a></li>',
       '<li><a href="#" data-action="download-png"></a></li>',
@@ -140,6 +144,7 @@ describe('regexper.js', function() {
       spyOn(this.event, 'preventDefault');
 
       this.regexper.field.value = 'example value';
+      this.regexper.flavor.value = 'javascriptes5';
     });
 
     it('prevents the default action', function() {
@@ -150,7 +155,7 @@ describe('regexper.js', function() {
 
     it('sets the location.hash', function() {
       this.regexper.submitListener(this.event);
-      expect(this.regexper._setHash).toHaveBeenCalledWith('example value');
+      expect(this.regexper._setHash).toHaveBeenCalledWith('|flavor=javascriptes5|example value');
     });
 
     describe('when setting location.hash fails', function() {

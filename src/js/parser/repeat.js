@@ -121,4 +121,4 @@ export default {
     this.hasSkip = (this.minimum === 0);
     this.hasLoop = (this.maximum === -1 || this.maximum > 1);
   },
-}
+};
