@@ -5,7 +5,9 @@
 import grammer from './grammar.peg';
 import parser from '../parser.js';
 import Escape from './escape.js';
+import CharsetEscape from './charset_escape.js';
 
 export default parser(grammer, {
   Escape,
+  CharsetEscape,
 });
