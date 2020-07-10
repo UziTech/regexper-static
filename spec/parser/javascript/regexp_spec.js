@@ -1,26 +1,28 @@
 import javascript from '../../../src/js/parser/javascript/grammer.js';
 import util from '../../../src/js/util.js';
-import _ from 'lodash';
 import Snap from 'snapsvg-cjs';
+import { testEach } from '../../helpers.js';
 
 describe('parser/javascript/regexp.js', function() {
 
-  _.forIn({
-    'test': {
-      proxy: jasmine.objectContaining({ textValue: 'test' }),
+  testEach(
+    'Regexp',
+    {
+      'test': {
+        proxy: jasmine.objectContaining({ textValue: 'test' }),
+      },
+      'part 1|part 2': {
+        matches: [
+          jasmine.objectContaining({ textValue: 'part 1' }),
+          jasmine.objectContaining({ textValue: 'part 2' }),
+        ],
+      },
     },
-    'part 1|part 2': {
-      matches: [
-        jasmine.objectContaining({ textValue: 'part 1' }),
-        jasmine.objectContaining({ textValue: 'part 2' }),
-      ],
-    },
-  }, (content, str) => {
-    it(`parses "${str}" as a Regexp`, function() {
+    str => {
       const parser = new javascript.Parser(str);
-      expect(parser.__consume__regexp()).toEqual(jasmine.objectContaining(content));
-    });
-  });
+      return parser.__consume__regexp();
+    },
+  );
 
   describe('#_render', function() {
 

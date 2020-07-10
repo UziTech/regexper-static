@@ -1,29 +1,31 @@
 import javascript from '../../../src/js/parser/javascript/grammer.js';
-import _ from 'lodash';
 import Snap from 'snapsvg-cjs';
+import { testEach } from '../../helpers.js';
 
 describe('parser/javascript/match_fragment.js', function() {
 
-  _.forIn({
-    'a': {
-      proxy: jasmine.objectContaining({ textValue: 'a' }),
-      canMerge: true,
+  testEach(
+    'MatchFragment',
+    {
+      'a': {
+        proxy: jasmine.objectContaining({ textValue: 'a' }),
+        canMerge: true,
+      },
+      '\\b': {
+        proxy: jasmine.objectContaining({ textValue: '\\b' }),
+        canMerge: false,
+      },
+      'a*': {
+        content: jasmine.objectContaining({ textValue: 'a' }),
+        repeat: jasmine.objectContaining({ textValue: '*' }),
+        canMerge: false,
+      },
     },
-    '\\b': {
-      proxy: jasmine.objectContaining({ textValue: '\\b' }),
-      canMerge: false,
-    },
-    'a*': {
-      content: jasmine.objectContaining({ textValue: 'a' }),
-      repeat: jasmine.objectContaining({ textValue: '*' }),
-      canMerge: false,
-    },
-  }, (content, str) => {
-    it(`parses "${str}" as a MatchFragment`, function() {
+    str => {
       const parser = new javascript.Parser(str);
-      expect(parser.__consume__match_fragment()).toEqual(jasmine.objectContaining(content));
-    });
-  });
+      return parser.__consume__match_fragment();
+    },
+  );
 
   describe('_anchor property', function() {
 

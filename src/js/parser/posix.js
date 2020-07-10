@@ -3,7 +3,7 @@
 export default {
   type: 'posix',
 
-  // Renders the escape into the currently set container.
+  // Renders the posix into the currently set container.
   _render() {
     return this.renderLabel(this.label)
       .then(label => {

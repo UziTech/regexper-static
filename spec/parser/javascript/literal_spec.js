@@ -1,25 +1,28 @@
 import javascript from '../../../src/js/parser/javascript/grammer.js';
 import Snap from 'snapsvg-cjs';
+import { testEach } from '../../helpers.js';
 
 describe('parser/javascript/literal.js', function() {
 
-  it('parses "x" as a Literal', function() {
-    const parser = new javascript.Parser('x');
-    expect(parser.__consume__terminal()).toEqual(jasmine.objectContaining({
-      type: 'literal',
-      literal: 'x',
-      ordinal: 120,
-    }));
-  });
-
-  it('parses "\\x" as a Literal', function() {
-    const parser = new javascript.Parser('\\x');
-    expect(parser.__consume__terminal()).toEqual(jasmine.objectContaining({
-      type: 'literal',
-      literal: 'x',
-      ordinal: 120,
-    }));
-  });
+  testEach(
+    'Literal',
+    {
+      'x': {
+        type: 'literal',
+        literal: 'x',
+        ordinal: 120,
+      },
+      '\\x': {
+        type: 'literal',
+        literal: 'x',
+        ordinal: 120,
+      },
+    },
+    str => {
+      const parser = new javascript.Parser(str);
+      return parser.__consume__terminal();
+    },
+  );
 
   describe('#_render', function() {
 
