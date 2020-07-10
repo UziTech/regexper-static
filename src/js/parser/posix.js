@@ -22,6 +22,8 @@ export default {
   },
 
   names: {
+    '<': "start of word",
+    '>': "end of word",
     alnum: "alphanumeric character",
     alpha: "alphabetic character",
     ascii: "ascii character",

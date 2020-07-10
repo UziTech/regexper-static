@@ -17,7 +17,7 @@ grammar JavascriptRegexp
   alpha <- [a-zA-Z]
   numeric <- [0-9]
   charset <- "[" invert:"^"? parts:( posix / charset_range / charset_terminal )* "]" <Charset>
-  posix <- "[:" invert:"^"? name:( "alnum" / "alpha" / "ascii" / "blank" / "cntrl" / "digit" / "graph" / "lower" / "print" / "punct" / "space" / "upper" / "word" / "xdigit" ) ":]" <Posix>
+  posix <- "[:" invert:"^"? name:( / "<" / ">" /"alnum" / "alpha" / "ascii" / "blank" / "cntrl" / "digit" / "graph" / "lower" / "print" / "punct" / "space" / "upper" / "word" / "xdigit" ) ":]" <Posix>
   charset_range <- first:charset_range_terminal "-" last:charset_range_terminal <CharsetRange>
   charset_terminal <- charset_escape <CharsetEscape>
                     / charset_literal <Literal>
