@@ -7,7 +7,7 @@
 
 import util from './util.js';
 import Regexper from './regexper.js';
-import Parser from './parser/javascript.js';
+import Parser from './parser/javascript/index.js';
 import _ from 'lodash';
 
 (function() {

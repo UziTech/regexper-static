@@ -7,9 +7,9 @@
 import Snap from 'snapsvg-cjs';
 import _ from 'lodash';
 
-import util from '../util.js';
-import javascript from './javascript/parser.js';
-import ParserState from './javascript/parser_state.js';
+import util from '../../util.js';
+import parser from './parser.js';
+import ParserState from './parser_state.js';
 
 export default class Parser {
   // - __container__ - DOM node that will contain the rendered expression
@@ -23,6 +23,7 @@ export default class Parser {
     });
 
     this.container = container;
+    this.parser = parser;
 
     // The [ParserState](./javascript/parser_state.html) instance is used to
     // communicate between the parser and a running render, and to update the
@@ -69,9 +70,9 @@ export default class Parser {
     // Allow the browser to repaint before parsing so that the loading bar is
     // displayed before the (possibly lengthy) parsing begins.
     return util.tick().then(() => {
-      javascript.Parser.SyntaxNode.state = this.state;
+      this.parser.Parser.SyntaxNode.state = this.state;
 
-      this.parsed = javascript.parse(expression.replace(/\n/g, '\\n'));
+      this.parsed = this.parser.parse(expression.replace(/\n/g, '\\n'));
       return this;
     });
   }
