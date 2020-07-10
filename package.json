@@ -10,7 +10,6 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "pretest": "yarn lint",
     "test": "karma start --single-run",
     "build": "gulp build",
     "docs": "gulp docs",
