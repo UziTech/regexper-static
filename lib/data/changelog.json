@@ -1,5 +1,11 @@
 [
   {
+    "label": "July 10, 2020 Release",
+    "changes": [
+      "Add flavor dropdown"
+    ]
+  },
+  {
     "label": "July 9, 2020 Release",
     "changes": [
       "Add `s` flag"
