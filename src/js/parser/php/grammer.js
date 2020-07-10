@@ -4,5 +4,8 @@
 // tree.
 import grammer from './grammar.peg';
 import parser from '../parser.js';
+import Escape from './escape.js';
 
-export default parser(grammer);
+export default parser(grammer, {
+  Escape,
+});
