@@ -1,13 +1,20 @@
 import javascript from '../../../src/js/parser/javascript/grammer.js';
+import { testEach } from '../../helpers.js';
 
 describe('parser/javascript/repeat_any.js', function() {
 
-  it('parses "*" as a RepeatAny', function() {
-    const parser = new javascript.Parser('*');
-    expect(parser.__consume__repeat_any()).toEqual(jasmine.objectContaining({
-      minimum: 0,
-      maximum: -1,
-    }));
-  });
+  testEach(
+    'RepeatAny',
+    {
+      '*': {
+        minimum: 0,
+        maximum: -1,
+      },
+    },
+    str => {
+      const parser = new javascript.Parser(str);
+      return parser.__consume__repeat_any();
+    },
+  );
 
 });

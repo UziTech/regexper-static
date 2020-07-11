@@ -1,53 +1,55 @@
 import javascript from '../../../src/js/parser/javascript/grammer.js';
 import Node from '../../../src/js/parser/node.js';
 import util from '../../../src/js/util.js';
-import _ from 'lodash';
 import Snap from 'snapsvg-cjs';
+import { testEach } from '../../helpers.js';
 
 describe('parser/javascript/charset.js', function() {
 
-  _.forIn({
-    '[abc]': {
-      label: 'One of:',
-      elements: [
-        jasmine.objectContaining({ type: 'literal', textValue: 'a' }),
-        jasmine.objectContaining({ type: 'literal', textValue: 'b' }),
-        jasmine.objectContaining({ type: 'literal', textValue: 'c' }),
-      ],
-    },
-    '[^abc]': {
-      label: 'None of:',
-      elements: [
-        jasmine.objectContaining({ type: 'literal', textValue: 'a' }),
-        jasmine.objectContaining({ type: 'literal', textValue: 'b' }),
-        jasmine.objectContaining({ type: 'literal', textValue: 'c' }),
-      ],
-    },
-    '[aaa]': {
-      label: 'One of:',
-      elements: [
-        jasmine.objectContaining({ type: 'literal', textValue: 'a' }),
-      ],
-    },
-    '[a-z]': {
-      label: 'One of:',
-      elements: [
-        jasmine.objectContaining({ type: 'charset-range', textValue: 'a-z' }),
-      ],
-    },
-    '[\\b]': {
-      label: 'One of:',
-      elements: [
-        jasmine.objectContaining({ type: 'charset-escape', textValue: '\\b' }),
-      ],
-    },
+  testEach(
+    'Charset',
+    {
+      '[abc]': {
+        label: 'One of:',
+        elements: [
+          jasmine.objectContaining({ type: 'literal', textValue: 'a' }),
+          jasmine.objectContaining({ type: 'literal', textValue: 'b' }),
+          jasmine.objectContaining({ type: 'literal', textValue: 'c' }),
+        ],
+      },
+      '[^abc]': {
+        label: 'None of:',
+        elements: [
+          jasmine.objectContaining({ type: 'literal', textValue: 'a' }),
+          jasmine.objectContaining({ type: 'literal', textValue: 'b' }),
+          jasmine.objectContaining({ type: 'literal', textValue: 'c' }),
+        ],
+      },
+      '[aaa]': {
+        label: 'One of:',
+        elements: [
+          jasmine.objectContaining({ type: 'literal', textValue: 'a' }),
+        ],
+      },
+      '[a-z]': {
+        label: 'One of:',
+        elements: [
+          jasmine.objectContaining({ type: 'charset-range', textValue: 'a-z' }),
+        ],
+      },
+      '[\\b]': {
+        label: 'One of:',
+        elements: [
+          jasmine.objectContaining({ type: 'charset-escape', textValue: '\\b' }),
+        ],
+      },
 
-  }, (content, str) => {
-    it(`parses "${str}" as a Charset`, function() {
+    },
+    str => {
       const parser = new javascript.Parser(str);
-      expect(parser.__consume__charset()).toEqual(jasmine.objectContaining(content));
-    });
-  });
+      return parser.__consume__charset();
+    },
+  );
 
   it('adds a warning for character sets the contain non-standard escapes', function() {
     Node.state = { warnings: [] };

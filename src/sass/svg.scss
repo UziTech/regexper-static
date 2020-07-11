@@ -21,19 +21,19 @@ svg {
   stroke: $black;
 }
 
-.anchor text, .any-character text {
+.anchor text, .any-character text, .comment text {
   fill: $white;
 }
 
-.anchor rect, .any-character rect {
+.escape text, .charset-escape text, .literal text, .posix text {
+	fill: $black;
+}
+
+.anchor rect, .any-character rect, .comment rect {
   fill: $gray;
 }
 
-.escape text, .charset-escape text, .literal text {
-  fill: $black;
-}
-
-.escape rect, .charset-escape rect {
+.escape rect, .charset-escape rect, .posix rect {
   fill: $green;
 }
 

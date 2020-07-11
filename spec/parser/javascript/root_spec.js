@@ -1,52 +1,54 @@
 import javascript from '../../../src/js/parser/javascript/grammer.js';
 import Snap from 'snapsvg-cjs';
-import _ from 'lodash';
+import { testEach } from '../../helpers.js';
 
 describe('parser/javascript/root.js', function() {
 
-  _.forIn({
-    'test': {
-      flags: [],
-      regexp: jasmine.objectContaining({ textValue: 'test' }),
+  testEach(
+    'Root',
+    {
+      'test': {
+        flags: [],
+        regexp: jasmine.objectContaining({ textValue: 'test' }),
+      },
+      '/test/': {
+        flags: [],
+        regexp: jasmine.objectContaining({ textValue: 'test' }),
+      },
+      '/test/i': {
+        flags: ['Ignore Case'],
+        regexp: jasmine.objectContaining({ textValue: 'test' }),
+      },
+      '/test/g': {
+        flags: ['Global'],
+        regexp: jasmine.objectContaining({ textValue: 'test' }),
+      },
+      '/test/m': {
+        flags: ['Multiline'],
+        regexp: jasmine.objectContaining({ textValue: 'test' }),
+      },
+      '/test/y': {
+        flags: ['Sticky'],
+        regexp: jasmine.objectContaining({ textValue: 'test' }),
+      },
+      '/test/u': {
+        flags: ['Unicode'],
+        regexp: jasmine.objectContaining({ textValue: 'test' }),
+      },
+      '/test/s': {
+        flags: ['Dot All'],
+        regexp: jasmine.objectContaining({ textValue: 'test' }),
+      },
+      '/test/mgi': {
+        flags: ['Global', 'Ignore Case', 'Multiline'],
+        regexp: jasmine.objectContaining({ textValue: 'test' }),
+      },
     },
-    '/test/': {
-      flags: [],
-      regexp: jasmine.objectContaining({ textValue: 'test' }),
-    },
-    '/test/i': {
-      flags: ['Ignore Case'],
-      regexp: jasmine.objectContaining({ textValue: 'test' }),
-    },
-    '/test/g': {
-      flags: ['Global'],
-      regexp: jasmine.objectContaining({ textValue: 'test' }),
-    },
-    '/test/m': {
-      flags: ['Multiline'],
-      regexp: jasmine.objectContaining({ textValue: 'test' }),
-    },
-    '/test/y': {
-      flags: ['Sticky'],
-      regexp: jasmine.objectContaining({ textValue: 'test' }),
-    },
-    '/test/u': {
-      flags: ['Unicode'],
-      regexp: jasmine.objectContaining({ textValue: 'test' }),
-    },
-    '/test/s': {
-      flags: ['Dot All'],
-      regexp: jasmine.objectContaining({ textValue: 'test' }),
-    },
-    '/test/mgi': {
-      flags: ['Global', 'Ignore Case', 'Multiline'],
-      regexp: jasmine.objectContaining({ textValue: 'test' }),
-    },
-  }, (content, str) => {
-    it(`parses "${str}" as a Root`, function() {
+    str => {
       const parser = new javascript.Parser(str);
-      expect(parser.__consume__root()).toEqual(jasmine.objectContaining(content));
-    });
-  });
+      return parser.__consume__root();
+    },
+  );
 
   describe('#_render', function() {
 

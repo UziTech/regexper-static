@@ -1,40 +1,42 @@
 import javascript from '../../../src/js/parser/javascript/grammer.js';
 import util from '../../../src/js/util.js';
-import _ from 'lodash';
 import Snap from 'snapsvg-cjs';
+import { testEach } from '../../helpers.js';
 
 describe('parser/javascript/match.js', function() {
 
-  _.forIn({
-    'example': {
-      parts: [
-        jasmine.objectContaining({
+  testEach(
+    'Match',
+    {
+      'example': {
+        parts: [
+          jasmine.objectContaining({
+            content: jasmine.objectContaining({ literal: 'example' }),
+          }),
+        ],
+        proxy: jasmine.objectContaining({
           content: jasmine.objectContaining({ literal: 'example' }),
         }),
-      ],
-      proxy: jasmine.objectContaining({
-        content: jasmine.objectContaining({ literal: 'example' }),
-      }),
+      },
+      'example*': {
+        parts: [
+          jasmine.objectContaining({
+            content: jasmine.objectContaining({ literal: 'exampl' }),
+          }),
+          jasmine.objectContaining({
+            content: jasmine.objectContaining({ literal: 'e' }),
+          }),
+        ],
+      },
+      '': {
+        parts: [],
+      },
     },
-    'example*': {
-      parts: [
-        jasmine.objectContaining({
-          content: jasmine.objectContaining({ literal: 'exampl' }),
-        }),
-        jasmine.objectContaining({
-          content: jasmine.objectContaining({ literal: 'e' }),
-        }),
-      ],
-    },
-    '': {
-      parts: [],
-    },
-  }, (content, str) => {
-    it(`parses "${str}" as a Match`, function() {
+    str => {
       const parser = new javascript.Parser(str);
-      expect(parser.__consume__match()).toEqual(jasmine.objectContaining(content));
-    });
-  });
+      return parser.__consume__match();
+    },
+  );
 
   describe('_anchor property', function() {
 

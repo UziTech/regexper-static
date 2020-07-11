@@ -92,6 +92,7 @@
     ],
     "no-var": "error",
     "prefer-const": "error",
-    "semi": "error"
+    "semi": "error",
+    "no-console": "warn"
   }
 }

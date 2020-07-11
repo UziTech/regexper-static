@@ -117,7 +117,9 @@ export default {
   setup() {
     this.minimum = this.properties.spec.minimum;
     this.maximum = this.properties.spec.maximum;
-    this.greedy = (this.properties.greedy.textValue === '');
+    this.greedy = (this.properties.modifier.textValue !== '?');
+    // FIXME: I'm not sure how to show possessive
+    this.possessive = (this.properties.modifier.textValue === '+');
     this.hasSkip = (this.minimum === 0);
     this.hasLoop = (this.maximum === -1 || this.maximum > 1);
   },

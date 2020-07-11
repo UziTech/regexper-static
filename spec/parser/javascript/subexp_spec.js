@@ -2,6 +2,7 @@ import javascript from '../../../src/js/parser/javascript/grammer.js';
 import Node from '../../../src/js/parser/node.js';
 import _ from 'lodash';
 import Snap from 'snapsvg-cjs';
+import { testEach } from '../../helpers.js';
 
 describe('parser/javascript/subexp.js', function() {
 
@@ -9,35 +10,37 @@ describe('parser/javascript/subexp.js', function() {
     Node.state = { groupCounter: 1 };
   });
 
-  _.forIn({
-    '(test)': {
-      regexp: jasmine.objectContaining({ textValue: 'test' }),
+  testEach(
+    'Subexp',
+    {
+      '(test)': {
+        regexp: jasmine.objectContaining({ textValue: 'test' }),
+      },
+      '(?<name>test)': {
+        regexp: jasmine.objectContaining({ textValue: 'test' }),
+      },
+      '(?=test)': {
+        regexp: jasmine.objectContaining({ textValue: 'test' }),
+      },
+      '(?!test)': {
+        regexp: jasmine.objectContaining({ textValue: 'test' }),
+      },
+      '(?<=test)': {
+        regexp: jasmine.objectContaining({ textValue: 'test' }),
+      },
+      '(?<!test)': {
+        regexp: jasmine.objectContaining({ textValue: 'test' }),
+      },
+      '(?:test)': {
+        regexp: jasmine.objectContaining({ textValue: 'test' }),
+        proxy: jasmine.objectContaining({ textValue: 'test' }),
+      },
     },
-    '(?<name>test)': {
-      regexp: jasmine.objectContaining({ textValue: 'test' }),
-    },
-    '(?=test)': {
-      regexp: jasmine.objectContaining({ textValue: 'test' }),
-    },
-    '(?!test)': {
-      regexp: jasmine.objectContaining({ textValue: 'test' }),
-    },
-    '(?<=test)': {
-      regexp: jasmine.objectContaining({ textValue: 'test' }),
-    },
-    '(?<!test)': {
-      regexp: jasmine.objectContaining({ textValue: 'test' }),
-    },
-    '(?:test)': {
-      regexp: jasmine.objectContaining({ textValue: 'test' }),
-      proxy: jasmine.objectContaining({ textValue: 'test' }),
-    },
-  }, (content, str) => {
-    it(`parses "${str}" as a Subexp`, function() {
+    str => {
       const parser = new javascript.Parser(str);
-      expect(parser.__consume__subexp()).toEqual(jasmine.objectContaining(content));
-    });
-  });
+      return parser.__consume__subexp();
+    },
+  );
 
   describe('_anchor property', function() {
 

@@ -1,22 +1,19 @@
-import javascript from '../../../src/js/parser/javascriptES5/grammer.js';
-import _ from 'lodash';
+import javascriptES5 from '../../../src/js/parser/javascriptES5/grammer.js';
+import { testEach } from '../../helpers.js';
 
 describe('parser/javascriptES5/subexp.js', function() {
 
-  _.forIn({
-    '(?<name>test)': 'expected',
-    '(?<=test)': 'expected',
-    '(?<!test)': 'expected',
-  }, (err, str) => {
-    it(`fails parsing "${str}"`, function() {
-      let error;
-      try {
-        javascript.parse('/test/s');
-      } catch (e) {
-        error = e;
-      }
-      expect(error).toEqual(jasmine.stringMatching(err));
-    });
-  });
+  testEach(
+    'Subexp',
+    {
+      '(?<name>test)': null,
+      '(?<=test)': null,
+      '(?<!test)': null,
+    },
+    str => {
+      const parser = new javascriptES5.Parser(str);
+      return parser.__consume__subexp();
+    },
+  );
 
 });

@@ -1,58 +1,52 @@
 import javascript from '../../../src/js/parser/javascript/grammer.js';
 import util from '../../../src/js/util.js';
-import _ from 'lodash';
+import { testEach } from '../../helpers.js';
 
 describe('parser/javascript/charset_range.js', function() {
 
-  _.forIn({
-    'a-z': {
-      first: jasmine.objectContaining({ textValue: 'a' }),
-      last: jasmine.objectContaining({ textValue: 'z' }),
+  testEach(
+    'CharsetRange',
+    {
+      'a-z': {
+        first: jasmine.objectContaining({ textValue: 'a' }),
+        last: jasmine.objectContaining({ textValue: 'z' }),
+      },
+      '\\b-z': {
+        first: jasmine.objectContaining({ textValue: '\\b' }),
+        last: jasmine.objectContaining({ textValue: 'z' }),
+      },
+      '\\f-z': {
+        first: jasmine.objectContaining({ textValue: '\\f' }),
+        last: jasmine.objectContaining({ textValue: 'z' }),
+      },
+      '\\n-z': {
+        first: jasmine.objectContaining({ textValue: '\\n' }),
+        last: jasmine.objectContaining({ textValue: 'z' }),
+      },
+      '\\r-z': {
+        first: jasmine.objectContaining({ textValue: '\\r' }),
+        last: jasmine.objectContaining({ textValue: 'z' }),
+      },
+      '\\t-z': {
+        first: jasmine.objectContaining({ textValue: '\\t' }),
+        last: jasmine.objectContaining({ textValue: 'z' }),
+      },
+      '\\v-z': {
+        first: jasmine.objectContaining({ textValue: '\\v' }),
+        last: jasmine.objectContaining({ textValue: 'z' }),
+      },
+      '\\d-a': null,
+      '\\D-a': null,
+      '\\s-a': null,
+      '\\S-a': null,
+      '\\w-a': null,
+      '\\W-a': null,
     },
-    '\\b-z': {
-      first: jasmine.objectContaining({ textValue: '\\b' }),
-      last: jasmine.objectContaining({ textValue: 'z' }),
-    },
-    '\\f-z': {
-      first: jasmine.objectContaining({ textValue: '\\f' }),
-      last: jasmine.objectContaining({ textValue: 'z' }),
-    },
-    '\\n-z': {
-      first: jasmine.objectContaining({ textValue: '\\n' }),
-      last: jasmine.objectContaining({ textValue: 'z' }),
-    },
-    '\\r-z': {
-      first: jasmine.objectContaining({ textValue: '\\r' }),
-      last: jasmine.objectContaining({ textValue: 'z' }),
-    },
-    '\\t-z': {
-      first: jasmine.objectContaining({ textValue: '\\t' }),
-      last: jasmine.objectContaining({ textValue: 'z' }),
-    },
-    '\\v-z': {
-      first: jasmine.objectContaining({ textValue: '\\v' }),
-      last: jasmine.objectContaining({ textValue: 'z' }),
-    },
-  }, (content, str) => {
-    it(`parses "${str}" as a CharsetRange`, function() {
+    str => {
       const parser = new javascript.Parser(str);
-      expect(parser.__consume__charset_range()).toEqual(jasmine.objectContaining(content));
-    });
-  });
-
-  _.each([
-    '\\d-a',
-    '\\D-a',
-    '\\s-a',
-    '\\S-a',
-    '\\w-a',
-    '\\W-a',
-  ], str => {
-    it(`does not parse "${str}" as a CharsetRange`, function() {
-      const parser = new javascript.Parser(str);
-      expect(parser.__consume__charset_range()).toEqual(null);
-    });
-  });
+      return parser.__consume__charset_range();
+    },
+  );
 
   it('throws an exception when the range is out of order', function() {
     const parser = new javascript.Parser('z-a');
