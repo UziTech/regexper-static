@@ -21,6 +21,7 @@ import RepeatRequired from './repeat_required.js';
 import RepeatSpec from './repeat_spec.js';
 import Comment from './comment.js';
 import Posix from './posix.js';
+import InlineFlag from './inline_flag.js';
 
 export default function parser(grammer, nodes = {}) {
 
@@ -52,6 +53,7 @@ export default function parser(grammer, nodes = {}) {
   grammer.Parser.RepeatSpec = { module: nodes.RepeatSpec || RepeatSpec };
   grammer.Parser.Comment = { module: nodes.Comment || Comment };
   grammer.Parser.Posix = { module: nodes.Posix || Posix };
+  grammer.Parser.InlineFlag = { module: nodes.InlineFlag || InlineFlag };
 
   return grammer;
 }

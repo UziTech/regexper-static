@@ -1,9 +1,10 @@
 grammar JavascriptRegexp
-  root <- ( ( "/" regexp "/" flags:[yigmus]* ) / regexp flags:""? ) <Root>
+  root <- ( ( "/" regexp "/" flags:[gimsxADSUXJu]* ) / regexp flags:""? ) <Root>
+  inline_flag <- "(?" flags:[imsxUXJ]+ ")" <InlineFlag>
   regexp <- match:match alternates:( "|" match )* <Regexp>
   match <- (!repeat) parts:match_fragment* <Match>
   anchor <- ( "^" / "$" / "\\" [AGZz] ) <Anchor>
-  match_fragment <- content:( anchor / subexp / comment / charset / terminal ) repeat:repeat? <MatchFragment>
+  match_fragment <- content:( anchor / inline_flag / subexp / comment / charset / terminal ) repeat:repeat? <MatchFragment>
   repeat <- spec:( repeat_any / repeat_required / repeat_optional / repeat_spec ) modifier:[?+]? <Repeat>
   repeat_any <- "*" <RepeatAny>
   repeat_required <- "+" <RepeatRequired>

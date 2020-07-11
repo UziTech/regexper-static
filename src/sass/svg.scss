@@ -37,6 +37,10 @@ svg {
   fill: $green;
 }
 
+.inline_flag rect {
+  fill: $yellow;
+}
+
 .literal rect {
   fill: $blue;
 }
@@ -56,6 +60,7 @@ svg {
 }
 
 .subexp .subexp-label tspan,
+.inline_flag .inline_flag-label tspan,
 .charset .charset-label tspan {
   dominant-baseline: text-after-edge;
 }

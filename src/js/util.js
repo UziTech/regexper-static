@@ -67,6 +67,7 @@ function spaceHorizontally(items, options) {
 function spaceVertically(items, options) {
   options = _.defaults(options || {}, {
     padding: 0,
+    offset: 0,
   });
 
   const values = _.map(items, item => ({
@@ -82,7 +83,7 @@ function spaceVertically(items, options) {
   // Position items with padding between them and align their centers.
   _.reduce(values, (offset, { item, box }) => {
     item.transform(Snap.matrix()
-      .translate(horizontalCenter - box.cx, offset));
+      .translate(horizontalCenter - box.cx + options.offset, offset + options.offset));
 
     return offset + options.padding + box.height;
   }, 0);
