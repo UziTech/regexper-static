@@ -1,4 +1,4 @@
-import javascript from '../../../src/js/parser/javascript/grammer.js';
+import javascript from '../../../src/js/parser/javascript/grammar.js';
 import { testEach } from '../../helpers.js';
 
 describe('parser/javascript/repeat_required.js', function() {

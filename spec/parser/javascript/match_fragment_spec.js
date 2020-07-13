@@ -1,4 +1,4 @@
-import javascript from '../../../src/js/parser/javascript/grammer.js';
+import javascript from '../../../src/js/parser/javascript/grammar.js';
 import Snap from 'snapsvg-cjs';
 import { testEach } from '../../helpers.js';
 

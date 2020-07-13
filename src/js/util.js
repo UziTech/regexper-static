@@ -128,6 +128,7 @@ function track() {
   if (window.ga) {
     ga.apply(ga, arguments);
   } else {
+    // eslint-disable-next-line no-console
     console.debug.apply(console, arguments);
   }
 }

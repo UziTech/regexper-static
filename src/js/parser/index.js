@@ -10,9 +10,9 @@ import _ from 'lodash';
 import util from '../util.js';
 import ParserState from './parser_state.js';
 
-import javascriptGrammer from './javascript/grammer.js';
-import javascriptes5Grammer from './javascriptES5/grammer.js';
-import phpGrammer from './php/grammer.js';
+import javascriptGrammer from './javascript/grammar.js';
+import javascriptes5Grammer from './javascriptES5/grammar.js';
+import phpGrammer from './php/grammar.js';
 const grammers = {
   javascript: javascriptGrammer,
   javascriptes5: javascriptes5Grammer,

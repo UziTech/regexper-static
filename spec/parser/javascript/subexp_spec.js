@@ -1,4 +1,4 @@
-import javascript from '../../../src/js/parser/javascript/grammer.js';
+import javascript from '../../../src/js/parser/javascript/grammar.js';
 import Node from '../../../src/js/parser/node.js';
 import _ from 'lodash';
 import Snap from 'snapsvg-cjs';

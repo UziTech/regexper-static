@@ -1,4 +1,4 @@
-// This function is used in each grammer.js file to add the Default Nodes.
+// This function is used in each grammar.js file to add the Default Nodes.
 // Each grammer can overwrite whichever Nodes they want by passing the nodes object.
 
 import Node from './node.js';
@@ -8,6 +8,7 @@ import Match from './match.js';
 import MatchFragment from './match_fragment.js';
 import Anchor from './anchor.js';
 import Subexp from './subexp.js';
+import Subroutine from './subroutine.js';
 import Charset from './charset.js';
 import CharsetEscape from './charset_escape.js';
 import CharsetRange from './charset_range.js';
@@ -40,6 +41,7 @@ export default function parser(grammer, nodes = {}) {
   grammer.Parser.MatchFragment = { module: nodes.MatchFragment || MatchFragment };
   grammer.Parser.Anchor = { module: nodes.Anchor || Anchor };
   grammer.Parser.Subexp = { module: nodes.Subexp || Subexp };
+  grammer.Parser.Subroutine = { module: nodes.Subroutine || Subroutine };
   grammer.Parser.Charset = { module: nodes.Charset || Charset };
   grammer.Parser.CharsetEscape = { module: nodes.CharsetEscape || CharsetEscape };
   grammer.Parser.CharsetRange = { module: nodes.CharsetRange || CharsetRange };

@@ -1,4 +1,4 @@
-import javascriptES5 from '../../../src/js/parser/javascriptES5/grammer.js';
+import javascriptES5 from '../../../src/js/parser/javascriptES5/grammar.js';
 import { testEach } from '../../helpers.js';
 
 describe('parser/javascriptES5/subexp.js', function() {

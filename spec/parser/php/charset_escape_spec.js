@@ -1,4 +1,4 @@
-import php from '../../../src/js/parser/php/grammer.js';
+import php from '../../../src/js/parser/php/grammar.js';
 import { testEach } from '../../helpers.js';
 
 describe('parser/php/charset_escape.js', function() {

@@ -4,19 +4,17 @@ grammar JavascriptRegexp
   regexp <- match:match alternates:( "|" match )* <Regexp>
   match <- (!repeat) parts:match_fragment* <Match>
   anchor <- ( "^" / "$" / "\\" [AGZz] ) <Anchor>
-  match_fragment <- content:( anchor / inline_flag / subexp / comment / charset / terminal ) repeat:repeat? <MatchFragment>
+  match_fragment <- content:( anchor / inline_flag / subexp / subroutine  / comment / charset / terminal ) repeat:repeat? <MatchFragment>
   repeat <- spec:( repeat_any / repeat_required / repeat_optional / repeat_spec ) modifier:[?+]? <Repeat>
   repeat_any <- "*" <RepeatAny>
   repeat_required <- "+" <RepeatRequired>
   repeat_optional <- "?" <RepeatOptional>
-  repeat_spec <- ( "{" min:[0-9]+ "," max:[0-9]+ "}"
-                 / "{" min:[0-9]+ ",}"
-                 / "{" exact:[0-9]+ "}" ) <RepeatSpec>
+  repeat_spec <- ( "{" min:numeric+ "," max:numeric+ "}"
+                 / "{" min:numeric+ ",}"
+                 / "{" exact:numeric+ "}" ) <RepeatSpec>
   subexp <- "(" capture:( "?<" groupname:name ">" / "?:" / "?=" / "?!" / "?<=" / "?<!" / "?>" )? regexp ")" <Subexp>
+  subroutine <- "(?" group:( "R" / numeric+ / "&" name ) ")" <Subroutine>
   comment <- "(?#" comment:[^)]* ")" <Comment>
-  name <- alpha (alpha / numeric)*
-  alpha <- [a-zA-Z]
-  numeric <- [0-9]
   charset <- "[" invert:"^"? parts:( posix / charset_range / charset_terminal )* "]" <Charset>
   posix <- "[:" invert:"^"? name:posix_name ":]" <Posix>
   posix_name <- ( "<" / ">" / "alnum" / "alpha" / "ascii" / "blank" / "cntrl" / "digit" / "graph" / "lower" / "print" / "punct" / "space" / "upper" / "word" / "xdigit" )
@@ -56,8 +54,13 @@ grammar JavascriptRegexp
            / ( literal:"\\" &"c" )
            / ( "\\" literal:. )
 
-  control_escape <- code:"c" arg:[a-zA-Z]
+  name <- alpha (alpha / numeric)*
+  alpha <- [a-zA-Z]
+  numeric <- [0-9]
+  hex <- [0-9a-fA-F]
+
+  control_escape <- code:"c" arg:alpha
   octal_escape <- code:"0" arg:[0-7]+
-  hex_escape <- code:"x" arg:( [0-9a-fA-F] [0-9a-fA-F] )
-  unicode_escape <- code:"u" arg:( [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F] )
+  hex_escape <- code:"x" arg:( hex hex )
+  unicode_escape <- code:"u" arg:( hex hex hex hex )
   null_escape <- code:"0" arg:""?

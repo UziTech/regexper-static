@@ -1,8 +1,8 @@
-import php from '../../../src/js/parser/php/grammer.js';
+import php from '../../../src/js/parser/php/grammar.js';
 import Snap from 'snapsvg-cjs';
 import { testEach } from '../../helpers.js';
 
-fdescribe('parser/php/inline_flag.js', function() {
+describe('parser/php/inline_flag.js', function() {
 
   testEach(
     'InlineFlag',

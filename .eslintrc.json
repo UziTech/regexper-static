@@ -93,6 +93,17 @@
     "no-var": "error",
     "prefer-const": "error",
     "semi": "error",
-    "no-console": "warn"
+    "no-console": "warn",
+    "no-restricted-globals": [
+      "error",
+      {
+        "name": "fit",
+        "message": "Do not commit focused tests."
+      },
+      {
+        "name": "fdescribe",
+        "message": "Do not commit focused tests."
+      }
+    ]
   }
 }

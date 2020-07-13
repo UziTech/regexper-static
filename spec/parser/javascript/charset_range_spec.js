@@ -1,4 +1,4 @@
-import javascript from '../../../src/js/parser/javascript/grammer.js';
+import javascript from '../../../src/js/parser/javascript/grammar.js';
 import util from '../../../src/js/util.js';
 import { testEach } from '../../helpers.js';
 

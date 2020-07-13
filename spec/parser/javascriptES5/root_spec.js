@@ -1,4 +1,4 @@
-import javascript from '../../../src/js/parser/javascriptES5/grammer.js';
+import javascript from '../../../src/js/parser/javascriptES5/grammar.js';
 
 describe('parser/javascriptES5/root.js', function() {
 

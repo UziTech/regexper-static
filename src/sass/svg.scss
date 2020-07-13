@@ -25,7 +25,7 @@ svg {
   fill: $white;
 }
 
-.escape text, .charset-escape text, .literal text, .posix text {
+.escape text, .charset-escape text, .literal text, .posix text, .subroutine text {
 	fill: $black;
 }
 
@@ -33,7 +33,7 @@ svg {
   fill: $gray;
 }
 
-.escape rect, .charset-escape rect, .posix rect {
+.escape rect, .charset-escape rect, .posix rect, .subroutine rect {
   fill: $green;
 }
 

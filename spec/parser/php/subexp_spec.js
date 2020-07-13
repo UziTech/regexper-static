@@ -1,4 +1,4 @@
-import php from '../../../src/js/parser/php/grammer.js';
+import php from '../../../src/js/parser/php/grammar.js';
 import Node from '../../../src/js/parser/node.js';
 import { testEach } from '../../helpers.js';
 
