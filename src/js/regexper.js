@@ -243,7 +243,7 @@ export default class Regexper {
     util.track('send', 'event', 'visualization', 'start');
     const startTime = new Date().getTime();
 
-    this.running = new Parser(this.svgContainer, { grammer: this.flavor.value });
+    this.running = new Parser(this.svgContainer, { grammar: this.flavor.value });
 
     return this.running
       // Parse the expression.

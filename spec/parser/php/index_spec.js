@@ -5,7 +5,7 @@ describe('parser/php/index.js', function() {
 
   beforeEach(function() {
     this.container = document.createElement('div');
-    this.parser = new Parser(this.container, { grammer: "php" });
+    this.parser = new Parser(this.container, { grammar: "php" });
   });
 
   describe('#parse', function() {

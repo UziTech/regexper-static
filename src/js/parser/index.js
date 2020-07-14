@@ -10,13 +10,13 @@ import _ from 'lodash';
 import util from '../util.js';
 import ParserState from './parser_state.js';
 
-import javascriptGrammer from './javascript/grammar.js';
-import javascriptes5Grammer from './javascriptES5/grammar.js';
-import phpGrammer from './php/grammar.js';
-const grammers = {
-  javascript: javascriptGrammer,
-  javascriptes5: javascriptes5Grammer,
-  php: phpGrammer,
+import javascriptgrammar from './javascript/grammar.js';
+import javascriptes5grammar from './javascriptES5/grammar.js';
+import phpgrammar from './php/grammar.js';
+const grammars = {
+  javascript: javascriptgrammar,
+  javascriptes5: javascriptes5grammar,
+  php: phpgrammar,
 };
 
 export default class Parser {
@@ -27,12 +27,12 @@ export default class Parser {
   constructor(container, options = {}) {
     this.options = {
       keepContent: false,
-      grammer: "javascript",
+      grammar: "javascript",
       ...options,
     };
 
     this.container = container;
-    this.parser = grammers[this.options.grammer];
+    this.parser = grammars[this.options.grammar];
 
     // The [ParserState](./parser_state.html) instance is used to
     // communicate between the parser and a running render, and to update the

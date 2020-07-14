@@ -28,7 +28,7 @@ import _ from 'lodash';
   // Any element with a `data-expr` attribute will contain a rendering of the
   // provided regular expression.
   _.each(document.querySelectorAll('[data-expr]'), element => {
-    new Parser(element, { keepContent: true, grammer: "javascript" })
+    new Parser(element, { keepContent: true, grammar: element.dataset.grammar || "javascript" })
       .parse(element.getAttribute('data-expr'))
       .then(parser => {
         parser.render();

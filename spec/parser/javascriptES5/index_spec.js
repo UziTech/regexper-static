@@ -5,7 +5,7 @@ describe('parser/javascriptES5/index.js', function() {
 
   beforeEach(function() {
     this.container = document.createElement('div');
-    this.parser = new Parser(this.container, { grammer: "javascriptes5" });
+    this.parser = new Parser(this.container, { grammar: "javascriptes5" });
   });
 
   describe('#parse', function() {

@@ -1,5 +1,5 @@
 // This function is used in each grammar.js file to add the Default Nodes.
-// Each grammer can overwrite whichever Nodes they want by passing the nodes object.
+// Each grammar can overwrite whichever Nodes they want by passing the nodes object.
 
 import Node from './node.js';
 import Root from './root.js';
@@ -24,38 +24,38 @@ import Comment from './comment.js';
 import Posix from './posix.js';
 import InlineFlag from './inline_flag.js';
 
-export default function parser(grammer, nodes = {}) {
+export default function parser(grammar, nodes = {}) {
 
   // Canopy creates an instance of SyntaxNode for each element in the tree, then
   // adds any necessary fields to that instance. In this case, we're replacing
   // the default class with the Node class.
-  grammer.Parser.SyntaxNode = nodes.Node || Node;
+  grammar.Parser.SyntaxNode = nodes.Node || Node;
 
   // Once the SyntaxNode instance is created, the specific node type object is
   // overlayed onto it. This causes the module attribute on the Node to be set,
   // which updates the Node instance into the more specific "subclass" that is
   // used for rendering.
-  grammer.Parser.Root = { module: nodes.Root || Root };
-  grammer.Parser.Regexp = { module: nodes.Regexp || Regexp };
-  grammer.Parser.Match = { module: nodes.Match || Match };
-  grammer.Parser.MatchFragment = { module: nodes.MatchFragment || MatchFragment };
-  grammer.Parser.Anchor = { module: nodes.Anchor || Anchor };
-  grammer.Parser.Subexp = { module: nodes.Subexp || Subexp };
-  grammer.Parser.Subroutine = { module: nodes.Subroutine || Subroutine };
-  grammer.Parser.Charset = { module: nodes.Charset || Charset };
-  grammer.Parser.CharsetEscape = { module: nodes.CharsetEscape || CharsetEscape };
-  grammer.Parser.CharsetRange = { module: nodes.CharsetRange || CharsetRange };
-  grammer.Parser.Literal = { module: nodes.Literal || Literal };
-  grammer.Parser.Escape = { module: nodes.Escape || Escape };
-  grammer.Parser.AnyCharacter = { module: nodes.AnyCharacter || AnyCharacter };
-  grammer.Parser.Repeat = { module: nodes.Repeat || Repeat };
-  grammer.Parser.RepeatAny = { module: nodes.RepeatAny || RepeatAny };
-  grammer.Parser.RepeatOptional = { module: nodes.RepeatOptional || RepeatOptional };
-  grammer.Parser.RepeatRequired = { module: nodes.RepeatRequired || RepeatRequired };
-  grammer.Parser.RepeatSpec = { module: nodes.RepeatSpec || RepeatSpec };
-  grammer.Parser.Comment = { module: nodes.Comment || Comment };
-  grammer.Parser.Posix = { module: nodes.Posix || Posix };
-  grammer.Parser.InlineFlag = { module: nodes.InlineFlag || InlineFlag };
+  grammar.Parser.Root = { module: nodes.Root || Root };
+  grammar.Parser.Regexp = { module: nodes.Regexp || Regexp };
+  grammar.Parser.Match = { module: nodes.Match || Match };
+  grammar.Parser.MatchFragment = { module: nodes.MatchFragment || MatchFragment };
+  grammar.Parser.Anchor = { module: nodes.Anchor || Anchor };
+  grammar.Parser.Subexp = { module: nodes.Subexp || Subexp };
+  grammar.Parser.Subroutine = { module: nodes.Subroutine || Subroutine };
+  grammar.Parser.Charset = { module: nodes.Charset || Charset };
+  grammar.Parser.CharsetEscape = { module: nodes.CharsetEscape || CharsetEscape };
+  grammar.Parser.CharsetRange = { module: nodes.CharsetRange || CharsetRange };
+  grammar.Parser.Literal = { module: nodes.Literal || Literal };
+  grammar.Parser.Escape = { module: nodes.Escape || Escape };
+  grammar.Parser.AnyCharacter = { module: nodes.AnyCharacter || AnyCharacter };
+  grammar.Parser.Repeat = { module: nodes.Repeat || Repeat };
+  grammar.Parser.RepeatAny = { module: nodes.RepeatAny || RepeatAny };
+  grammar.Parser.RepeatOptional = { module: nodes.RepeatOptional || RepeatOptional };
+  grammar.Parser.RepeatRequired = { module: nodes.RepeatRequired || RepeatRequired };
+  grammar.Parser.RepeatSpec = { module: nodes.RepeatSpec || RepeatSpec };
+  grammar.Parser.Comment = { module: nodes.Comment || Comment };
+  grammar.Parser.Posix = { module: nodes.Posix || Posix };
+  grammar.Parser.InlineFlag = { module: nodes.InlineFlag || InlineFlag };
 
-  return grammer;
+  return grammar;
 }

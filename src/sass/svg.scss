@@ -21,11 +21,11 @@ svg {
   stroke: $black;
 }
 
-.anchor text, .any-character text, .comment text {
+.anchor text, .any-character text, .comment text, .subroutine text {
   fill: $white;
 }
 
-.escape text, .charset-escape text, .literal text, .posix text, .subroutine text {
+.escape text, .charset-escape text, .literal text, .posix text, .inline_flag rect {
 	fill: $black;
 }
 
@@ -33,12 +33,16 @@ svg {
   fill: $gray;
 }
 
-.escape rect, .charset-escape rect, .posix rect, .subroutine rect {
+.escape rect, .charset-escape rect, .posix rect {
   fill: $green;
 }
 
 .inline_flag rect {
   fill: $yellow;
+}
+
+.subroutine rect {
+  fill: $purple;
 }
 
 .literal rect {
