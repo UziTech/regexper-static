@@ -7,8 +7,19 @@ describe('parser/php/subroutine.js', function() {
     'Subroutine',
     {
       '(?R)': { label: 'Recursive Expression' },
+      '(?0)': { label: 'Recursive Expression' },
+      '\\g<0>': { label: 'Recursive Expression' },
+      '\\g\'0\'': { label: 'Recursive Expression' },
       '(?1)': { label: 'Subroutine (group = 1)' },
+      '\\g<1>': { label: 'Subroutine (group = 1)' },
+      '\\g\'1\'': { label: 'Subroutine (group = 1)' },
+      '(?-1)': { label: 'Subroutine (group = -1)' },
+      '\\g<-1>': { label: 'Subroutine (group = -1)' },
+      '\\g\'-1\'': { label: 'Subroutine (group = -1)' },
       '(?&foo)': { label: 'Subroutine (group = \'foo\')' },
+      '(?P>foo)': { label: 'Subroutine (group = \'foo\')' },
+      '\\g<foo>': { label: 'Subroutine (group = \'foo\')' },
+      '\\g\'foo\'': { label: 'Subroutine (group = \'foo\')' },
     },
     str => {
       const parser = new php.Parser(str);

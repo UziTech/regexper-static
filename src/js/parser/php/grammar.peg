@@ -12,8 +12,10 @@ grammar JavascriptRegexp
   repeat_spec <- ( "{" min:numeric+ "," max:numeric+ "}"
                  / "{" min:numeric+ ",}"
                  / "{" exact:numeric+ "}" ) <RepeatSpec>
-  subexp <- "(" capture:( "?<" groupname:name ">" / "?:" / "?=" / "?!" / "?<=" / "?<!" / "?>" )? regexp ")" <Subexp>
-  subroutine <- "(?" group:( "R" / numeric+ / "&" name ) ")" <Subroutine>
+  subexp <- "(" capture:( "?" "P"? "<" groupname:name ">" / "?:" / "?=" / "?!" / "?<=" / "?<!" / "?>" )? regexp ")" <Subexp>
+  subroutine <- ( "(?" group:( "R" / signed / ( "&" / "P>" ) name ) ")"
+                / "\\g<" group:( signed / name ) ">"
+                / "\\g'" group:( signed / name ) "'" ) <Subroutine>
   comment <- "(?#" comment:[^)]* ")" <Comment>
   charset <- "[" invert:"^"? parts:( posix / charset_range / charset_terminal )* "]" <Charset>
   posix <- "[:" invert:"^"? name:posix_name ":]" <Posix>
@@ -57,6 +59,7 @@ grammar JavascriptRegexp
   name <- alpha (alpha / numeric)*
   alpha <- [a-zA-Z]
   numeric <- [0-9]
+  signed <- "-"? numeric+
   hex <- [0-9a-fA-F]
 
   control_escape <- code:"c" arg:alpha

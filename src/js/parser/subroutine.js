@@ -21,12 +21,13 @@ export default {
     // The group to recurse.
     this.group = this.properties.group.textValue;
 
-    if (this.group === "R") {
+    if (this.group === "R" || this.group === "0") {
       this.label = "Recursive Expression";
-    } else if (this.group.charAt(0) === "&") {
-      this.label = "Subroutine (group = '" + this.group.substring(1) + "')";
-    } else {
+    } else if (this.group.match(/^-?\d+$/)) {
       this.label = "Subroutine (group = " + this.group + ")";
+    } else {
+      const name = this.group.replace(/^(?:&|P>)/, "");
+      this.label = "Subroutine (group = '" + name + "')";
     }
   },
 };
