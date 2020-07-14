@@ -16,6 +16,10 @@ describe('parser/php/subexp.js', function() {
         state: jasmine.objectContaining({ groupCounter: 1 }),
         regexp: jasmine.objectContaining({ textValue: 'test' }),
       },
+      '(?P<name>test)': {
+        label: "group 'name'",
+        regexp: jasmine.objectContaining({ textValue: 'test' }),
+      },
     },
     str => {
       const parser = new php.Parser(str);
