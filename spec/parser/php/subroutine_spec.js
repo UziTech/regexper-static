@@ -6,10 +6,10 @@ describe('parser/php/subroutine.js', function() {
   testEach(
     'Subroutine',
     {
-      '(?R)': { label: 'Recursive Expression' },
-      '(?0)': { label: 'Recursive Expression' },
-      '\\g<0>': { label: 'Recursive Expression' },
-      '\\g\'0\'': { label: 'Recursive Expression' },
+      '(?R)': { label: 'Subroutine (entire expression)' },
+      '(?0)': { label: 'Subroutine (entire expression)' },
+      '\\g<0>': { label: 'Subroutine (entire expression)' },
+      '\\g\'0\'': { label: 'Subroutine (entire expression)' },
       '(?1)': { label: 'Subroutine (group = 1)' },
       '\\g<1>': { label: 'Subroutine (group = 1)' },
       '\\g\'1\'': { label: 'Subroutine (group = 1)' },
@@ -41,7 +41,7 @@ describe('parser/php/subroutine.js', function() {
 
     it('renders a label', function() {
       this.node._render();
-      expect(this.node.renderLabel).toHaveBeenCalledWith('Recursive Expression');
+      expect(this.node.renderLabel).toHaveBeenCalledWith('Subroutine (entire expression)');
     });
 
     it('sets the edge radius of the rect', function(done) {

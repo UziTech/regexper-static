@@ -22,7 +22,7 @@ export default {
     this.group = this.properties.group.textValue;
 
     if (this.group === "R" || this.group === "0") {
-      this.label = "Recursive Expression";
+      this.label = "Subroutine (entire expression)";
     } else if (this.group.match(/^-?\d+$/)) {
       this.label = "Subroutine (group = " + this.group + ")";
     } else {
