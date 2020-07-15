@@ -71,7 +71,7 @@ describe('parser/javascript/index.js', function() {
       regexpParser.parse.and.throwError('fail');
       try {
         await this.parser.parse('(example');
-        fail();
+        fail("Should throw error");
       } catch (err) {
         expect(err).toBeDefined();
       }

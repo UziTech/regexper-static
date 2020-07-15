@@ -413,21 +413,30 @@ describe('regexper.js', function() {
       });
 
       it('sets the state to be "has-error"', async function() {
-        await this.regexper.renderRegexp('example expression');
-
-        expect(this.regexper.state).toEqual('has-error');
+        try {
+          await this.regexper.renderRegexp('example expression');
+          fail("Should throw error");
+        } catch (err) {
+          expect(this.regexper.state).toEqual('has-error');
+        }
       });
 
       it('displays the error message', async function() {
-        await this.regexper.renderRegexp('example expression');
-
-        expect(this.regexper.error.innerHTML).toEqual('Error: example parse error');
+        try {
+          await this.regexper.renderRegexp('example expression');
+          fail("Should throw error");
+        } catch (err) {
+          expect(this.regexper.error.innerHTML).toEqual('Error: example parse error');
+        }
       });
 
       it('tracks the parse error', async function() {
-        await this.regexper.renderRegexp('example expression');
-
-        expect(util.track).toHaveBeenCalledWith('send', 'event', 'visualization', 'parse error');
+        try {
+          await this.regexper.renderRegexp('example expression');
+          fail("Should throw error");
+        } catch (err) {
+          expect(util.track).toHaveBeenCalledWith('send', 'event', 'visualization', 'parse error');
+        }
       });
 
     });
@@ -533,7 +542,7 @@ describe('regexper.js', function() {
       it('sets the running property to false', async function() {
         try {
           await this.regexper.renderRegexp('example expression');
-          fail();
+          fail("Should throw error");
         } catch (ex) {
           expect(this.regexper.running).toBeFalsy();
         }

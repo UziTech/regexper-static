@@ -13,7 +13,7 @@ import util from './util.js';
 import Regexper from './regexper.js';
 import Parser from './parser/index.js';
 
-(function() {
+(async function() {
   // Initialize the main page of the site. Functionality is kept in the
   // [Regexper class](./regexper.html).
   if (document.body.querySelector('#content .application')) {
@@ -22,20 +22,21 @@ import Parser from './parser/index.js';
     regexper.detectBuggyHash();
     regexper.bindListeners();
 
-    util.tick().then(() => {
-      window.dispatchEvent(util.customEvent('hashchange'));
-    });
+    await util.tick();
+
+    window.dispatchEvent(util.customEvent('hashchange'));
   }
 
   // Initialize other pages on the site (specifically the documentation page).
   // Any element with a `data-expr` attribute will contain a rendering of the
   // provided regular expression.
   for (const element of document.querySelectorAll('[data-expr]')) {
-    new Parser(element, { keepContent: true, grammar: element.dataset.grammar || "javascript" })
-      .parse(element.getAttribute('data-expr'))
-      .then(parser => {
-        parser.render();
-      })
-      .catch(util.exposeError);
+    try {
+      const parser = new Parser(element, { keepContent: true, grammar: element.dataset.grammar || "javascript" });
+      const node = await parser.parse(element.getAttribute('data-expr'));
+      await node.render();
+    } catch (err) {
+      util.exposeError(err);
+    }
   }
 }());

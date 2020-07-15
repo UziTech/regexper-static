@@ -72,41 +72,41 @@ export default class Parser {
   // Parse a regular expression into a tree of
   // [Nodes](./node.html) that can then be used to render an SVG.
   // - __expression__ - Regular expression to parse.
-  parse(expression) {
+  async parse(expression) {
     this._addClass('loading');
 
     // Allow the browser to repaint before parsing so that the loading bar is
     // displayed before the (possibly lengthy) parsing begins.
-    return util.tick().then(() => {
-      this.parser.Parser.SyntaxNode.state = this.state;
+    await util.tick();
 
-      this.parsed = this.parser.parse(expression.replace(/\n/g, '\\n'));
-      return this;
-    });
+    this.parser.Parser.SyntaxNode.state = this.state;
+
+    this.parsed = this.parser.parse(expression.replace(/\n/g, '\\n'));
+    return this;
   }
 
   // Render the parsed expression to an SVG.
-  render() {
+  async render() {
     const svg = Snap(this.container.querySelector('svg'));
 
-    return this.parsed.render(svg.group())
-      // Once rendering is complete, the rendered expression is positioned and
-      // the SVG resized to create some padding around the image contents.
-      .then(result => {
-        const box = result.getBBox();
+    const result = await this.parsed.render(svg.group());
 
-        result.transform(Snap.matrix()
-          .translate(10 - box.x, 10 - box.y));
-        svg.attr({
-          width: box.width + 20,
-          height: box.height + 20,
-        });
-      })
-      // Stop and remove loading indicator after render is totally complete.
-      .then(() => {
-        this._removeClass('loading');
-        this.container.removeChild(this.container.querySelector('.progress'));
-      });
+    // Once rendering is complete, the rendered expression is positioned and
+    // the SVG resized to create some padding around the image contents.
+    const box = result.getBBox();
+
+    result.transform(Snap.matrix()
+      .translate(10 - box.x, 10 - box.y));
+    svg.attr({
+      width: box.width + 20,
+      height: box.height + 20,
+    });
+
+    // Stop and remove loading indicator after render is totally complete.
+    await util.tick();
+
+    this._removeClass('loading');
+    this.container.removeChild(this.container.querySelector('.progress'));
   }
 
   // Cancels any currently in-progress render.

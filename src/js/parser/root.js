@@ -16,7 +16,7 @@ export default {
   },
 
   // Renders the root into the currently set container.
-  _render() {
+  async _render() {
     let flagText;
 
     // Render a label for any flags that have been set of the expression.
@@ -25,25 +25,24 @@ export default {
     }
 
     // Render the content of the regular expression.
-    return this.regexp.render(this.container.group())
-      .then(() => {
-        // Move rendered regexp to account for flag label and to allow for
-        // decorative elements.
-        if (flagText) {
-          this.regexp.transform(Snap.matrix()
-            .translate(10, flagText.getBBox().height));
-        } else {
-          this.regexp.transform(Snap.matrix()
-            .translate(10, 0));
-        }
+    await this.regexp.render(this.container.group());
 
-        const box = this.regexp.getBBox();
+    // Move rendered regexp to account for flag label and to allow for
+    // decorative elements.
+    if (flagText) {
+      this.regexp.transform(Snap.matrix()
+        .translate(10, flagText.getBBox().height));
+    } else {
+      this.regexp.transform(Snap.matrix()
+        .translate(10, 0));
+    }
 
-        // Render decorative elements.
-        this.container.path(`M${box.ax},${box.ay}H0M${box.ax2},${box.ay}H${box.x2 + 10}`);
-        this.container.circle(0, box.ay, 5);
-        this.container.circle(box.x2 + 10, box.ay, 5);
-      });
+    const box = this.regexp.getBBox();
+
+    // Render decorative elements.
+    this.container.path(`M${box.ax},${box.ay}H0M${box.ax2},${box.ay}H${box.x2 + 10}`);
+    this.container.circle(0, box.ay, 5);
+    this.container.circle(box.x2 + 10, box.ay, 5);
   },
 
   setup() {

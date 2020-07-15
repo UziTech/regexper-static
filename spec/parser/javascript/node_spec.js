@@ -120,26 +120,22 @@ describe('parser/javascript/node.js', function() {
   describe('#deferredStep', function() {
 
     it('resolves the returned promise when the render is not canceled', async function() {
-      const resolve = jasmine.createSpy('resolve');
-      const reject = jasmine.createSpy('reject');
-
-      await this.node.deferredStep('result')
-        .then(resolve, reject);
-
-      expect(resolve).toHaveBeenCalledWith('result');
-      expect(reject).not.toHaveBeenCalled();
+      try {
+        const result = await this.node.deferredStep('result');
+        expect(result).toBe('result');
+      } catch (err) {
+        fail(err);
+      }
     });
 
     it('rejects the returned promise when the render is canceled', async function() {
-      const resolve = jasmine.createSpy('resolve');
-      const reject = jasmine.createSpy('reject');
-
-      this.node.state.cancelRender = true;
-      await this.node.deferredStep('result', 'value')
-        .then(resolve, reject);
-
-      expect(resolve).not.toHaveBeenCalled();
-      expect(reject).toHaveBeenCalledWith('Render cancelled');
+      try {
+        this.node.state.cancelRender = true;
+        await this.node.deferredStep('result', 'value');
+        fail("Should throw error");
+      } catch (err) {
+        expect(err).toBe('Render cancelled');
+      }
     });
 
   });

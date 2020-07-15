@@ -26,25 +26,24 @@ export default {
   },
 
   // Renders the fragment into the currently set container.
-  _render() {
-    return this.content.render(this.container.group())
-      .then(() => {
-        // Contents must be transformed based on the repeat that is applied.
-        this.content.transform(this.repeat.contentPosition);
+  async _render() {
+    await this.content.render(this.container.group());
 
-        const box = this.content.getBBox();
+    // Contents must be transformed based on the repeat that is applied.
+    this.content.transform(this.repeat.contentPosition);
 
-        // Add skip or repeat paths to the container.
-        const paths = [
-          this.repeat.skipPath(box),
-          this.repeat.loopPath(box),
-        ].flat();
+    const box = this.content.getBBox();
 
-        this.container.prepend(
-          this.container.path(paths.join('')));
+    // Add skip or repeat paths to the container.
+    const paths = [
+      this.repeat.skipPath(box),
+      this.repeat.loopPath(box),
+    ].flat();
 
-        this.loopLabel();
-      });
+    this.container.prepend(
+      this.container.path(paths.join('')));
+
+    this.loopLabel();
   },
 
   // Renders label for the loop path indicating how many times the content may

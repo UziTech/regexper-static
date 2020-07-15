@@ -6,15 +6,14 @@ export default {
   type: 'subroutine',
 
   // Renders the escape into the currently set container.
-  _render() {
-    return this.renderLabel(this.label)
-      .then(label => {
-        label.select('rect').attr({
-          rx: 3,
-          ry: 3,
-        });
-        return label;
-      });
+  async _render() {
+    const label = await this.renderLabel(this.label);
+
+    label.select('rect').attr({
+      rx: 3,
+      ry: 3,
+    });
+    return label;
   },
 
   setup() {

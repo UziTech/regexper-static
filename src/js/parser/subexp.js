@@ -31,18 +31,19 @@ export default {
   },
 
   // Renders the subexp into the currently set container.
-  _render() {
+  async _render() {
     // **NOTE:** `this.label()` **MUST** be called here, in _render, and before
     // any child nodes are rendered. This is to keep the group numbers in the
     // correct order.
     const label = this.label();
 
     // Render the contained regexp.
-    return this.regexp.render(this.container.group())
-      // Create the labeled box around the regexp.
-      .then(() => this.renderLabeledBox(label, this.regexp, {
-        padding: 10,
-      }));
+    await this.regexp.render(this.container.group());
+
+    // Create the labeled box around the regexp.
+    return this.renderLabeledBox(label, this.regexp, {
+      padding: 10,
+    });
   },
 
   // Returns the label for the subexpression.

@@ -5,23 +5,22 @@ export default {
   type: 'literal',
 
   // Renders the literal into the currently set container.
-  _render() {
-    return this.renderLabel(['\u201c', this.literal, '\u201d'])
-      .then(label => {
-        const spans = label.selectAll('tspan');
+  async _render() {
+    const label = await this.renderLabel(['\u201c', this.literal, '\u201d']);
 
-        // The quote marks get some styling to lighten their color so they are
-        // distinct from the actual literal value.
-        spans[0].addClass('quote');
-        spans[2].addClass('quote');
+    const spans = label.selectAll('tspan');
 
-        label.select('rect').attr({
-          rx: 3,
-          ry: 3,
-        });
+    // The quote marks get some styling to lighten their color so they are
+    // distinct from the actual literal value.
+    spans[0].addClass('quote');
+    spans[2].addClass('quote');
 
-        return label;
-      });
+    label.select('rect').attr({
+      rx: 3,
+      ry: 3,
+    });
+
+    return label;
   },
 
   // Merges this literal with another. Literals come back as single characters

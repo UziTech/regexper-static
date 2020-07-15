@@ -132,7 +132,7 @@ export default class Regexper {
   // Start the rendering of a regular expression.
   //
   // - __expression__ - Regular expression to display.
-  showExpression(expression) {
+  async showExpression(expression) {
     let flavor = "javascript";
 
     const match = expression.match(/^\|flavor=(\w+)\|(.*)$/);
@@ -145,7 +145,11 @@ export default class Regexper {
     this.state = '';
 
     if (expression !== '') {
-      this.renderRegexp(expression).catch(util.exposeError);
+      try {
+        await this.renderRegexp(expression);
+      } catch (err) {
+        util.exposeError(err);
+      }
     }
   }
 
@@ -227,7 +231,7 @@ export default class Regexper {
   // Render regular expression
   //
   // - __expression__ - Regular expression to render
-  renderRegexp(expression) {
+  async renderRegexp(expression) {
     let parseError = false;
 
     // When a render is already in progress, cancel it and try rendering again
@@ -235,7 +239,8 @@ export default class Regexper {
     if (this.running) {
       this.running.cancel();
 
-      return util.wait(10).then(() => this.renderRegexp(expression));
+      await util.wait(10);
+      return this.renderRegexp(expression);
     }
 
     this.state = 'is-loading';
@@ -244,11 +249,13 @@ export default class Regexper {
 
     this.running = new Parser(this.svgContainer, { grammar: this.flavor.value });
 
-    return this.running
-      // Parse the expression.
-      .parse(expression)
-      // Display any error messages from the parser and abort the render.
-      .catch(message => {
+    try {
+      let parser;
+      try {
+        // Parse the expression.
+        parser = await this.running.parse(expression);
+      } catch (message) {
+        // Display any error messages from the parser and abort the render.
         this.state = 'has-error';
         this.error.innerHTML = '';
         this.error.appendChild(document.createTextNode(message));
@@ -256,45 +263,38 @@ export default class Regexper {
         parseError = true;
 
         throw message;
-      })
+      }
+
       // When parsing is successful, render the parsed expression.
-      .then(parser => parser.render())
+      await parser.render();
       // Once rendering is complete:
       //  - Update links
       //  - Display any warnings
       //  - Track the completion of the render and how long it took
-      .then(() => {
-        this.state = 'has-results';
-        this.updateLinks();
-        this.displayWarnings(this.running.warnings);
-        util.track('send', 'event', 'visualization', 'complete');
+      this.state = 'has-results';
+      this.updateLinks();
+      this.displayWarnings(this.running.warnings);
+      util.track('send', 'event', 'visualization', 'complete');
 
-        const endTime = new Date().getTime();
-        util.track('send', 'timing', 'visualization', 'total time', endTime - startTime);
-      })
+      const endTime = new Date().getTime();
+      util.track('send', 'timing', 'visualization', 'total time', endTime - startTime);
+    } catch (message) {
       // Handle any errors that happened during the rendering pipeline.
       // Swallows parse errors and render cancellations. Any other exceptions
       // are allowed to continue on to be tracked by the global error handler.
-      .catch(message => {
-        if (message === 'Render cancelled') {
-          util.track('send', 'event', 'visualization', 'cancelled');
-          this.state = '';
-        } else if (parseError) {
-          util.track('send', 'event', 'visualization', 'parse error');
-        } else {
-          throw message;
-        }
-      })
+      if (message === 'Render cancelled') {
+        util.track('send', 'event', 'visualization', 'cancelled');
+        this.state = '';
+      } else if (parseError) {
+        util.track('send', 'event', 'visualization', 'parse error');
+        throw message;
+      } else {
+        throw message;
+      }
+    } finally {
       // Finally, mark rendering as complete (and pass along any exceptions
       // that were thrown).
-      .then(
-        () => {
-          this.running = false;
-        },
-        message => {
-          this.running = false;
-          throw message;
-        },
-      );
+      this.running = false;
+    }
   }
 }
