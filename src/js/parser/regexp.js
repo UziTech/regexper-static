@@ -3,52 +3,50 @@
 
 import Snap from 'snapsvg-cjs';
 import util from '../util.js';
-import _ from 'lodash';
 
 export default {
   type: 'regexp',
 
   // Renders the regexp into the currently set container.
-  _render() {
+  async _render() {
     const matchContainer = this.container.group()
       .addClass('regexp-matches')
       .transform(Snap.matrix()
         .translate(20, 0));
 
     // Renders each match into the match container.
-    return Promise.all(_.map(this.matches,
+    await Promise.all(this.matches.map(
       match => match.render(matchContainer.group()),
-    ))
-      .then(() => {
-        let containerBox;
-        let paths;
+    ));
 
-        // Space matches vertically in the match container.
-        util.spaceVertically(this.matches, {
-          padding: 5,
-        });
+    let containerBox;
+    let paths;
 
-        containerBox = this.getBBox();
+    // Space matches vertically in the match container.
+    util.spaceVertically(this.matches, {
+      padding: 5,
+    });
 
-        // Creates the curves from the side lines for each match.
-        paths = _.map(this.matches, match => this.makeCurve(containerBox, match));
+    containerBox = this.getBBox();
 
-        // Add side lines to the list of paths.
-        paths.push(this.makeSide(containerBox, _.first(this.matches)));
-        paths.push(this.makeSide(containerBox, _.last(this.matches)));
+    // Creates the curves from the side lines for each match.
+    paths = this.matches.map(match => this.makeCurve(containerBox, match));
 
-        // Render connector paths.
-        this.container.prepend(
-          this.container.path(_(paths).flatten().compact().values().join('')));
+    // Add side lines to the list of paths.
+    paths.push(this.makeSide(containerBox, this.matches[0]));
+    paths.push(this.makeSide(containerBox, this.matches[this.matches.length - 1]));
 
-        containerBox = matchContainer.getBBox();
+    // Render connector paths.
+    this.container.prepend(
+      this.container.path(paths.flat().filter(Boolean).join('')));
 
-        // Create connections from side lines to each match and render into
-        // the match container.
-        paths = _.map(this.matches, match => this.makeConnector(containerBox, match));
-        matchContainer.prepend(
-          matchContainer.path(paths.join('')));
-      });
+    containerBox = matchContainer.getBBox();
+
+    // Create connections from side lines to each match and render into
+    // the match container.
+    paths = this.matches.map(match => this.makeConnector(containerBox, match));
+    matchContainer.prepend(
+      matchContainer.path(paths.join('')));
   },
 
   // Returns an array of SVG path strings to draw the vertical lines on the
@@ -122,8 +120,7 @@ export default {
     } else {
       // Merge all the match nodes into one array.
       this.matches = [this.properties.match].concat(
-        _.map(this.properties.alternates.elements,
-          element => element.properties.match),
+        this.properties.alternates.elements.map(element => element.properties.match),
       );
     }
   },

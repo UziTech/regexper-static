@@ -14,12 +14,9 @@ describe('parser/javascriptES5/index.js', function() {
       spyOn(regexpParser, 'parse');
     });
 
-    it('parses the expression', function(done) {
-      this.parser.parse('example expression')
-        .then(() => {
-          expect(regexpParser.parse).toHaveBeenCalledWith('example expression');
-          done();
-        });
+    it('parses the expression', async function() {
+      await this.parser.parse('example expression');
+      expect(regexpParser.parse).toHaveBeenCalledWith('example expression');
     });
 
   });

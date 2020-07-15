@@ -1,5 +1,4 @@
 import javascript from '../../../src/js/parser/javascript/grammar.js';
-import _ from 'lodash';
 import Snap from 'snapsvg-cjs';
 import { testEach } from '../../helpers.js';
 
@@ -189,7 +188,7 @@ describe('parser/javascript/repeat.js', function() {
       this.node = new javascript.Parser('*').__consume__repeat();
     });
 
-    _.each([
+    const tests = [
       {
         hasLoop: false,
         hasSkip: false,
@@ -210,14 +209,15 @@ describe('parser/javascript/repeat.js', function() {
         hasSkip: true,
         translate: { x: 15, y: 10 },
       },
-    ], t => {
+    ];
+    for (const t of tests) {
       it(`translates to [${t.translate.x}, ${t.translate.y}] when hasLoop is ${t.hasLoop} and hasSkip is ${t.hasSkip}`, function() {
         this.node.hasLoop = t.hasLoop;
         this.node.hasSkip = t.hasSkip;
         expect(this.node.contentPosition).toEqual(Snap.matrix()
           .translate(t.translate.x, t.translate.y));
       });
-    });
+    }
 
   });
 
@@ -227,7 +227,7 @@ describe('parser/javascript/repeat.js', function() {
       this.node = new javascript.Parser('*').__consume__repeat();
     });
 
-    _.each([
+    const tests = [
       {
         minimum: 1,
         maximum: -1,
@@ -279,13 +279,14 @@ describe('parser/javascript/repeat.js', function() {
         label: '2\u20263 times',
       },
 
-    ], t => {
+    ];
+    for (const t of tests) {
       it(`is "${t.label}" when minimum=${t.minimum} and maximum=${t.maximum}`, function() {
         this.node.minimum = t.minimum;
         this.node.maximum = t.maximum;
         expect(this.node.label).toEqual(t.label);
       });
-    });
+    }
 
   });
 
@@ -295,7 +296,7 @@ describe('parser/javascript/repeat.js', function() {
       this.node = new javascript.Parser('*').__consume__repeat();
     });
 
-    _.each([
+    const tests = [
       {
         minimum: 1,
         maximum: -1,
@@ -347,13 +348,14 @@ describe('parser/javascript/repeat.js', function() {
         tooltip: 'repeats 3\u20264 times in total',
       },
 
-    ], t => {
+    ];
+    for (const t of tests) {
       it(`is "${t.tooltip}" when minimum=${t.minimum} and maximum=${t.maximum}`, function() {
         this.node.minimum = t.minimum;
         this.node.maximum = t.maximum;
         expect(this.node.tooltip).toEqual(t.tooltip);
       });
-    });
+    }
 
   });
 

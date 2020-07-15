@@ -5,7 +5,6 @@
 // [Node](./node.html)
 
 import Snap from 'snapsvg-cjs';
-import _ from 'lodash';
 
 import util from '../util.js';
 import ParserState from './parser_state.js';
@@ -58,15 +57,15 @@ export default class Parser {
 
   // Helper method to simplify adding classes to the container.
   _addClass(className) {
-    this.container.className = _(this.container.className.split(' '))
-      .union([className])
+    this.container.className = this.container.className.split(' ')
+      .concat(className)
       .join(' ');
   }
 
   // Helper method to simplify removing classes from the container.
   _removeClass(className) {
-    this.container.className = _(this.container.className.split(' '))
-      .without(className)
+    this.container.className = this.container.className.split(' ')
+      .filter(c => c !== className)
       .join(' ');
   }
 

@@ -1,8 +1,7 @@
-/* globals ga, Snap */
 // Utility functions used elsewhere in the codebase. Most JavaScript files on
 // the site use some functions defined in this file.
 
-import _ from 'lodash';
+import Snap from 'snapsvg-cjs';
 
 // Generate an `Event` object for triggering a custom event.
 //
@@ -23,11 +22,12 @@ function customEvent(name, detail) {
 // - __box__ - Bounding box object to update. Attributes `ax`, `ax2`, and `ay`
 //    will be added if they are not already defined.
 function normalizeBBox(box) {
-  return _.defaults(box, {
+  return {
     ax: box.x,
     ax2: box.x2,
     ay: box.cy,
-  });
+    ...box,
+  };
 }
 
 // Positions a collection of items with their axis points aligned along a
@@ -36,23 +36,24 @@ function normalizeBBox(box) {
 //
 // - __items__ - Array of items to be positioned
 // - __options.padding__ - Number of pixels to leave between items
-function spaceHorizontally(items, options) {
-  options = _.defaults(options || {}, {
+function spaceHorizontally(items, options = {}) {
+  options = {
     padding: 0,
-  });
+    ...options,
+  };
 
-  const values = _.map(items, item => ({
+  const values = items.map(item => ({
     box: normalizeBBox(item.getBBox()),
     item,
   }));
 
   // Calculate where the axis points should be positioned vertically.
-  const verticalCenter = _.reduce(values,
+  const verticalCenter = values.reduce(
     (center, { box }) => Math.max(center, box.ay),
     0);
 
   // Position items with padding between them and aligned their axis points.
-  _.reduce(values, (offset, { item, box }) => {
+  values.reduce((offset, { item, box }) => {
     item.transform(Snap.matrix()
       .translate(offset, verticalCenter - box.ay));
 
@@ -64,24 +65,25 @@ function spaceHorizontally(items, options) {
 //
 // - __items__ - Array of items to be positioned
 // - __options.padding__ - Number of pixels to leave between items
-function spaceVertically(items, options) {
-  options = _.defaults(options || {}, {
+function spaceVertically(items, options = {}) {
+  options = {
     padding: 0,
     offset: 0,
-  });
+    ...options,
+  };
 
-  const values = _.map(items, item => ({
+  const values = items.map(item => ({
     box: item.getBBox(),
     item,
   }));
 
   // Calculate where the center of each item should be positioned horizontally.
-  const horizontalCenter = _.reduce(values,
+  const horizontalCenter = values.reduce(
     (center, { box }) =>  Math.max(center, box.cx),
     0);
 
   // Position items with padding between them and align their centers.
-  _.reduce(values, (offset, { item, box }) => {
+  values.reduce((offset, { item, box }) => {
     item.transform(Snap.matrix()
       .translate(horizontalCenter - box.cx + options.offset, offset + options.offset));
 
@@ -126,11 +128,24 @@ function icon(selector) {
 // Send tracking data.
 function track() {
   if (window.ga) {
-    ga.apply(ga, arguments);
+    window.ga.apply(window.ga, arguments);
   } else {
     // eslint-disable-next-line no-console
     console.debug.apply(console, arguments);
   }
+}
+
+// if the resolved property is a function it's invoked with the this binding of its parent object and its result is returned.
+function getResult(obj, prop) {
+  if (!(prop in obj)) {
+    return undefined;
+  }
+
+  if (typeof obj[prop] === "function") {
+    return obj[prop]();
+  }
+
+  return obj[prop];
 }
 
 export default {
@@ -143,4 +158,5 @@ export default {
   exposeError,
   icon,
   track,
+  getResult,
 };

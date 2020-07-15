@@ -130,21 +130,17 @@ describe('parser/javascript/charset.js', function() {
         this.elementDeferred[2].resolve();
       });
 
-      it('spaces the elements vertically', function(done) {
-        this.node._render()
-          .then(() => {
-            expect(util.spaceVertically).toHaveBeenCalledWith(this.node.elements, { padding: 5 });
-            done();
-          });
+      it('spaces the elements vertically', async function() {
+        await this.node._render();
+
+        expect(util.spaceVertically).toHaveBeenCalledWith(this.node.elements, { padding: 5 });
       });
 
-      it('renders a labeled box', function(done) {
-        this.node._render()
-          .then(result => {
-            expect(this.node.renderLabeledBox).toHaveBeenCalledWith('example label', this.partContainer, { padding: 5 });
-            expect(result).toEqual('labeled box promise');
-            done();
-          });
+      it('renders a labeled box', async function() {
+        const result = await this.node._render();
+
+        expect(this.node.renderLabeledBox).toHaveBeenCalledWith('example label', this.partContainer, { padding: 5 });
+        expect(result).toEqual('labeled box promise');
       });
 
     });

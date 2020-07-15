@@ -77,19 +77,17 @@ describe('parser/javascript/charset_range.js', function() {
       expect(this.node.container.text).toHaveBeenCalledWith(0, 0, '-');
     });
 
-    it('spaces the items horizontally', function(done) {
+    it('spaces the items horizontally', async function() {
       this.firstDeferred.resolve();
       this.lastDeferred.resolve();
 
-      this.node._render()
-        .then(() => {
-          expect(util.spaceHorizontally).toHaveBeenCalledWith([
-            this.node.first,
-            'hyphen',
-            this.node.last,
-          ], { padding: 5 });
-          done();
-        });
+      await this.node._render();
+
+      expect(util.spaceHorizontally).toHaveBeenCalledWith([
+        this.node.first,
+        'hyphen',
+        this.node.last,
+      ], { padding: 5 });
     });
 
   });

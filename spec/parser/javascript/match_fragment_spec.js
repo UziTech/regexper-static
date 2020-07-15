@@ -98,30 +98,24 @@ describe('parser/javascript/match_fragment.js', function() {
         this.renderDeferred.resolve();
       });
 
-      it('moves the content to the correct position', function(done) {
-        this.node._render()
-          .then(() => {
-            expect(this.node.content.transform).toHaveBeenCalledWith('example position');
-            done();
-          });
+      it('moves the content to the correct position', async function() {
+        await this.node._render();
+
+        expect(this.node.content.transform).toHaveBeenCalledWith('example position');
       });
 
-      it('renders a skip path and loop path', function(done) {
-        this.node._render()
-          .then(() => {
-            expect(this.node.repeat.skipPath).toHaveBeenCalledWith('content bbox');
-            expect(this.node.repeat.loopPath).toHaveBeenCalledWith('content bbox');
-            expect(this.node.container.path).toHaveBeenCalledWith('skip pathloop path');
-            done();
-          });
+      it('renders a skip path and loop path', async function() {
+        await this.node._render();
+
+        expect(this.node.repeat.skipPath).toHaveBeenCalledWith('content bbox');
+        expect(this.node.repeat.loopPath).toHaveBeenCalledWith('content bbox');
+        expect(this.node.container.path).toHaveBeenCalledWith('skip pathloop path');
       });
 
-      it('renders a loop label', function(done) {
-        this.node._render()
-          .then(() => {
-            expect(this.node.loopLabel).toHaveBeenCalled();
-            done();
-          });
+      it('renders a loop label', async function() {
+        await this.node._render();
+
+        expect(this.node.loopLabel).toHaveBeenCalled();
       });
 
     });

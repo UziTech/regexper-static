@@ -1,7 +1,6 @@
 // Root nodes contain the top-level [Regexp](./regexp.html) node. Any flags
 // and a few decorative elements are rendered by the root node.
 
-import _ from 'lodash';
 import Snap from 'snapsvg-cjs';
 
 export default {
@@ -49,9 +48,9 @@ export default {
 
   setup() {
     // Convert list of flags into text describing each flag.
-    this.flags = _(this.properties.flags.textValue)
-      .uniq().sort()
-      .map(flag => this.flagLabels[flag]).value();
+    const flags = [...new Set([...this.properties.flags.textValue])];
+    flags.sort();
+    this.flags = flags.map(f => this.flagLabels[f]);
 
     this.regexp = this.properties.regexp;
   },

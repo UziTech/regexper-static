@@ -44,15 +44,13 @@ describe('parser/php/subroutine.js', function() {
       expect(this.node.renderLabel).toHaveBeenCalledWith('Subroutine (entire expression)');
     });
 
-    it('sets the edge radius of the rect', function(done) {
-      this.node._render()
-        .then(label => {
-          expect(label.select('rect').attr()).toEqual(jasmine.objectContaining({
-            rx: '3',
-            ry: '3',
-          }));
-          done();
-        });
+    it('sets the edge radius of the rect', async function() {
+      const label = await this.node._render();
+
+      expect(label.select('rect').attr()).toEqual(jasmine.objectContaining({
+        rx: '3',
+        ry: '3',
+      }));
     });
 
   });

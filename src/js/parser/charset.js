@@ -3,7 +3,6 @@
 // handled by the nested node(s).
 
 import util from '../util.js';
-import _ from 'lodash';
 
 export default {
   type: 'charset',
@@ -24,24 +23,23 @@ export default {
   },
 
   // Renders the charset into the currently set container.
-  _render() {
+  async _render() {
     this.partContainer = this.container.group();
 
     // Renders each part of the charset into the part container.
-    return Promise.all(_.map(this.elements,
+    await Promise.all(this.elements.map(
       part => part.render(this.partContainer.group()),
-    ))
-      .then(() => {
-        // Space the parts of the charset vertically in the part container.
-        util.spaceVertically(this.elements, {
-          padding: 5,
-        });
+    ));
 
-        // Label the part container.
-        return this.renderLabeledBox(this.label, this.partContainer, {
-          padding: 5,
-        });
-      });
+    // Space the parts of the charset vertically in the part container.
+    util.spaceVertically(this.elements, {
+      padding: 5,
+    });
+
+    // Label the part container.
+    return this.renderLabeledBox(this.label, this.partContainer, {
+      padding: 5,
+    });
   },
 
   setup() {
@@ -54,8 +52,20 @@ export default {
     // and text value of the part, so `[aa]` will have only one item, but
     // `[a\x61]` will contain two since the first matches "a" and the second
     // matches 0x61 (even though both are an "a").
-    this.elements = _.uniqBy(this.properties.parts.elements,
-      part => `${part.type}:${part.textValue}`);
+    this.elements = this.properties.parts.elements.reduce(
+      (uniq, part) => {
+        const label = `${part.type}:${part.textValue}`;
+        if (!uniq.labels[label]) {
+          uniq.labels[label] = true;
+          uniq.values.push(part);
+        }
+
+        return uniq;
+      },
+      {
+        labels: {},
+        values: [],
+      }).values;
 
     // Include a warning for charsets that attempt to match `\c` followed by
     // any character other than A-Z (case insensitive). Charsets like `[\c@]`

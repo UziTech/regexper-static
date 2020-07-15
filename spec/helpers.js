@@ -1,7 +1,6 @@
-import _ from 'lodash';
-
 export function testEach(title, obj, func, only) {
-  _.forIn(obj, (content, str) => {
+  for (const str in obj) {
+    const content = obj[str];
     // eslint-disable-next-line no-restricted-globals
     (only ? fit : it)(`${content ? 'parses' : 'does not parse'} "${str}" as a ${title}`, function() {
       expect(typeof content).toBe("object");
@@ -18,5 +17,5 @@ export function testEach(title, obj, func, only) {
         }
       }
     });
-  });
+  }
 }

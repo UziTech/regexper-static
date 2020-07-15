@@ -4,7 +4,6 @@
 // end of the Match.
 
 import util from '../util.js';
-import _ from 'lodash';
 
 export default {
   type: 'match',
@@ -28,10 +27,11 @@ export default {
   },
 
   // Renders the match into the currently set container.
-  _render() {
+  async _render() {
     // Render each of the match fragments.
-    const partPromises = _.map(this.parts, part => part.render(this.container.group()));
-    let items = _(partPromises).compact().value();
+    const partPromises = this.parts.map(
+      part => part.render(this.container.group()));
+    let items = partPromises.filter(Boolean);
 
     // Handle the situation where a regular expression of `()` is rendered.
     // This leads to a Match node with no fragments. Something must be rendered
@@ -43,20 +43,19 @@ export default {
       items = [this.container.group().path('M0,0h10')];
     }
 
-    return Promise.all(items)
-      .then(items => {
-        // Find SVG elements to be used when calculating the anchor.
-        this.start = _.first(items);
-        this.end = _.last(items);
+    items = await Promise.all(items);
 
-        util.spaceHorizontally(items, {
-          padding: 10,
-        });
+    // Find SVG elements to be used when calculating the anchor.
+    this.start = items[0];
+    this.end = items[items.length - 1];
 
-        // Add lines between each item.
-        this.container.prepend(
-          this.container.path(this.connectorPaths(items).join('')));
-      });
+    util.spaceHorizontally(items, {
+      padding: 10,
+    });
+
+    // Add lines between each item.
+    this.container.prepend(
+      this.container.path(this.connectorPaths(items).join('')));
   },
 
   // Returns an array of SVG path strings between each item.
@@ -64,8 +63,8 @@ export default {
   connectorPaths(items) {
     let prev; let  next;
 
-    prev = util.normalizeBBox(_.first(items).getBBox());
-    return _.map(items.slice(1), item => {
+    prev = util.normalizeBBox(items[0].getBBox());
+    return items.slice(1).map(item => {
       try {
         next = util.normalizeBBox(item.getBBox());
         return `M${prev.ax2},${prev.ay}H${next.ax}`;
@@ -77,8 +76,8 @@ export default {
 
   setup() {
     // Merged list of MatchFragments to be rendered.
-    this.parts = _.reduce(this.properties.parts.elements, function(result, node) {
-      const last = _.last(result);
+    this.parts = this.properties.parts.elements.reduce(function(result, node) {
+      const last = result[result.length - 1];
 
       if (last && node.canMerge && last.canMerge) {
         // Merged the content of `node` into `last` when possible. This also

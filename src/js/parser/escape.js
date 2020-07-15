@@ -2,7 +2,7 @@
 // the description of the escape and the numeric code it matches when
 // appropriate.
 
-import _ from 'lodash';
+import util from '../util.js';
 
 function hex(value) {
   let str = value.toString(16).toUpperCase();
@@ -38,7 +38,7 @@ export default {
     this.arg = this.properties.esc.properties.arg.textValue;
     // Retrieves the label, ordinal value, an flag to control adding hex value
     // from the escape code mappings
-    [this.label, this.ordinal, addHex] = _.result(this, this.code);
+    [this.label, this.ordinal, addHex] = util.getResult(this, this.code);
 
     // When requested, add hex code to the label.
     if (addHex) {

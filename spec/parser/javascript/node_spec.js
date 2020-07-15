@@ -119,31 +119,27 @@ describe('parser/javascript/node.js', function() {
 
   describe('#deferredStep', function() {
 
-    it('resolves the returned promise when the render is not canceled', function(done) {
+    it('resolves the returned promise when the render is not canceled', async function() {
       const resolve = jasmine.createSpy('resolve');
       const reject = jasmine.createSpy('reject');
 
-      this.node.deferredStep('result')
-        .then(resolve, reject)
-        .then(() => {
-          expect(resolve).toHaveBeenCalledWith('result');
-          expect(reject).not.toHaveBeenCalled();
-          done();
-        });
+      await this.node.deferredStep('result')
+        .then(resolve, reject);
+
+      expect(resolve).toHaveBeenCalledWith('result');
+      expect(reject).not.toHaveBeenCalled();
     });
 
-    it('rejects the returned promise when the render is canceled', function(done) {
+    it('rejects the returned promise when the render is canceled', async function() {
       const resolve = jasmine.createSpy('resolve');
       const reject = jasmine.createSpy('reject');
 
       this.node.state.cancelRender = true;
-      this.node.deferredStep('result', 'value')
-        .then(resolve, reject)
-        .then(() => {
-          expect(resolve).not.toHaveBeenCalled();
-          expect(reject).toHaveBeenCalledWith('Render cancelled');
-          done();
-        });
+      await this.node.deferredStep('result', 'value')
+        .then(resolve, reject);
+
+      expect(resolve).not.toHaveBeenCalled();
+      expect(reject).toHaveBeenCalledWith('Render cancelled');
     });
 
   });
@@ -188,32 +184,26 @@ describe('parser/javascript/node.js', function() {
         this.group.rect.and.returnValue(this.rect);
       });
 
-      it('transforms the text element', function(done) {
-        this.node.renderLabel('example label')
-          .then(() => {
-            expect(this.text.transform).toHaveBeenCalledWith(Snap.matrix()
-              .translate(5, 22));
-            done();
-          });
+      it('transforms the text element', async function() {
+        await this.node.renderLabel('example label');
+
+        expect(this.text.transform).toHaveBeenCalledWith(Snap.matrix()
+          .translate(5, 22));
       });
 
-      it('sets the dimensions of the rect element', function(done) {
-        this.node.renderLabel('example label')
-          .then(() => {
-            expect(this.rect.attr).toHaveBeenCalledWith({
-              width: 52,
-              height: 34,
-            });
-            done();
-          });
+      it('sets the dimensions of the rect element', async function() {
+        await this.node.renderLabel('example label');
+
+        expect(this.rect.attr).toHaveBeenCalledWith({
+          width: 52,
+          height: 34,
+        });
       });
 
-      it('resolves with the group element', function(done) {
-        this.node.renderLabel('example label')
-          .then(group => {
-            expect(group).toEqual(this.group);
-            done();
-          });
+      it('resolves with the group element', async function() {
+        const group = await this.node.renderLabel('example label');
+
+        expect(group).toEqual(this.group);
       });
 
     });
@@ -230,16 +220,16 @@ describe('parser/javascript/node.js', function() {
 
       beforeEach(function() {
         this.node.proxy = jasmine.createSpyObj('proxy', ['render']);
-        this.node.proxy.render.and.returnValue('example proxy result');
+        this.node.proxy.render.and.returnValue(Promise.resolve('example proxy result'));
       });
 
-      it('sets the container', function() {
-        this.node.render(this.container);
+      it('sets the container', async function() {
+        await this.node.render(this.container);
         expect(this.node.container).toEqual(this.container);
       });
 
-      it('calls the proxy render method', function() {
-        expect(this.node.render(this.container)).toEqual('example proxy result');
+      it('calls the proxy render method', async function() {
+        await expectAsync(this.node.render(this.container)).toBeResolvedTo('example proxy result');
         expect(this.node.proxy.render).toHaveBeenCalledWith(this.container);
       });
 
@@ -270,23 +260,22 @@ describe('parser/javascript/node.js', function() {
 
       describe('when #_render is complete', function() {
 
-        it('decrements the renderCounter', function(done) {
-          this.node.render(this.container)
-            .then(() => {
-              expect(this.node.state.renderCounter).toEqual(41);
-              done();
-            });
+        it('decrements the renderCounter', async function() {
+          const renderPromise = this.node.render(this.container);
+
           this.node.state.renderCounter = 42;
           this.deferred.resolve();
+
+          await renderPromise;
+
+          expect(this.node.state.renderCounter).toEqual(41);
         });
 
-        it('ultimately resolves with the node instance', function(done) {
+        it('ultimately resolves with the node instance', async function() {
           this.deferred.resolve();
-          this.node.render(this.container)
-            .then(result => {
-              expect(result).toEqual(this.node);
-              done();
-            });
+          const result = await this.node.render(this.container);
+
+          expect(result).toEqual(this.node);
         });
 
       });
@@ -356,63 +345,53 @@ describe('parser/javascript/node.js', function() {
         });
       });
 
-      it('positions the text element', function(done) {
+      it('positions the text element', async function() {
         spyOn(this.text, 'transform').and.callThrough();
-        this.node.renderLabeledBox('example label', this.content, { padding: 5 })
-          .then(() => {
-            expect(this.text.transform).toHaveBeenCalledWith(Snap.matrix()
-              .translate(0, 20));
-            done();
-          });
+        await this.node.renderLabeledBox('example label', this.content, { padding: 5 });
+
+        expect(this.text.transform).toHaveBeenCalledWith(Snap.matrix()
+          .translate(0, 20));
       });
 
-      it('positions the rect element', function(done) {
+      it('positions the rect element', async function() {
         spyOn(this.rect, 'transform').and.callThrough();
-        this.node.renderLabeledBox('example label', this.content, { padding: 5 })
-          .then(() => {
-            expect(this.rect.transform).toHaveBeenCalledWith(Snap.matrix()
-              .translate(0, 20));
-            done();
-          });
+        await this.node.renderLabeledBox('example label', this.content, { padding: 5 });
+
+        expect(this.rect.transform).toHaveBeenCalledWith(Snap.matrix()
+          .translate(0, 20));
       });
 
-      it('sets the dimensions of the rect element', function(done) {
+      it('sets the dimensions of the rect element', async function() {
         spyOn(this.rect, 'attr').and.callThrough();
-        this.node.renderLabeledBox('example label', this.content, { padding: 5 })
-          .then(() => {
-            expect(this.rect.attr).toHaveBeenCalledWith({
-              width: 210,
-              height: 110,
-            });
-            done();
-          });
+        await this.node.renderLabeledBox('example label', this.content, { padding: 5 });
+
+        expect(this.rect.attr).toHaveBeenCalledWith({
+          width: 210,
+          height: 110,
+        });
       });
 
-      it('sets the dimensions of the rect element (based on the text element)', function(done) {
+      it('sets the dimensions of the rect element (based on the text element)', async function() {
         this.content.getBBox.and.returnValue({
           width: 50,
           height: 100,
           cx: 25,
         });
         spyOn(this.rect, 'attr').and.callThrough();
-        this.node.renderLabeledBox('example label', this.content, { padding: 5 })
-          .then(() => {
-            expect(this.rect.attr).toHaveBeenCalledWith({
-              width: 100,
-              height: 110,
-            });
-            done();
-          });
+        await this.node.renderLabeledBox('example label', this.content, { padding: 5 });
+
+        expect(this.rect.attr).toHaveBeenCalledWith({
+          width: 100,
+          height: 110,
+        });
       });
 
-      it('positions the content element', function(done) {
+      it('positions the content element', async function() {
         spyOn(this.content, 'transform').and.callThrough();
-        this.node.renderLabeledBox('example label', this.content, { padding: 5 })
-          .then(() => {
-            expect(this.content.transform).toHaveBeenCalledWith(Snap.matrix()
-              .translate(5, 25));
-            done();
-          });
+        await this.node.renderLabeledBox('example label', this.content, { padding: 5 });
+
+        expect(this.content.transform).toHaveBeenCalledWith(Snap.matrix()
+          .translate(5, 25));
       });
 
     });

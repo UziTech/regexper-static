@@ -1,8 +1,6 @@
 // Subexp nodes are for expressions inside of parenthesis. It is rendered as a
 // labeled box around the contained expression if a label is required.
 
-import _ from 'lodash';
-
 export default {
   type: 'subexp',
 
@@ -49,7 +47,7 @@ export default {
 
   // Returns the label for the subexpression.
   label() {
-    if (_.has(this.labelMap, this.properties.capture.textValue)) {
+    if (this.properties.capture.textValue in this.labelMap) {
       return this.labelMap[this.properties.capture.textValue];
     } else if (this.properties.capture !== undefined
       && this.properties.capture.properties !== undefined

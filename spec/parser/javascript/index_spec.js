@@ -49,37 +49,32 @@ describe('parser/javascript/index.js', function() {
       expect(this.parser._addClass).toHaveBeenCalledWith('loading');
     });
 
-    it('parses the expression', function(done) {
-      this.parser.parse('example expression')
-        .then(() => {
-          expect(regexpParser.parse).toHaveBeenCalledWith('example expression');
-          done();
-        });
+    it('parses the expression', async function() {
+      await this.parser.parse('example expression');
+
+      expect(regexpParser.parse).toHaveBeenCalledWith('example expression');
     });
 
-    it('replaces newlines with "\\n"', function(done) {
-      this.parser.parse('multiline\nexpression')
-        .then(() => {
-          expect(regexpParser.parse).toHaveBeenCalledWith('multiline\\nexpression');
-          done();
-        });
+    it('replaces newlines with "\\n"', async function() {
+      await this.parser.parse('multiline\nexpression');
+
+      expect(regexpParser.parse).toHaveBeenCalledWith('multiline\\nexpression');
     });
 
-    it('resolves the returned promise with the parser instance', function(done) {
-      this.parser.parse('example expression')
-        .then(result => {
-          expect(result).toEqual(this.parser);
-          done();
-        });
+    it('resolves the returned promise with the parser instance', async function() {
+      const result = await this.parser.parse('example expression');
+
+      expect(result).toEqual(this.parser);
     });
 
-    it('rejects the returned promise with the exception thrown', function(done) {
+    it('rejects the returned promise with the exception thrown', async function() {
       regexpParser.parse.and.throwError('fail');
-      this.parser.parse('(example')
-        .then(null, result => {
-          expect(result).toBeDefined();
-          done();
-        });
+      try {
+        await this.parser.parse('(example');
+        fail();
+      } catch (err) {
+        expect(err).toBeDefined();
+      }
     });
 
   });
@@ -111,41 +106,33 @@ describe('parser/javascript/index.js', function() {
         this.renderPromise.resolve(this.result);
       });
 
-      it('positions the renderd expression', function(done) {
-        this.parser.render()
-          .then(() => {
-            expect(this.result.transform).toHaveBeenCalledWith(Snap.matrix()
-              .translate(6, 8));
-            done();
-          });
+      it('positions the renderd expression', async function() {
+        await this.parser.render();
+
+        expect(this.result.transform).toHaveBeenCalledWith(Snap.matrix()
+          .translate(6, 8));
       });
 
-      it('sets the dimensions of the image', function(done) {
-        this.parser.render()
-          .then(() => {
-            const svg = this.container.querySelector('svg');
+      it('sets the dimensions of the image', async function() {
+        await this.parser.render();
 
-            expect(svg.getAttribute('width')).toEqual('62');
-            expect(svg.getAttribute('height')).toEqual('44');
-            done();
-          });
+        const svg = this.container.querySelector('svg');
+
+        expect(svg.getAttribute('width')).toEqual('62');
+        expect(svg.getAttribute('height')).toEqual('44');
       });
 
-      it('removes the "loading" class', function(done) {
+      it('removes the "loading" class', async function() {
         spyOn(this.parser, '_removeClass');
-        this.parser.render()
-          .then(() => {
-            expect(this.parser._removeClass).toHaveBeenCalledWith('loading');
-            done();
-          });
+        await this.parser.render();
+
+        expect(this.parser._removeClass).toHaveBeenCalledWith('loading');
       });
 
-      it('removes the progress element', function(done) {
-        this.parser.render()
-          .then(() => {
-            expect(this.container.querySelector('.loading')).toBeNull();
-            done();
-          });
+      it('removes the progress element', async function() {
+        await this.parser.render();
+
+        expect(this.container.querySelector('.loading')).toBeNull();
       });
 
     });

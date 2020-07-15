@@ -3,7 +3,6 @@
 // modules.
 import Snap from 'snapsvg-cjs';
 import util from '../util.js';
-import _ from 'lodash';
 
 export default class Node {
   // Arguments passed in are defined by the canopy tool.
@@ -22,17 +21,21 @@ export default class Node {
   // Node-type module to extend the Node instance with. Setting of this is
   // done by canopy during parsing and is setup in [parser.js](./parser.html).
   set module(mod) {
-    _.extend(this, mod);
+    for (const prop in mod) {
+      this[prop] = mod[prop];
+    }
 
     if (this.setup) {
       this.setup();
     }
 
-    _.forOwn(this.definedProperties || {}, (methods, name) => {
-      Object.defineProperty(this, name, methods);
-    });
+    if (this.definedProperties) {
+      for (const name in this.definedProperties) {
+        Object.defineProperty(this, name, this.definedProperties[name]);
+      }
 
-    delete this.definedProperties;
+      delete this.definedProperties;
+    }
   }
 
   // The SVG element to render this node into. A node-type class is
@@ -61,7 +64,10 @@ export default class Node {
 
   // Returns the bounding box of the container with the anchor included.
   getBBox() {
-    return _.extend(util.normalizeBBox(this.container.getBBox()), this.anchor);
+    return {
+      ...util.normalizeBBox(this.container.getBBox()),
+      ...this.anchor,
+    };
   }
 
   // Transforms the container.
@@ -76,14 +82,14 @@ export default class Node {
   // be thrown to halt any rendering.
   //
   // - __value__ - Value to resolve the returned promise with.
-  deferredStep(value) {
-    return util.tick().then(() => {
-      if (this.state.cancelRender) {
-        throw 'Render cancelled';
-      }
+  async deferredStep(value) {
+    await util.tick();
 
-      return value;
-    });
+    if (this.state.cancelRender) {
+      throw 'Render cancelled';
+    }
+
+    return value;
   }
 
   // Render this node.
@@ -91,7 +97,7 @@ export default class Node {
   // - __container__ - Optional element to render this node into. A container
   //    must be specified, but if it has already been set, then it does not
   //    need to be provided to render.
-  render(container) {
+  async render(container) {
     if (container) {
       this.container = container;
     }
@@ -99,16 +105,14 @@ export default class Node {
     if (this.proxy) {
       // For nodes that proxy to a child node, just render the child.
       return this.proxy.render(this.container);
-    } else {
-      // Non-proxied nodes call their _render method (defined by the node-type
-      // module).
-      this.state.renderCounter++;
-      return this._render()
-        .then(() => {
-          this.state.renderCounter--;
-          return this;
-        });
     }
+
+    // Non-proxied nodes call their _render method (defined by the node-type
+    // module).
+    this.state.renderCounter++;
+    await this._render();
+    this.state.renderCounter--;
+    return this;
   }
 
   // Renders a label centered within a rectangle which can be styled. Returns
@@ -116,27 +120,26 @@ export default class Node {
   // rendered in.
   //
   // - __text__ - String or array of strings to render as a label.
-  renderLabel(text) {
+  async renderLabel(text) {
     const group = this.container.group()
       .addClass('label');
     const rect = group.rect();
-    const label = group.text(0, 0, _.flatten([text]));
+    const label = group.text(0, 0, [text].flat());
 
-    return this.deferredStep()
-      .then(() => {
-        const box = label.getBBox();
-        const margin = 5;
+    await this.deferredStep();
 
-        label.transform(Snap.matrix()
-          .translate(margin, box.height / 2 + 2 * margin));
+    const box = label.getBBox();
+    const margin = 5;
 
-        rect.attr({
-          width: box.width + 2 * margin,
-          height: box.height + 2 * margin,
-        });
+    label.transform(Snap.matrix()
+      .translate(margin, box.height / 2 + 2 * margin));
 
-        return group;
-      });
+    rect.attr({
+      width: box.width + 2 * margin,
+      height: box.height + 2 * margin,
+    });
+
+    return group;
   }
 
   // Renders a labeled box around another SVG element. Returns a Promise.
@@ -145,8 +148,8 @@ export default class Node {
   // - __content__ - SVG element to wrap in the box.
   // - __options.padding__ - Pixels of padding to place between the content and
   //    the box.
-  renderLabeledBox(text, content, options) {
-    const label = this.container.text(0, 0, _.flatten([text]))
+  async renderLabeledBox(text, content, options = {}) {
+    const label = this.container.text(0, 0, [text].flat())
       .addClass(`${this.type}-label`);
     const box = this.container.rect()
       .addClass(`${this.type}-box`)
@@ -155,33 +158,33 @@ export default class Node {
         ry: 3,
       });
 
-    options = _.defaults(options || {}, {
+    options = {
       padding: 0,
-    });
+      ...options,
+    };
 
     this.container.prepend(label);
     this.container.prepend(box);
 
-    return this.deferredStep()
-      .then(() => {
-        const labelBox = label.getBBox();
-        const contentBox = content.getBBox();
-        const boxWidth = Math.max(contentBox.width + options.padding * 2, labelBox.width);
-        const boxHeight = contentBox.height + options.padding * 2;
+    await this.deferredStep();
 
-        label.transform(Snap.matrix()
-          .translate(0, labelBox.height));
+    const labelBox = label.getBBox();
+    const contentBox = content.getBBox();
+    const boxWidth = Math.max(contentBox.width + options.padding * 2, labelBox.width);
+    const boxHeight = contentBox.height + options.padding * 2;
 
-        box
-          .transform(Snap.matrix()
-            .translate(0, labelBox.height))
-          .attr({
-            width: boxWidth,
-            height: boxHeight,
-          });
+    label.transform(Snap.matrix()
+      .translate(0, labelBox.height));
 
-        content.transform(Snap.matrix()
-          .translate(boxWidth / 2 - contentBox.cx, labelBox.height + options.padding));
+    box
+      .transform(Snap.matrix()
+        .translate(0, labelBox.height))
+      .attr({
+        width: boxWidth,
+        height: boxHeight,
       });
+
+    content.transform(Snap.matrix()
+      .translate(boxWidth / 2 - contentBox.cx, labelBox.height + options.padding));
   }
 }

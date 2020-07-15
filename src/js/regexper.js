@@ -3,7 +3,6 @@
 
 import util from './util.js';
 import Parser from './parser/index.js';
-import _ from 'lodash';
 
 export default class Regexper {
   constructor(root) {
@@ -162,7 +161,7 @@ export default class Regexper {
 
   // Update the URLs of the 'download' and 'permalink' links.
   updateLinks() {
-    const classes = _.without(this.links.className.split(' '), ['hide-download-svg', 'hide-permalink']);
+    const classes = this.links.className.split(' ').filter(c => !['hide-download-svg', 'hide-permalink'].includes(c));
     const svg = this.svgContainer.querySelector('.svg');
 
     // Create the SVG 'download' image URL.
@@ -220,7 +219,7 @@ export default class Regexper {
   //
   // - __warnings__ - Array of warning messages to display.
   displayWarnings(warnings) {
-    this.warnings.innerHTML = _.map(warnings, warning => (
+    this.warnings.innerHTML = warnings.map(warning => (
       `<li class="inline-icon">${util.icon("#warning")}${warning}</li>`
     )).join('');
   }

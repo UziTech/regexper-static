@@ -7,7 +7,7 @@ module.exports = function(karma) {
     preprocessors: {
       'spec/test_index.js': ['webpack', 'sourcemap'],
     },
-    reporters: ['progress', 'notify'],
+    reporters: ['progress'],
     colors: true,
     logLevel: karma.LOG_INFO,
     browsers: ['ChromeHeadless'],

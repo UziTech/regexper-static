@@ -3,7 +3,6 @@
 // rendering is proxied to the content node.
 
 import Snap from 'snapsvg-cjs';
-import _ from 'lodash';
 
 export default {
   type: 'match-fragment',
@@ -36,10 +35,10 @@ export default {
         const box = this.content.getBBox();
 
         // Add skip or repeat paths to the container.
-        const paths = _.flatten([
+        const paths = [
           this.repeat.skipPath(box),
           this.repeat.loopPath(box),
-        ]);
+        ].flat();
 
         this.container.prepend(
           this.container.path(paths.join('')));

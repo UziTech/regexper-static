@@ -1,6 +1,5 @@
 import javascript from '../../../src/js/parser/javascript/grammar.js';
 import Node from '../../../src/js/parser/node.js';
-import _ from 'lodash';
 import Snap from 'snapsvg-cjs';
 import { testEach } from '../../helpers.js';
 
@@ -88,21 +87,19 @@ describe('parser/javascript/subexp.js', function() {
       expect(this.node.regexp.render).toHaveBeenCalled();
     });
 
-    it('renders a labeled box', function(done) {
+    it('renders a labeled box', async function() {
       spyOn(this.node, 'renderLabeledBox');
       this.renderDeferred.resolve();
-      this.node._render()
-        .then(() => {
-          expect(this.node.renderLabeledBox).toHaveBeenCalledWith('example label', this.node.regexp, { padding: 10 });
-          done();
-        });
+      await this.node._render();
+
+      expect(this.node.renderLabeledBox).toHaveBeenCalledWith('example label', this.node.regexp, { padding: 10 });
     });
 
   });
 
   describe('#label', function() {
 
-    _.forIn({
+    const tests = {
       '(test)': {
         label: 'group #1',
         groupCounter: 2,
@@ -131,13 +128,15 @@ describe('parser/javascript/subexp.js', function() {
         label: '',
         groupCounter: 1,
       },
-    }, (data, str) => {
+    };
+    for (const str in tests) {
+      const data = tests[str];
       it(`generates the correct label for "${str}"`, function() {
         const node = new javascript.Parser(str).__consume__subexp();
         expect(node.label()).toEqual(data.label);
         expect(node.state.groupCounter).toEqual(data.groupCounter);
       });
-    });
+    }
 
   });
 

@@ -120,38 +120,32 @@ describe('parser/javascript/match.js', function() {
         spyOn(this.node, 'connectorPaths').and.returnValue(['connector paths']);
       });
 
-      it('sets the start and end properties', function(done) {
-        this.node._render()
-          .then(() => {
-            expect(this.node.start).toEqual('part 0');
-            expect(this.node.end).toEqual('part 2');
-            done();
-          });
+      it('sets the start and end properties', async function() {
+        await this.node._render();
+
+        expect(this.node.start).toEqual('part 0');
+        expect(this.node.end).toEqual('part 2');
       });
 
-      it('spaces the items horizontally', function(done) {
-        this.node._render()
-          .then(() => {
-            expect(util.spaceHorizontally).toHaveBeenCalledWith([
-              'part 0',
-              'part 1',
-              'part 2',
-            ], { padding: 10 });
-            done();
-          });
+      it('spaces the items horizontally', async function() {
+        await this.node._render();
+
+        expect(util.spaceHorizontally).toHaveBeenCalledWith([
+          'part 0',
+          'part 1',
+          'part 2',
+        ], { padding: 10 });
       });
 
-      it('renders the connector paths', function(done) {
-        this.node._render()
-          .then(() => {
-            expect(this.node.connectorPaths).toHaveBeenCalledWith([
-              'part 0',
-              'part 1',
-              'part 2',
-            ]);
-            expect(this.node.container.path).toHaveBeenCalledWith('connector paths');
-            done();
-          });
+      it('renders the connector paths', async function() {
+        await this.node._render();
+
+        expect(this.node.connectorPaths).toHaveBeenCalledWith([
+          'part 0',
+          'part 1',
+          'part 2',
+        ]);
+        expect(this.node.container.path).toHaveBeenCalledWith('connector paths');
       });
 
     });

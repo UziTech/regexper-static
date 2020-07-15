@@ -65,12 +65,10 @@ describe('parser/php/inline_flag.js', function() {
       spyOn(this.node, 'renderLabeledBox').and.callThrough();
     });
 
-    it('renders a labeled box', function(done) {
-      this.node._render()
-        .then(() => {
-          expect(this.node.renderLabeledBox).toHaveBeenCalledWith('Flags:', jasmine.any(Object), {padding: 5});
-          done();
-        });
+    it('renders a labeled box', async function() {
+      await this.node._render();
+
+      expect(this.node.renderLabeledBox).toHaveBeenCalledWith('Flags:', jasmine.any(Object), {padding: 5});
     });
 
   });

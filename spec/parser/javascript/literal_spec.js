@@ -36,29 +36,25 @@ describe('parser/javascript/literal.js', function() {
       spyOn(this.node, 'renderLabel').and.callThrough();
     });
 
-    it('renders a label', function() {
-      this.node._render();
+    it('renders a label', async function() {
+      await this.node._render();
       expect(this.node.renderLabel).toHaveBeenCalledWith(['\u201c', 'a', '\u201d']);
     });
 
-    it('sets the class of the first and third tspan to "quote"', function(done) {
-      this.node._render()
-        .then(label => {
-          expect(label.selectAll('tspan')[0].hasClass('quote')).toBeTruthy();
-          expect(label.selectAll('tspan')[2].hasClass('quote')).toBeTruthy();
-          done();
-        });
+    it('sets the class of the first and third tspan to "quote"', async function() {
+      const label = await this.node._render();
+
+      expect(label.selectAll('tspan')[0].hasClass('quote')).toBeTruthy();
+      expect(label.selectAll('tspan')[2].hasClass('quote')).toBeTruthy();
     });
 
-    it('sets the edge radius of the rect', function(done) {
-      this.node._render()
-        .then(label => {
-          expect(label.select('rect').attr()).toEqual(jasmine.objectContaining({
-            rx: '3',
-            ry: '3',
-          }));
-          done();
-        });
+    it('sets the edge radius of the rect', async function() {
+      const label = await this.node._render();
+
+      expect(label.select('rect').attr()).toEqual(jasmine.objectContaining({
+        rx: '3',
+        ry: '3',
+      }));
     });
 
   });

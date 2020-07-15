@@ -5,10 +5,13 @@
 // test. Therefore, this code is kept as simple as possible to reduce the need
 // to run it through automated tests.
 
+// Import polyfills
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
+
 import util from './util.js';
 import Regexper from './regexper.js';
 import Parser from './parser/index.js';
-import _ from 'lodash';
 
 (function() {
   // Initialize the main page of the site. Functionality is kept in the
@@ -27,12 +30,12 @@ import _ from 'lodash';
   // Initialize other pages on the site (specifically the documentation page).
   // Any element with a `data-expr` attribute will contain a rendering of the
   // provided regular expression.
-  _.each(document.querySelectorAll('[data-expr]'), element => {
+  for (const element of document.querySelectorAll('[data-expr]')) {
     new Parser(element, { keepContent: true, grammar: element.dataset.grammar || "javascript" })
       .parse(element.getAttribute('data-expr'))
       .then(parser => {
         parser.render();
       })
       .catch(util.exposeError);
-  });
+  }
 }());

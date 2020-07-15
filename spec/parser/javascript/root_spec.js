@@ -123,21 +123,17 @@ describe('parser/javascript/root.js', function() {
         });
       });
 
-      it('renders a path element to lead in and out of the regexp', function(done) {
-        this.node._render()
-          .then(() => {
-            expect(this.node.container.path).toHaveBeenCalledWith('M1,2H0M3,2H14');
-            done();
-          });
+      it('renders a path element to lead in and out of the regexp', async function() {
+        await this.node._render();
+
+        expect(this.node.container.path).toHaveBeenCalledWith('M1,2H0M3,2H14');
       });
 
-      it('renders circle elements before and after the regexp', function(done) {
-        this.node._render()
-          .then(() => {
-            expect(this.node.container.circle).toHaveBeenCalledWith(0, 2, 5);
-            expect(this.node.container.circle).toHaveBeenCalledWith(14, 2, 5);
-            done();
-          });
+      it('renders circle elements before and after the regexp', async function() {
+        await this.node._render();
+
+        expect(this.node.container.circle).toHaveBeenCalledWith(0, 2, 5);
+        expect(this.node.container.circle).toHaveBeenCalledWith(14, 2, 5);
       });
 
       describe('when there are flags', function() {
@@ -146,13 +142,11 @@ describe('parser/javascript/root.js', function() {
           this.node.flags = ['example'];
         });
 
-        it('moves the regexp below the flag text', function(done) {
-          this.node._render()
-            .then(() => {
-              expect(this.node.regexp.transform).toHaveBeenCalledWith(Snap.matrix()
-                .translate(10, 20));
-              done();
-            });
+        it('moves the regexp below the flag text', async function() {
+          await this.node._render();
+
+          expect(this.node.regexp.transform).toHaveBeenCalledWith(Snap.matrix()
+            .translate(10, 20));
         });
 
       });
@@ -163,13 +157,11 @@ describe('parser/javascript/root.js', function() {
           this.node.flags = [];
         });
 
-        it('positions the regexp', function(done) {
-          this.node._render()
-            .then(() => {
-              expect(this.node.regexp.transform).toHaveBeenCalledWith(Snap.matrix()
-                .translate(10, 0));
-              done();
-            });
+        it('positions the regexp', async function() {
+          await this.node._render();
+
+          expect(this.node.regexp.transform).toHaveBeenCalledWith(Snap.matrix()
+            .translate(10, 0));
         });
 
       });

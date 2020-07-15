@@ -1,5 +1,4 @@
 const gulp = require('gulp');
-const _ = require('lodash');
 const notify = require('gulp-notify');
 const folderToc = require('folder-toc');
 const docco = require('gulp-docco');
@@ -17,18 +16,18 @@ const fs = require('fs');
 
 function watch() {
   gulp.watch(config.globs.other, staticFiles);
-  gulp.watch(_.flatten([
+  gulp.watch([
     config.globs.templates,
     config.globs.data,
     config.globs.helpers,
     config.globs.partials,
-  ]), markup);
-  gulp.watch(_.flatten([
+  ].flat(), markup);
+  gulp.watch([
     config.globs.js,
-  ]), bundle);
-  gulp.watch(_.flatten([
+  ].flat(), bundle);
+  gulp.watch([
     config.globs.sass,
-  ]), gulp.series(bundle, markup));
+  ].flat(), gulp.series(bundle, markup));
   gulp.watch(config.globs.js, docs);
 }
 
@@ -67,7 +66,8 @@ function markup() {
     helpers: config.globs.helpers,
     partials: config.globs.partials,
     parsePartialName: function(option, file) {
-      return _.last(file.path.split(/\\|\//)).replace('.hbs', '');
+      const split = file.path.split(/\\|\//);
+      return split[split.length - 1].replace('.hbs', '');
     },
     bustCache: true,
   });

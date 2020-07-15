@@ -24,26 +24,24 @@ export default {
   flagLabels: Root.flagLabels,
 
   // Renders the charset into the currently set container.
-  _render() {
+  async _render() {
 
     this.labelContainer = this.container.group();
 
-    return Promise.all(this.flags.map(flag => {
+    const labels = await Promise.all(this.flags.map(flag => {
       return this.labelContainer.text(0, 5, flag);
-    }))
-      .then(labels => {
+    }));
 
-        util.spaceVertically(labels, {
-          padding: 5,
-          offset: 5,
-        });
+    util.spaceVertically(labels, {
+      padding: 5,
+      offset: 5,
+    });
 
-        return this.renderLabeledBox("Flags:", this.labelContainer, {padding: 5});
-      });
+    return this.renderLabeledBox("Flags:", this.labelContainer, {padding: 5});
   },
 
   setup() {
-    // Get a list of unique flags
+    // Convert list of flags into text describing each flag.
     const flags = [...new Set([...this.properties.flags.textValue])];
 
     this.flags = flags.map(f => this.flagLabels[f]);
