@@ -28,7 +28,7 @@ These other gulp tasks are available:
 
     $ gulp docs # Build documentation into the ./docs directory
     $ gulp build # Build the site into the ./build directory
-    $ yarn test # Run JSCS lint and Karma tests
+    $ yarn test # Run ESlint and Karma tests
 
 ## License
 
