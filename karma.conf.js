@@ -14,7 +14,7 @@ module.exports = function(karma) {
     autoWatch: true,
     singleRun: false,
     webpack: {
-      devtool: 'inline-source-map',
+      devtool: 'source-map',
       module: {
         rules: [
           {
