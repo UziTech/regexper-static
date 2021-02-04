@@ -43,9 +43,9 @@ describe('parser/javascript/index.js', function() {
       spyOn(regexpParser, 'parse');
     });
 
-    it('adds the "loading" class', function() {
+    it('adds the "loading" class', async function() {
       spyOn(this.parser, '_addClass');
-      this.parser.parse('example expression');
+      await this.parser.parse('example expression');
       expect(this.parser._addClass).toHaveBeenCalledWith('loading');
     });
 
