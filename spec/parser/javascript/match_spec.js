@@ -100,25 +100,23 @@ describe('parser/javascript/match.js', function() {
       this.node.parts[0].render.and.returnValue(this.partDeferreds[0].promise);
       this.node.parts[1].render.and.returnValue(this.partDeferreds[1].promise);
       this.node.parts[2].render.and.returnValue(this.partDeferreds[2].promise);
+
+      this.partDeferreds[0].resolve('part 0');
+      this.partDeferreds[1].resolve('part 1');
+      this.partDeferreds[2].resolve('part 2');
+
+      spyOn(util, 'spaceHorizontally');
+      spyOn(this.node, 'connectorPaths').and.returnValue(['connector paths']);
     });
 
-    it('renders each part', function() {
-      this.node._render();
+    it('renders each part', async function() {
+      await this.node._render();
       expect(this.node.parts[0].render).toHaveBeenCalledWith('example group');
       expect(this.node.parts[1].render).toHaveBeenCalledWith('example group');
       expect(this.node.parts[2].render).toHaveBeenCalledWith('example group');
     });
 
     describe('positioning of items', function() {
-
-      beforeEach(function() {
-        this.partDeferreds[0].resolve('part 0');
-        this.partDeferreds[1].resolve('part 1');
-        this.partDeferreds[2].resolve('part 2');
-
-        spyOn(util, 'spaceHorizontally');
-        spyOn(this.node, 'connectorPaths').and.returnValue(['connector paths']);
-      });
 
       it('sets the start and end properties', async function() {
         await this.node._render();

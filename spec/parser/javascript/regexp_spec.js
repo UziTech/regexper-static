@@ -70,6 +70,10 @@ describe('parser/javascript/regexp.js', function() {
       this.node.matches[1].render.and.returnValue(this.matchDeferred[1].promise);
       this.node.matches[2].render.and.returnValue(this.matchDeferred[2].promise);
 
+      this.matchDeferred[0].resolve();
+      this.matchDeferred[1].resolve();
+      this.matchDeferred[2].resolve();
+
       spyOn(this.node, 'getBBox').and.returnValue('container bbox');
       spyOn(this.node, 'makeCurve').and.returnValue('curve');
       spyOn(this.node, 'makeSide').and.returnValue('side');
@@ -78,8 +82,8 @@ describe('parser/javascript/regexp.js', function() {
       spyOn(util, 'spaceVertically');
     });
 
-    it('creates a container for the match nodes', function() {
-      this.node._render();
+    it('creates a container for the match nodes', async function() {
+      await this.node._render();
 
       expect(this.node.container.group).toHaveBeenCalled();
       expect(this.group.addClass).toHaveBeenCalledWith('regexp-matches');
@@ -87,8 +91,8 @@ describe('parser/javascript/regexp.js', function() {
         .translate(20, 0));
     });
 
-    it('renders each match node', function() {
-      this.node._render();
+    it('renders each match node', async function() {
+      await this.node._render();
 
       expect(this.node.matches[0].render).toHaveBeenCalledWith('group 0');
       expect(this.node.matches[1].render).toHaveBeenCalledWith('group 1');
@@ -96,12 +100,6 @@ describe('parser/javascript/regexp.js', function() {
     });
 
     describe('positioning of the match nodes', function() {
-
-      beforeEach(function() {
-        this.matchDeferred[0].resolve();
-        this.matchDeferred[1].resolve();
-        this.matchDeferred[2].resolve();
-      });
 
       it('spaces the nodes vertically', async function() {
         await this.node._render();

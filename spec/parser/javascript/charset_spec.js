@@ -99,6 +99,10 @@ describe('parser/javascript/charset.js', function() {
       this.node.elements[1].render.and.returnValue(this.elementDeferred[1].promise);
       this.node.elements[2].render.and.returnValue(this.elementDeferred[2].promise);
 
+      this.elementDeferred[0].resolve();
+      this.elementDeferred[1].resolve();
+      this.elementDeferred[2].resolve();
+
       this.node.container = Snap(document.createElement('svg')).group();
       this.partContainer = this.node.container.group();
       spyOn(this.node.container, 'group').and.returnValue(this.partContainer);
@@ -110,25 +114,19 @@ describe('parser/javascript/charset.js', function() {
       spyOn(util, 'spaceVertically');
     });
 
-    it('creates a cotainer for the parts of the charset', function() {
-      this.node._render();
+    it('creates a cotainer for the parts of the charset', async function() {
+      await this.node._render();
       expect(this.node.partContainer).toEqual(this.partContainer);
     });
 
-    it('renders each item', function() {
-      this.node._render();
+    it('renders each item', async function() {
+      await this.node._render();
       expect(this.node.elements[0].render).toHaveBeenCalledWith('group 0');
       expect(this.node.elements[1].render).toHaveBeenCalledWith('group 1');
       expect(this.node.elements[2].render).toHaveBeenCalledWith('group 2');
     });
 
     describe('positioning of the items', function() {
-
-      beforeEach(function() {
-        this.elementDeferred[0].resolve();
-        this.elementDeferred[1].resolve();
-        this.elementDeferred[2].resolve();
-      });
 
       it('spaces the elements vertically', async function() {
         await this.node._render();

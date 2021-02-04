@@ -85,24 +85,26 @@ describe('parser/javascript/index.js', function() {
       this.renderPromise = this.testablePromise();
       this.parser.parsed = jasmine.createSpyObj('parsed', ['render']);
       this.parser.parsed.render.and.returnValue(this.renderPromise.promise);
+
+      this.result = jasmine.createSpyObj('result', ['getBBox', 'transform']);
+      this.result.getBBox.and.returnValue({
+        x: 4,
+        y: 2,
+        width: 42,
+        height: 24,
+      });
     });
 
-    it('render the parsed expression', function() {
-      this.parser.render();
+    it('render the parsed expression', async function() {
+      const promise = this.parser.render();
       expect(this.parser.parsed.render).toHaveBeenCalled();
+      this.renderPromise.resolve(this.result);
+      await promise;
     });
 
     describe('when rendering is complete', function() {
 
       beforeEach(function() {
-        this.result = jasmine.createSpyObj('result', ['getBBox', 'transform']);
-        this.result.getBBox.and.returnValue({
-          x: 4,
-          y: 2,
-          width: 42,
-          height: 24,
-        });
-
         this.renderPromise.resolve(this.result);
       });
 

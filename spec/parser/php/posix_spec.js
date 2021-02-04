@@ -122,8 +122,8 @@ describe('parser/php/posix.js', function() {
       spyOn(this.node, 'renderLabel').and.callThrough();
     });
 
-    it('renders a label', function() {
-      this.node._render();
+    it('renders a label', async function() {
+      await this.node._render();
       expect(this.node.renderLabel).toHaveBeenCalledWith('alphabetic character');
     });
 

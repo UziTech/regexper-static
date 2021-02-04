@@ -148,20 +148,31 @@ describe('parser/javascript/node.js', function() {
 
       this.node.container = jasmine.createSpyObj('container', ['addClass', 'group']);
       this.node.container.group.and.returnValue(this.group);
+
+      this.text = jasmine.createSpyObj('text', ['getBBox', 'transform']);
+      this.rect = jasmine.createSpyObj('rect', ['attr']);
+
+      this.text.getBBox.and.returnValue({
+        width: 42,
+        height: 24,
+      });
+
+      this.group.text.and.returnValue(this.text);
+      this.group.rect.and.returnValue(this.rect);
     });
 
-    it('adds a "label" class to the group', function() {
-      this.node.renderLabel('example label');
+    it('adds a "label" class to the group', async function() {
+      await this.node.renderLabel('example label');
       expect(this.group.addClass).toHaveBeenCalledWith('label');
     });
 
-    it('creates a rect element', function() {
-      this.node.renderLabel('example label');
+    it('creates a rect element', async function() {
+      await this.node.renderLabel('example label');
       expect(this.group.rect).toHaveBeenCalled();
     });
 
-    it('creates a text element', function() {
-      this.node.renderLabel('example label');
+    it('creates a text element', async function() {
+      await this.node.renderLabel('example label');
       expect(this.group.text).toHaveBeenCalledWith(0, 0, ['example label']);
     });
 
@@ -238,19 +249,23 @@ describe('parser/javascript/node.js', function() {
         this.node._render = jasmine.createSpy('_render').and.returnValue(this.deferred.promise);
       });
 
-      it('sets the container', function() {
-        this.node.render(this.container);
+      it('sets the container', async function() {
+        this.deferred.resolve();
+        await this.node.render(this.container);
         expect(this.node.container).toEqual(this.container);
       });
 
-      it('increments the renderCounter', function() {
+      it('increments the renderCounter', async function() {
         this.node.state.renderCounter = 0;
-        this.node.render(this.container);
+        const renderPromise = this.node.render(this.container);
         expect(this.node.state.renderCounter).toEqual(1);
+        this.deferred.resolve();
+        await renderPromise;
       });
 
-      it('calls #_render', function() {
-        this.node.render(this.container);
+      it('calls #_render', async function() {
+        this.deferred.resolve();
+        await this.node.render(this.container);
         expect(this.node._render).toHaveBeenCalled();
       });
 
@@ -296,31 +311,31 @@ describe('parser/javascript/node.js', function() {
       this.node.type = 'example-type';
     });
 
-    it('creates a text element', function() {
-      this.node.renderLabeledBox('example label', this.content, { padding: 5 });
+    it('creates a text element', async function() {
+      await this.node.renderLabeledBox('example label', this.content, { padding: 5 });
       expect(this.node.container.text).toHaveBeenCalledWith(0, 0, ['example label']);
     });
 
-    it('sets the class on the text element', function() {
+    it('sets the class on the text element', async function() {
       spyOn(this.text, 'addClass').and.callThrough();
-      this.node.renderLabeledBox('example label', this.content, { padding: 5 });
+      await this.node.renderLabeledBox('example label', this.content, { padding: 5 });
       expect(this.text.addClass).toHaveBeenCalledWith('example-type-label');
     });
 
-    it('creates a rect element', function() {
-      this.node.renderLabeledBox('example label', this.content, { padding: 5 });
+    it('creates a rect element', async function() {
+      await this.node.renderLabeledBox('example label', this.content, { padding: 5 });
       expect(this.node.container.rect).toHaveBeenCalled();
     });
 
-    it('sets the class on the rect element', function() {
+    it('sets the class on the rect element', async function() {
       spyOn(this.rect, 'addClass').and.callThrough();
-      this.node.renderLabeledBox('example label', this.content, { padding: 5 });
+      await this.node.renderLabeledBox('example label', this.content, { padding: 5 });
       expect(this.rect.addClass).toHaveBeenCalledWith('example-type-box');
     });
 
-    it('sets the corner radius on the rect element', function() {
+    it('sets the corner radius on the rect element', async function() {
       spyOn(this.rect, 'attr').and.callThrough();
-      this.node.renderLabeledBox('example label', this.content, { padding: 5 });
+      await this.node.renderLabeledBox('example label', this.content, { padding: 5 });
       expect(this.rect.attr).toHaveBeenCalledWith({
         rx: 3,
         ry: 3,

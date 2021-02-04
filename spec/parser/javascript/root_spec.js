@@ -76,11 +76,19 @@ describe('parser/javascript/root.js', function() {
       ]);
 
       this.renderDeferred = this.testablePromise();
+      this.renderDeferred.resolve();
       this.node.regexp.render.and.returnValue(this.renderDeferred.promise);
+
+      this.node.regexp.getBBox.and.returnValue({
+        ax: 1,
+        ay: 2,
+        ax2: 3,
+        x2: 4,
+      });
     });
 
-    it('renders the regexp', function() {
-      this.node._render();
+    it('renders the regexp', async function() {
+      await this.node._render();
       expect(this.node.regexp.render).toHaveBeenCalledWith('group element');
     });
 
@@ -90,8 +98,8 @@ describe('parser/javascript/root.js', function() {
         this.node.flags = ['example', 'flags'];
       });
 
-      it('renders a text element', function() {
-        this.node._render();
+      it('renders a text element', async function() {
+        await this.node._render();
         expect(this.node.container.text).toHaveBeenCalledWith(0, 0, 'Flags: example, flags');
       });
 
@@ -103,25 +111,14 @@ describe('parser/javascript/root.js', function() {
         this.node.flags = [];
       });
 
-      it('does not render a text element', function() {
-        this.node._render();
+      it('does not render a text element', async function() {
+        await this.node._render();
         expect(this.node.container.text).not.toHaveBeenCalled();
       });
 
     });
 
     describe('positioning of elements', function() {
-
-      beforeEach(function() {
-        this.renderDeferred.resolve();
-
-        this.node.regexp.getBBox.and.returnValue({
-          ax: 1,
-          ay: 2,
-          ax2: 3,
-          x2: 4,
-        });
-      });
 
       it('renders a path element to lead in and out of the regexp', async function() {
         await this.node._render();
