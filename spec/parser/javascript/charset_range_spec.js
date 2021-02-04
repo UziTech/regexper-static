@@ -69,18 +69,18 @@ describe('parser/javascript/charset_range.js', function() {
 
       spyOn(this.node.first, 'render').and.returnValue(this.firstDeferred.promise);
       spyOn(this.node.last, 'render').and.returnValue(this.lastDeferred.promise);
+
+      this.firstDeferred.resolve();
+      this.lastDeferred.resolve();
       spyOn(util, 'spaceHorizontally');
     });
 
-    it('renders a hyphen', function() {
-      this.node._render();
+    it('renders a hyphen', async function() {
+      await this.node._render();
       expect(this.node.container.text).toHaveBeenCalledWith(0, 0, '-');
     });
 
     it('spaces the items horizontally', async function() {
-      this.firstDeferred.resolve();
-      this.lastDeferred.resolve();
-
       await this.node._render();
 
       expect(util.spaceHorizontally).toHaveBeenCalledWith([

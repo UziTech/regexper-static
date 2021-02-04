@@ -41,15 +41,15 @@
     "handlebars-layouts": "^3.1.4",
     "karma": "^6.1.0",
     "karma-chrome-launcher": "^3.1.0",
-    "karma-jasmine": "^3.3.1",
+    "karma-jasmine": "^4.0.1",
     "karma-sourcemap-loader": "^0.3.8",
     "karma-webpack": "^5.0.0",
     "node-sass": "^5.0.0",
-    "puppeteer": "^7.0.0",
+    "puppeteer": "^7.0.1",
     "regenerator-runtime": "^0.13.7",
     "sass-loader": "^10.1.1",
     "snapsvg-cjs": "^0.0.6",
     "watchify": "^4.0.0",
-    "webpack": "^5.20.1"
+    "webpack": "^5.20.2"
   }
 }

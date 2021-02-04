@@ -384,26 +384,37 @@ describe('regexper.js', function() {
 
       spyOn(this.regexper, 'updateLinks');
       spyOn(this.regexper, 'displayWarnings');
+
+      this.complete = async (promise) => {
+        this.parser = new Parser(this.regexper.svgContainer);
+        this.parsePromise.resolve(this.parser);
+        this.renderPromise.resolve();
+        await promise;
+      };
     });
 
-    it('sets the state to "is-loading"', function() {
-      this.regexper.renderRegexp('example expression');
+    it('sets the state to "is-loading"', async function() {
+      const promise = this.regexper.renderRegexp('example expression');
       expect(this.regexper.state).toEqual('is-loading');
+      await this.complete(promise);
     });
 
-    it('tracks the beginning of the render', function() {
-      this.regexper.renderRegexp('example expression');
+    it('tracks the beginning of the render', async function() {
+      const promise = this.regexper.renderRegexp('example expression');
       expect(util.track).toHaveBeenCalledWith('send', 'event', 'visualization', 'start');
+      await this.complete(promise);
     });
 
-    it('keeps a copy of the running property parser', function() {
-      this.regexper.renderRegexp('example expression');
+    it('keeps a copy of the running property parser', async function() {
+      const promise = this.regexper.renderRegexp('example expression');
       expect(this.regexper.running).toBeTruthy();
+      await this.complete(promise);
     });
 
-    it('parses the expression', function() {
-      this.regexper.renderRegexp('example expression');
+    it('parses the expression', async function() {
+      const promise = this.regexper.renderRegexp('example expression');
       expect(this.regexper.running.parse).toHaveBeenCalledWith('example expression');
+      await this.complete(promise);
     });
 
     describe('when parsing fails', function() {

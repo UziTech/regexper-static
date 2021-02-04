@@ -78,6 +78,8 @@ describe('parser/javascript/match_fragment.js', function() {
       this.node.content.getBBox.and.returnValue('content bbox');
       this.node.content.render.and.returnValue(this.renderDeferred.promise);
 
+      this.renderDeferred.resolve();
+
       this.node.repeat = {
         contentPosition: 'example position',
         skipPath: jasmine.createSpy('skipPath').and.returnValue('skip path'),
@@ -87,16 +89,12 @@ describe('parser/javascript/match_fragment.js', function() {
       spyOn(this.node, 'loopLabel');
     });
 
-    it('renders the content', function() {
-      this.node._render();
+    it('renders the content', async function() {
+      await this.node._render();
       expect(this.node.content.render).toHaveBeenCalledWith('example group');
     });
 
     describe('positioning of content', function() {
-
-      beforeEach(function() {
-        this.renderDeferred.resolve();
-      });
 
       it('moves the content to the correct position', async function() {
         await this.node._render();

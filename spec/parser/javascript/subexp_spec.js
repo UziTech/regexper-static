@@ -78,17 +78,18 @@ describe('parser/javascript/subexp.js', function() {
       this.node.regexp = jasmine.createSpyObj('regexp', ['render']);
       this.node.container = jasmine.createSpyObj('container', ['addClass', 'group']);
       spyOn(this.node, 'label').and.returnValue('example label');
+      spyOn(this.node, 'renderLabeledBox');
 
       this.node.regexp.render.and.returnValue(this.renderDeferred.promise);
     });
 
-    it('renders the regexp', function() {
-      this.node._render();
+    it('renders the regexp', async function() {
+      this.renderDeferred.resolve();
+      await this.node._render();
       expect(this.node.regexp.render).toHaveBeenCalled();
     });
 
     it('renders a labeled box', async function() {
-      spyOn(this.node, 'renderLabeledBox');
       this.renderDeferred.resolve();
       await this.node._render();
 
