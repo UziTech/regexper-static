@@ -1,0 +1,46 @@
+name: "Tests"
+on:
+  pull_request_target:
+
+jobs:
+
+  Test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Install Dependencies
+        run: yarn
+      - name: Run Tests 👩🏽‍💻
+        run: yarn build
+
+  Lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Install Dependencies
+        run: yarn
+      - name: Lint ✨
+        run: yarn lint
+
+  Automerge:
+    needs: [Test, Lint]
+    runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]'
+    steps:
+      - name: '@dependabot merge'
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
+          script: |
+            await github.issues.createComment({
+              owner: context.payload.repository.owner.login,
+              repo: context.payload.repository.name,
+              issue_number: context.payload.pull_request.number,
+              body: '@dependabot merge'
+            })
