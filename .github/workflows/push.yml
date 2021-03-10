@@ -12,10 +12,14 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
+      - name: Install Node
+        uses: dcodeIO/setup-node-nvm@master
+        with:
+          node-version: node
       - name: Install Dependencies
         run: yarn
       - name: Run Tests 👩🏽‍💻
-        run: yarn build
+        run: yarn test
 
   Lint:
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
