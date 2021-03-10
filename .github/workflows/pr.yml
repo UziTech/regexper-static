@@ -9,12 +9,14 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
+      - name: Install Node
+        uses: dcodeIO/setup-node-nvm@master
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
+          node-version: node
       - name: Install Dependencies
         run: yarn
       - name: Run Tests 👩🏽‍💻
-        run: yarn build
+        run: yarn test
 
   Lint:
     runs-on: ubuntu-latest
@@ -31,7 +33,9 @@ jobs:
   Automerge:
     needs: [Test, Lint]
     runs-on: ubuntu-latest
-    if: github.actor == 'dependabot[bot]'
+    if: |
+      github.actor == 'dependabot[bot]' &&
+      github.event_name == 'pull_request'
     steps:
       - name: '@dependabot merge'
         uses: actions/github-script@v3
