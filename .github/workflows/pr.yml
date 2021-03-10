@@ -35,9 +35,7 @@ jobs:
   Automerge:
     needs: [Test, Lint]
     runs-on: ubuntu-latest
-    if: |
-      github.actor == 'dependabot[bot]' &&
-      github.event_name == 'pull_request'
+    if: github.actor == 'dependabot[bot]'
     steps:
       - name: '@dependabot merge'
         uses: actions/github-script@v3
