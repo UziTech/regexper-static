@@ -42,7 +42,7 @@
     "jest": "^26.6.3"
   },
   "engines": {
-    "node": ">=0.10.0",
+    "node": ">=v14.16.0",
     "npm": ">=1.0.0"
   },
   "private": false
