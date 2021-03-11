@@ -34,7 +34,7 @@
     "gulp-util": "^3.0.8",
     "vinyl-fs": "^3.0.3",
     "docco": "^0.8.1",
-    "underscore": "^1.10.2",
+    "underscore": "^1.12.0",
     "marked": "^1.2.9"
   },
   "devDependencies": {
