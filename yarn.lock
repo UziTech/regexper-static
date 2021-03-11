@@ -3249,7 +3249,7 @@ dir-glob@^3.0.1:
   dependencies:
     path-type "^4.0.0"
 
-docco@^0.8.0, docco@^0.8.1:
+docco@^0.8.1:
   version "0.8.1"
   resolved "https://registry.yarnpkg.com/docco/-/docco-0.8.1.tgz#7a9352564d2d3ed69fc0a04d3f700bf2a88002bb"
   integrity sha512-OFVdjpxw4aTI+FThrCY2NEWZV/nvGDFlfeQxUTMkKL+oY2gD2sMl0N5ogoAj3YLZU05UDBSh64ROYzLFzxSoSQ==
@@ -4367,9 +4367,9 @@ gulp-connect@^5.7.0:
 "gulp-docco@file:gulp-docco":
   version "0.0.4"
   dependencies:
-    docco "^0.8.0"
+    docco "^0.8.1"
     gulp-util "^3.0.8"
-    marked "^1.1.0"
+    marked "^1.2.9"
     through2 "^4.0.2"
     underscore "^1.10.2"
     vinyl-fs "^3.0.3"
@@ -5294,10 +5294,10 @@ karma-webpack@^5.0.0:
     minimatch "^3.0.4"
     webpack-merge "^4.1.5"
 
-karma@^6.1.2:
-  version "6.1.2"
-  resolved "https://registry.yarnpkg.com/karma/-/karma-6.1.2.tgz#9d7394559f5deb150b3021c1860960281c3a0e50"
-  integrity sha512-mKbxgsJrt3UHBPdKfCxC2eg3lpqyt6hQRFhNWJ2sk0wUnbnLPEiCpgIgiycuLSra0vC6TaK9OPJiMGATGzgH/A==
+karma@^6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/karma/-/karma-6.2.0.tgz#5302ca36390b146f635b3427982afe0a94c72ff7"
+  integrity sha512-pCB8eNxGgdIdZeC885rbhZ/VyuOPNHUIDNL9EaaMf1NVzpvTjMO8a7zRTn51ZJhOOOxCSpalUdT1A8x76LyVqg==
   dependencies:
     body-parser "^1.19.0"
     braces "^3.0.2"
@@ -5668,10 +5668,15 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
-"marked@>= 0.2.7", marked@^1.1.0:
+"marked@>= 0.2.7":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/marked/-/marked-1.1.0.tgz#62504ad4d11550c942935ccc5e39d64e5a4c4e50"
   integrity sha512-EkE7RW6KcXfMHy2PA7Jg0YJE1l8UPEZE8k45tylzmZM30/r1M1MUXWQfJlrSbsTeh7m/XTwHbWUENvAJZpp1YA==
+
+marked@^1.2.9:
+  version "1.2.9"
+  resolved "https://registry.yarnpkg.com/marked/-/marked-1.2.9.tgz#53786f8b05d4c01a2a5a76b7d1ec9943d29d72dc"
+  integrity sha512-H8lIX2SvyitGX+TRdtS06m1jHMijKN/XjfH6Ooii9fvxMlh8QdqBfBDkGUpMWH2kQNrtixjzYUa3SH8ROTgRRw==
 
 matchdep@^2.0.0:
   version "2.0.0"
