@@ -33,7 +33,7 @@
     "through2": "^4.0.2",
     "gulp-util": "^3.0.8",
     "vinyl-fs": "^3.0.3",
-    "docco": "^0.8.0",
+    "docco": "^0.8.1",
     "underscore": "^1.10.2",
     "marked": "^1.1.0"
   },
