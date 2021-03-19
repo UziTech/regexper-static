@@ -50,6 +50,6 @@
     "sass-loader": "^11.0.1",
     "snapsvg-cjs": "^0.0.6",
     "watchify": "^4.0.0",
-    "webpack": "^5.26.3"
+    "webpack": "^5.27.0"
   }
 }
